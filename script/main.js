@@ -15,7 +15,7 @@ function create(){
 	
 	eatMan = game.add.sprite(320,770,'eatMan');
     eatMan.anchor.set(0.5);
-    var walk = eatMan.animations.add('walkRight', [0,1,2,3], 10, true);
+    var walk = eatMan.animations.add('walk', [0,1,2,3], 10, true);
     var getDown = eatMan.animations.add('getDown', [6], 5, true);
     eatMan.animations.play('walk');
     game.physics.enable(eatMan, Phaser.Physics.ARCADE);
@@ -31,16 +31,30 @@ function update(){
     {
         // eatMan.body.velocity.x = -100;
         // eatMan.play('walk');
+        if(eatMan.scale.x == 1)
+        {
+        	eatMan.scale.x *= (-1);
+        }
+        eatMan.body.velocity.x = -100;
+    	eatMan.play('walk');
+    	console.log(eatMan.scale.x);
+
     }
     else if (cursors.right.isDown)
     {
+    	if(eatMan.scale.x == (-1))
+    	{
+    		eatMan.scale.x *= (-1);
+    	}
 
-        eatMan.body.velocity.x = 100;
-        eatMan.play('walkRight');
+		eatMan.body.velocity.x = 100;
+    	eatMan.play('walk');
+    	console.log(eatMan.scale.x);
+       
     }
     else if (cursors.up.isDown)
     {
-        // eatMan.body.velocity.y = -100;
+        eatMan.body.velocity.y = -100;
         // eatMan.play('up');
     }
     else if (cursors.down.isDown)
