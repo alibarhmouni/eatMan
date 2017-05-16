@@ -16,7 +16,7 @@ function create(){
 	eatMan = game.add.sprite(320,770,'eatMan');
     eatMan.anchor.set(0.5);
     var walk = eatMan.animations.add('walkRight', [0,1,2,3], 10, true);
-    var getDown = eatMan.animations.add('getDown', [4,6], 5, true);
+    var getDown = eatMan.animations.add('getDown', [6], 5, true);
     eatMan.animations.play('walk');
     game.physics.enable(eatMan, Phaser.Physics.ARCADE);
     cursors = game.input.keyboard.createCursorKeys();
