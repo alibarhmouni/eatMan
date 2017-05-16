@@ -4,49 +4,49 @@ var game = new Phaser.Game(1800,920,Phaser.AUTO,'game',
 function preload(){
 	
 	// game.load.image('circle', 'img/meatBoy.png');
-	game.load.spritesheet('meatMan', 'img/meatSpriteSheet.png', 80, 110, 28);
+	game.load.spritesheet('eatMan', 'img/meatSpriteSheet.png', 80, 110, 28);
 };
-var meatMan;
+var eatMan;
 
 
 function create(){
 	
-	meatMan = game.add.sprite(320,770,'meatMan');
-    meatMan.anchor.set(0.5);
-    var walk = meatMan.animations.add('walkRight', [0,3], 10, true);
-    meatMan.animations.play('walk');
-    game.physics.enable(meatMan, Phaser.Physics.ARCADE);
+	eatMan = game.add.sprite(320,770,'eatMan');
+    eatMan.anchor.set(0.5);
+    var walk = eatMan.animations.add('walkRight', [0,3], 10, true);
+    eatMan.animations.play('walk');
+    game.physics.enable(eatMan, Phaser.Physics.ARCADE);
     cursors = game.input.keyboard.createCursorKeys();
 };
 
 
 function update(){
 
-	meatMan.body.velocity.set(0);
+	eatMan.body.velocity.set(0);
 
     if (cursors.left.isDown)
     {
-        // meatMan.body.velocity.x = -100;
-        // meatMan.play('walk');
+        // eatMan.body.velocity.x = -100;
+        // eatMan.play('walk');
     }
     else if (cursors.right.isDown)
     {
-        meatMan.body.velocity.x = 100;
-        meatMan.play('walkRight');
+        eatMan.body.velocity.x = 100;
+        eatMan.play('walkRight');
     }
     else if (cursors.up.isDown)
     {
-        // meatMan.body.velocity.y = -100;
-        // meatMan.play('up');
+        // eatMan.body.velocity.y = -100;
+        // eatMan.play('up');
     }
     else if (cursors.down.isDown)
     {
-        // meatMan.body.velocity.y = 100;
-        // meatMan.play('down');
+        // eatMan.body.velocity.y = 100;
+        // eatMan.play('down');
     }
     else
     {
-        meatMan.animations.stop();
+        eatMan.animations.stop();
 }
 	
 
