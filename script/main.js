@@ -52,11 +52,7 @@ function update(){
     	console.log(eatMan.scale.x);
        
     }
-    else if (cursors.up.isDown)
-    {
-        eatMan.body.velocity.y = -100;
-        // eatMan.play('up');
-    }
+   
     else if (cursors.down.isDown)
     {
         // eatMan.body.velocity.y = 100;
@@ -74,7 +70,13 @@ function update(){
     else
     {
         eatMan.animations.stop();
-}
+	}
+
+	if (cursors.up.isDown)
+    {
+        eatMan.body.velocity.y = -100;
+        // eatMan.play('up');
+    }
 	
 
 };
