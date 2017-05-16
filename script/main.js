@@ -9,12 +9,13 @@ function preload(){
 var eatMan;
 var isWalking = false;
 var isDown = false;
-
+var idle = true;
 function create(){
 
 	
 	eatMan = game.add.sprite(320,770,'eatMan');
-    eatMan.anchor.set(0.5);
+    eatMan.anchor.set(0.5);eatMan.animations.add('walk', [0,1,2,3], 10, true);
+    var idle = eatMan.animations.add('idle', [8,9], 5, true);
     var walk = eatMan.animations.add('walk', [0,1,2,3], 10, true);
     var getDown = eatMan.animations.add('getDown', [6], 5, true);
     eatMan.animations.play('walk');
@@ -26,11 +27,20 @@ function create(){
 function update(){
 
 	eatMan.body.velocity.set(0);
+	console.log(idle);
+	if(idle)
+	{
+	    eatMan.play('idle');
+	}
+
+
+	
 
     if (cursors.left.isDown)
     {
-        // eatMan.body.velocity.x = -100;
-        // eatMan.play('walk');
+    	idle = false; 
+    	isWalking = true;
+        
         if(eatMan.scale.x == 1)
         {
         	eatMan.scale.x *= (-1);
@@ -40,37 +50,50 @@ function update(){
     	console.log(eatMan.scale.x);
 
     }
+
     else if (cursors.right.isDown)
     {
-    	if(eatMan.scale.x == (-1))
+    	idle = false;
+    	isWalking = true;
+    	if(isWalking)
     	{
-    		eatMan.scale.x *= (-1);
+    		if(eatMan.scale.x == (-1))
+    		{
+	    		eatMan.scale.x *= (-1);
+	    		
+    		}
+    		eatMan.body.velocity.x = 100;
+	    	eatMan.play('walk');
+	    	console.log(eatMan.scale.x);
     	}
 
-		eatMan.body.velocity.x = 100;
-    	eatMan.play('walk');
-    	console.log(eatMan.scale.x);
-       
     }
    
     else if (cursors.down.isDown)
     {
-        // eatMan.body.velocity.y = 100;
-        // eatMan.play('down');
-        if(!isDown){
+        idle = false;
+        
+        
+        // console.log(isDown);
+        
         	isDown = true;
         	if(isDown)
         	{
         		eatMan.play('getDown');
+        		
         	}
-        	
-        	isDown = false;
-        }
+        	idle = true;
+
     }
     else
-    {
-        eatMan.animations.stop();
+	{
+		isWalking = false;
+		idle = true;
 	}
+
+
+
+
 
 	if (cursors.up.isDown)
     {
