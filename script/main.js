@@ -33,7 +33,7 @@ function create(){
 	map = game.add.tilemap('map');
     map.addTilesetImage('tileset','tileMap');
     map.addTilesetImage('platform','platform');
-    game.stage.backgroundColor = 'blue';
+     game.stage.backgroundColor = "#0B5D73";
     
 
     
@@ -49,10 +49,11 @@ function create(){
     layerCollision.alpha = 0;
     map.setCollisionBetween(0, 101,true,layerCollision);
     game.physics.startSystem(Phaser.Physics.arcade);
-	eatMan = game.add.sprite(0,770,'eatMan');
+	eatMan = game.add.sprite(100,810,'eatMan');
 	plante1 = game.add.sprite(600,805,'plante1');
 	plante2 = game.add.sprite(300,805,'plante2');
-	fireAudio = game.add.audio('fireBullet');
+	// fireAudio = game.add.audio('fireBullet');
+	fireAudio = new Phaser.Sound(game,'fireBullet',1,false);
 
 	
     
@@ -65,11 +66,12 @@ function create(){
 
     game.world.setBounds(0, 0, 16000, 896);
     weapon = game.add.weapon(10, 'bullet');
+    weapon.trackSprite(eatMan, 0, 15, false);
     weapon.setBulletFrames(0, 0, true);
     weapon.bulletKillType = Phaser.Weapon.KILL_CAMERA_BOUNDS;
     weapon.bulletSpeed = 500;
     weapon.fireRate = 500;
-    weapon.trackSprite(eatMan, 20, 15, true);
+    
 
 
       /* Flower animations */
@@ -83,11 +85,12 @@ function create(){
     idle = eatMan.animations.add('idle', [8,9], 5, true);
     eatMan.animations.add('walk', [0,1,2,3], 10, true);
     eatMan.animations.add('getDown', [6], 5, true);
-    eatMan.animations.add('fire', [5,11], 5, true);
+    eatMan.animations.add('fire', [5,11], 5, false);
     eatMan.animations.add('jump', [10,11], 5, true);
    
     cursors = game.input.keyboard.createCursorKeys();
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    fireButton = game.input.keyboard.addKey(Phaser.Keyboard.A);
 
 
 
@@ -97,9 +100,20 @@ function create(){
 function update(){
 
     game.physics.arcade.collide(layerCollision, eatMan);
+    game.physics.arcade.collide(layerCollision, weapon);
 
 	eatMan.body.velocity.x = 0;
-	// console.log(idle);
+
+	if(eatMan.scale.x == 1)
+	{
+		weapon.fireAngle = Phaser.ANGLE_RIGHT;
+	}
+	else if (eatMan.scale.x == -1)
+	{
+		weapon.fireAngle = Phaser.ANGLE_LEFT;
+	}
+
+
 	if(idle)
 	{
 	    eatMan.play('idle');
@@ -113,10 +127,10 @@ function update(){
         if(eatMan.scale.x == 1)
         {
         	eatMan.scale.x *= (-1);
+        	
         }
         eatMan.body.velocity.x = -200;
     	eatMan.play('walk');
-    	// console.log(eatMan.scale.x);
 
     }
 
@@ -129,11 +143,11 @@ function update(){
     		if(eatMan.scale.x == (-1))
     		{
 	    		eatMan.scale.x *= (-1);
+
 	    		
     		}
     		eatMan.body.velocity.x = 200;
 	    	eatMan.play('walk');
-	    	// console.log(eatMan.scale.x);
     	}
 
     }
@@ -151,6 +165,7 @@ function update(){
         if(fire)
         {
             eatMan.body.velocity.x = -200;
+
             eatMan.play('fire');
             fire = false;
         }
@@ -191,47 +206,49 @@ function update(){
         		eatMan.play('getDown');
         		
         	}
-        	idle = true;
+        	
 
     }
     else
 	{
-		isWalking = false;
+		
 		idle = true;
 	}
 
-	if (cursors.up.isDown)
-    {
+	/*        INPUTS          */
+
+	// if (cursors.up.isDown)
+ //    {
+ //    	idle = false;
     	
 		
-        if(!fire)
-        {
-        	idle = false;
-    		fire = true;
+ //        if(!fire)
+ //        {
+
+ //    		fire = true;
         	
-
-        	fireAudio.play();
-            weapon.fire();
-            eatMan.play('fire');
-            
-       		eatMan.animations.currentAnim.onComplete.add(()=>{
-       			console.log(eatMan.animations.currentAnim.onComplete);
-		     	console.log('end');
-		     	// fire = false
-	     	});
-
-
-
-	     	fire = false;
-			
-        }
         
-    }
+
+ //            weapon.fire();
+ //            console.log(weapon);
+ //            if(weapon){
+ //            		fireAudio.play();
+ //            }
+ //            eatMan.play('fire');
+           
+ //         	fire = false;
+ //         	// console.log(eatMan.animations.currentAnim.isFinished);
+         
+			
+ //        }
+        
+ //    }
+    
 
 
 
 
-
+  
 
   
      if(eatMan.body.blocked.down)
@@ -241,6 +258,7 @@ function update(){
             
                 eatMan.body.velocity.y = -400;
                 jumpTimer = game.time.now + 750;
+
                 
          }
      }
