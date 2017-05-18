@@ -12,6 +12,7 @@ function preload(){
     game.load.spritesheet('eatMan', 'img/meatSpriteSheet.png', 80, 110, 28);
 	game.load.spritesheet('bullet', 'img/meatBullet.png', 10, 10, 1);
     game.load.spritesheet('flowerSprite', 'img/flowerSprite.png', 192/3, 64, 3);
+    game.load.spritesheet('treeSprite', 'img/treeSpriteSheet.png', 1350/3, 678, 3);
 
 };
 var map;
@@ -26,20 +27,26 @@ var flower;
 var jumpTimer = 0;
 var weapon;
 function create(){
+
 	map = game.add.tilemap('map');
     map.addTilesetImage('tileset','tileMap');
     map.addTilesetImage('platform','platform');
     game.stage.backgroundColor = 'blue';
    
 
+    tree = game.add.sprite(700,200,'treeSprite');
+    tree.animations.add('treeDance', [0,1,2], 3, true);
+    tree.animations.play('treeDance');
+     
     layer = map.createLayer('fond');
     layerCollision = map.createLayer('collisions');
     layerCollision.alpha = 0;
-    map.setCollisionBetween(0, 12,true,layerCollision);
+    map.setCollisionBetween(0, 101,true,layerCollision);
     game.physics.startSystem(Phaser.Physics.arcade);
 	eatMan = game.add.sprite(320,770,'eatMan');
 	plante1 = game.add.sprite(500,805,'plante1');
 	plante2 = game.add.sprite(400,805,'plante2');
+	
     
    
     eatMan.animations.add('walk', [0,1,2,3], 10, true);
@@ -61,6 +68,9 @@ function create(){
     flower = game.add.sprite(320,805,'flowerSprite');
     flower.animations.add('danse', [0,1,2,1], 3, true);
     flower.animations.play('danse');
+
+   
+    
 
 
     
