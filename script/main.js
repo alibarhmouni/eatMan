@@ -14,6 +14,7 @@ function preload(){
 	game.load.spritesheet('bullet', 'img/meatBullet.png', 10, 10, 1);
     game.load.spritesheet('flowerSprite', 'img/flowerSprite.png', 192/3, 64, 3);
     game.load.spritesheet('treeSprite', 'img/treeSpriteSheet.png', 1350/3, 678, 3);
+    game.load.spritesheet('ennemi', 'img/spriteSheetEnemis.png', 240/3, 220/2, 3);
 
 };
 var map;
@@ -43,19 +44,43 @@ function create(){
     tree = game.add.sprite(700,200,'treeSprite');
     tree.animations.add('treeDance', [0,1,2], 2, true);
     tree.animations.play('treeDance');
+
+
+
+
+
      
     layer = map.createLayer('fond');
     layerCollision = map.createLayer('collisions');
     layerCollision.alpha = 0;
     map.setCollisionBetween(0, 101,true,layerCollision);
     game.physics.startSystem(Phaser.Physics.arcade);
+
+    weapon = game.add.weapon(10, 'bullet');
+    weapon.bulletKillType = Phaser.Weapon.KILL_CAMERA_BOUNDS;
+    game.physics.arcade.enable( weapon.bullets.hash );
+    weapon.bulletGravity.y = 500;
+    // weapon.body.gravity.y = 600;
+    // console.log(bullet.body.velocity.x);
+    // weapon.bulletAngleOffset = 200;
+    // weapon.bulletAngleVariance = 100;
+    
+
+
 	eatMan = game.add.sprite(100,810,'eatMan');
 	plante1 = game.add.sprite(600,805,'plante1');
-	plante2 = game.add.sprite(300,805,'plante2');
+	plante2 = game.add.sprite(200,805,'plante2');
 	// fireAudio = game.add.audio('fireBullet');
 	fireAudio = new Phaser.Sound(game,'fireBullet',1,false);
 
-	
+	/*    ENNEMY     */
+
+
+	ennemi = game.add.sprite(900,756,'ennemi');
+    ennemi.animations.add('ennemiWalk', [0,1,2,1], 5, true);
+    ennemi.animations.play('ennemiWalk');
+    eatMan.anchor.set(0.5);
+    game.physics.arcade.enable( ennemi );
     
    
     eatMan.animations.add('walk', [0,1,2,3], 10, true);
@@ -65,13 +90,14 @@ function create(){
     game.camera.follow(eatMan);
 
     game.world.setBounds(0, 0, 16000, 896);
-    weapon = game.add.weapon(10, 'bullet');
+    
+    /*     weapon    */
+
     weapon.trackSprite(eatMan, 0, 15, false);
     weapon.setBulletFrames(0, 0, true);
-    weapon.bulletKillType = Phaser.Weapon.KILL_CAMERA_BOUNDS;
+    weapon.fireAngle = -75;
     weapon.bulletSpeed = 500;
     weapon.fireRate = 500;
-    
 
 
       /* Flower animations */
@@ -85,7 +111,7 @@ function create(){
     idle = eatMan.animations.add('idle', [8,9], 5, true);
     eatMan.animations.add('walk', [0,1,2,3], 10, true);
     eatMan.animations.add('getDown', [6], 5, true);
-    eatMan.animations.add('fire', [5,11], 10, false);
+    eatMan.animations.add('fire', [10,11], 10, false);
     eatMan.animations.add('jump', [10,11], 5, true);
    
     cursors = game.input.keyboard.createCursorKeys();
@@ -99,18 +125,41 @@ function create(){
 
 function update(){
 
+
+
+
     game.physics.arcade.collide(layerCollision, eatMan);
-    game.physics.arcade.collide(layerCollision, weapon);
+    game.physics.arcade.collide(layerCollision, ennemi);
+    game.physics.arcade.collide(ennemi, eatMan);
+    game.physics.arcade.collide(weapon, ennemi);
+    ennemi.body.velocity.x = -250;
+    
+    // setTimeout(function(){
+	    
+	   //  ennemi.body.velocity.x *= -1 ;
+	   //  console.log(ennemi.body.velocity.x);
+    // },1000);
 
 	eatMan.body.velocity.x = 0;
 
 	if(eatMan.scale.x == 1)
 	{
-		weapon.fireAngle = Phaser.ANGLE_RIGHT;
+	
+		
+		// setTimeout(function()
+		// {
+			// weapon.fireAngle += 1;
+			// console.log(weapon.bullets.hash.fireAngle);
+		// },500);
+		
+
+		
+		
+
 	}
 	else if (eatMan.scale.x == -1)
 	{
-		weapon.fireAngle = Phaser.ANGLE_LEFT;
+		weapon.fireAngle = Phaser.ANGLE_UP;
 	}
 
 
@@ -191,6 +240,7 @@ function update(){
        	eatMan.body.velocity.x = 200;
         if(!fire)
         {
+
         	fire = true;
             
             weapon.fire();
@@ -233,7 +283,7 @@ function update(){
 		
         if(!fire)
         {
-
+        	console.log(weapon);
     		fire = true;
         	
             weapon.fire();
@@ -279,12 +329,22 @@ function update(){
                 
          }
      }
+     // else if()
 
-	
+	/*     collide enemy / weapon    */
+	function overlapWeapon (ennemi, bullet) 
+	{
+
+		bullet.kill();
+	}
+
+		game.physics.arcade.overlap(ennemi, weapon.bullets.hash, overlapWeapon, null, this);
 
 };
 
 function render(){
 	
-
+game.debug.body(eatMan);
+game.debug.body(ennemi);
+game.debug.body(weapon);
 };
