@@ -59,18 +59,15 @@ function create(){
     weapon = game.add.weapon(10, 'bullet');
     weapon.bulletKillType = Phaser.Weapon.KILL_CAMERA_BOUNDS;
     game.physics.arcade.enable( weapon.bullets.hash );
-    weapon.bulletGravity.y = 500;
-    // weapon.body.gravity.y = 600;
-    // console.log(bullet.body.velocity.x);
-    // weapon.bulletAngleOffset = 200;
-    // weapon.bulletAngleVariance = 100;
+    weapon.bulletGravity.y = 400;
+    // weapon.bulletGravity.x = 200;
+    
     
 
 
 	eatMan = game.add.sprite(100,810,'eatMan');
 	plante1 = game.add.sprite(600,805,'plante1');
 	plante2 = game.add.sprite(200,805,'plante2');
-	// fireAudio = game.add.audio('fireBullet');
 	fireAudio = new Phaser.Sound(game,'fireBullet',1,false);
 
 	/*    ENNEMY     */
@@ -187,6 +184,7 @@ function update(){
     {
     	idle = false;
     	isWalking = true;
+
     	if(isWalking)
     	{
     		if(eatMan.scale.x == (-1))
@@ -203,11 +201,12 @@ function update(){
 
     else if (cursors.left.isDown && cursors.up.isDown)
     {
-        if(eatMan.scale.x == 1)
-        {
-            eatMan.scale.x *= (-1);
+        // if(eatMan.scale.x == 1)
+        // {
+        //     eatMan.scale.x *= (-1);
+
                 
-        }
+        // }
 
         idle = false;
         eatMan.body.velocity.x = -200;
@@ -215,9 +214,25 @@ function update(){
         {
         	fire = true;
             
-            weapon.fire();
+            
             fireAudio.play();
             eatMan.play('fire');
+
+            if(eatMan.scale.x == 1)
+	        {
+	            eatMan.scale.x *= (-1);
+	            weapon.bulletGravity.x = weapon.bulletGravity.y-350;
+
+	            weapon.fire();
+	                
+	        }
+
+	        else if (eatMan.scale.x == -1)
+	        {
+	        	
+	        	 weapon.bulletGravity.x = (weapon.bulletGravity.y-350) * (-1);
+	        	 weapon.fire();
+	        }
            
            	setTimeout(function()
            	{
@@ -230,11 +245,11 @@ function update(){
 
     else if (cursors.right.isDown && cursors.up.isDown)
     {
-        if(eatMan.scale.x == (-1))
-        {
-            eatMan.scale.x *= (-1);
+        // if(eatMan.scale.x == (-1))
+        // {
+        //     eatMan.scale.x *= (-1);
                 
-        }
+        // }
 
         idle = false;
        	eatMan.body.velocity.x = 200;
@@ -243,9 +258,25 @@ function update(){
 
         	fire = true;
             
-            weapon.fire();
+            
             fireAudio.play();
             eatMan.play('fire');
+
+            if(eatMan.scale.x == 1)
+	        {
+	            
+	            weapon.bulletGravity.x = weapon.bulletGravity.y-350;
+
+	            weapon.fire();
+	                
+	        }
+
+	        else if (eatMan.scale.x == -1)
+	        {
+	        	 eatMan.scale.x *= (-1);
+	        	  weapon.bulletGravity.x = (weapon.bulletGravity.y-350) * (-1);
+	        	 weapon.fire();
+	        }
            
            	setTimeout(function()
            	{
@@ -286,9 +317,24 @@ function update(){
         	console.log(weapon);
     		fire = true;
         	
-            weapon.fire();
+            
             fireAudio.play();
             eatMan.play('fire');
+
+         	if(eatMan.scale.x == 1)
+	        {
+	            
+	            weapon.bulletGravity.x = weapon.bulletGravity.y-350;
+
+	            weapon.fire();
+	                
+	        }
+
+	        else if (eatMan.scale.x == -1)
+	        {
+	        	  weapon.bulletGravity.x = (weapon.bulletGravity.y-350) * (-1);
+	        	 weapon.fire();
+	        }
            
            	setTimeout(function(){
 
