@@ -65,7 +65,7 @@ function create(){
     
 
 
-	eatMan = game.add.sprite(100,810,'eatMan');
+	eatMan = game.add.sprite(400,810,'eatMan');
 	plante1 = game.add.sprite(600,805,'plante1');
 	plante2 = game.add.sprite(200,805,'plante2');
 	fireAudio = new Phaser.Sound(game,'fireBullet',1,false);
@@ -127,7 +127,7 @@ function update(){
 
     game.physics.arcade.collide(layerCollision, eatMan);
     game.physics.arcade.collide(layerCollision, ennemi);
-    game.physics.arcade.collide(ennemi, eatMan);
+    game.physics.arcade.collide(eatMan, ennemi);
     game.physics.arcade.collide(weapon, ennemi);
     ennemi.body.velocity.x = -250;
     
@@ -221,7 +221,7 @@ function update(){
             if(eatMan.scale.x == 1)
 	        {
 	            eatMan.scale.x *= (-1);
-	            weapon.bulletGravity.x = weapon.bulletGravity.y-350;
+	            weapon.bulletGravity.x = 250;
 
 	            weapon.fire();
 	                
@@ -230,7 +230,7 @@ function update(){
 	        else if (eatMan.scale.x == -1)
 	        {
 	        	
-	        	 weapon.bulletGravity.x = (weapon.bulletGravity.y-350) * (-1);
+	        	 weapon.bulletGravity.x = -250;
 	        	 weapon.fire();
 	        }
            
@@ -265,7 +265,7 @@ function update(){
             if(eatMan.scale.x == 1)
 	        {
 	            
-	            weapon.bulletGravity.x = weapon.bulletGravity.y-350;
+	            weapon.bulletGravity.x = 250;
 
 	            weapon.fire();
 	                
@@ -274,7 +274,7 @@ function update(){
 	        else if (eatMan.scale.x == -1)
 	        {
 	        	 eatMan.scale.x *= (-1);
-	        	  weapon.bulletGravity.x = (weapon.bulletGravity.y-350) * (-1);
+	        	 weapon.bulletGravity.x = -250;
 	        	 weapon.fire();
 	        }
            
@@ -324,7 +324,7 @@ function update(){
          	if(eatMan.scale.x == 1)
 	        {
 	            
-	            weapon.bulletGravity.x = weapon.bulletGravity.y-350;
+	            weapon.bulletGravity.x = 250;
 
 	            weapon.fire();
 	                
@@ -332,7 +332,7 @@ function update(){
 
 	        else if (eatMan.scale.x == -1)
 	        {
-	        	  weapon.bulletGravity.x = (weapon.bulletGravity.y-350) * (-1);
+	        	  weapon.bulletGravity.x = -250;
 	        	 weapon.fire();
 	        }
            
@@ -375,16 +375,17 @@ function update(){
                 
          }
      }
-     // else if()
+     
 
-	/*     collide enemy / weapon    */
-	function overlapWeapon (ennemi, bullet) 
+
+	function overlapFunction(item1, item2) 
 	{
-
-		bullet.kill();
+		console.log('test');
+		item1.kill();
 	}
 
-		game.physics.arcade.overlap(ennemi, weapon.bullets.hash, overlapWeapon, null, this);
+		game.physics.arcade.overlap(weapon.bullets.hash,ennemi, overlapFunction, null, this);
+		game.physics.arcade.overlap(eatMan, ennemi, overlapFunction, null, this);
 
 };
 
