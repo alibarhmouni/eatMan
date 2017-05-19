@@ -85,7 +85,7 @@ function create(){
     idle = eatMan.animations.add('idle', [8,9], 5, true);
     eatMan.animations.add('walk', [0,1,2,3], 10, true);
     eatMan.animations.add('getDown', [6], 5, true);
-    eatMan.animations.add('fire', [5,11], 5, false);
+    eatMan.animations.add('fire', [5,11], 10, false);
     eatMan.animations.add('jump', [10,11], 5, true);
    
     cursors = game.input.keyboard.createCursorKeys();
@@ -161,13 +161,21 @@ function update(){
         }
 
         idle = false;
-        fire = true;
-        if(fire)
+        eatMan.body.velocity.x = -200;
+        if(!fire)
         {
-            eatMan.body.velocity.x = -200;
-
+        	fire = true;
+            
+            weapon.fire();
+            fireAudio.play();
             eatMan.play('fire');
-            fire = false;
+           
+           	setTimeout(function()
+           	{
+         		fire = false;	
+           	}, 600);
+
+            
         }
     }
 
@@ -180,12 +188,19 @@ function update(){
         }
 
         idle = false;
-        fire = true;
-        if(fire)
+       	eatMan.body.velocity.x = 200;
+        if(!fire)
         {
-            eatMan.body.velocity.x = 200;
+        	fire = true;
+            
+            weapon.fire();
+            fireAudio.play();
             eatMan.play('fire');
-            fire = false;
+           
+           	setTimeout(function()
+           	{
+         		fire = false;	
+           	}, 600);
 
         }
     }
@@ -209,6 +224,33 @@ function update(){
         	
 
     }
+
+
+    else if (cursors.up.isDown)
+    {
+    	idle = false;
+    	
+		
+        if(!fire)
+        {
+
+    		fire = true;
+        	
+            weapon.fire();
+            fireAudio.play();
+            eatMan.play('fire');
+           
+           	setTimeout(function(){
+
+         		fire = false;	
+           	}, 600);
+         	// console.log(eatMan.animations.currentAnim.isFinished);
+         
+			
+        }
+        
+    }
+
     else
 	{
 		
@@ -217,32 +259,7 @@ function update(){
 
 	/*        INPUTS          */
 
-	// if (cursors.up.isDown)
- //    {
- //    	idle = false;
-    	
-		
- //        if(!fire)
- //        {
-
- //    		fire = true;
-        	
-        
-
- //            weapon.fire();
- //            console.log(weapon);
- //            if(weapon){
- //            		fireAudio.play();
- //            }
- //            eatMan.play('fire');
-           
- //         	fire = false;
- //         	// console.log(eatMan.animations.currentAnim.isFinished);
-         
-			
- //        }
-        
- //    }
+	
     
 
 
