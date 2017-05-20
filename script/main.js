@@ -18,16 +18,15 @@ function preload(){
 
 };
 var map;
-var eatMan;
-var isWalking = false;
-var isDown = false;
-var idle = true;
-var fire = false;
-var isJumping = false;
+var mainCharacter;
+
+// var idle = true;
+
+
 var jumpButton;
 var flower;
-var jumpTimer = 0;
-var weapon;
+
+// var weapon;
 var fireAudio;
 function create(){
 
@@ -56,19 +55,12 @@ function create(){
     map.setCollisionBetween(0, 101,true,layerCollision);
     game.physics.startSystem(Phaser.Physics.arcade);
 
-    weapon = game.add.weapon(10, 'bullet');
-    weapon.bulletKillType = Phaser.Weapon.KILL_CAMERA_BOUNDS;
-    game.physics.arcade.enable( weapon.bullets.hash );
-    weapon.bulletGravity.y = 400;
-    // weapon.bulletGravity.x = 200;
-    
-    
 
-
-	eatMan = game.add.sprite(400,810,'eatMan');
+	mainCharacter = new Player(5,"eatMan",10,100,100,200,0,0.5,600);
+	
 	plante1 = game.add.sprite(600,805,'plante1');
 	plante2 = game.add.sprite(200,805,'plante2');
-	fireAudio = new Phaser.Sound(game,'fireBullet',1,false);
+	
 
 	/*    ENNEMY     */
 
@@ -76,25 +68,16 @@ function create(){
 	ennemi = game.add.sprite(900,756,'ennemi');
     ennemi.animations.add('ennemiWalk', [0,1,2,1], 5, true);
     ennemi.animations.play('ennemiWalk');
-    eatMan.anchor.set(0.5);
     game.physics.arcade.enable( ennemi );
     
-   
-    eatMan.animations.add('walk', [0,1,2,3], 10, true);
-    game.physics.arcade.enable( eatMan );
-    eatMan.body.gravity.set(0, 600);
-    eatMan.anchor.set(0.5);
-    game.camera.follow(eatMan);
+
 
     game.world.setBounds(0, 0, 16000, 896);
     
-    /*     weapon    */
+         // weapon    
 
-    weapon.trackSprite(eatMan, 0, 15, false);
-    weapon.setBulletFrames(0, 0, true);
-    weapon.fireAngle = -75;
-    weapon.bulletSpeed = 500;
-    weapon.fireRate = 500;
+    
+    
 
 
       /* Flower animations */
@@ -103,13 +86,6 @@ function create(){
     flower.animations.play('danse');
 
    
-
-    /* Adding animations */
-    idle = eatMan.animations.add('idle', [8,9], 5, true);
-    eatMan.animations.add('walk', [0,1,2,3], 10, true);
-    eatMan.animations.add('getDown', [6], 5, true);
-    eatMan.animations.add('fire', [10,11], 10, false);
-    eatMan.animations.add('jump', [10,11], 5, true);
    
     cursors = game.input.keyboard.createCursorKeys();
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -122,13 +98,13 @@ function create(){
 
 function update(){
 
+	mainCharacter.update();
 
 
-
-    game.physics.arcade.collide(layerCollision, eatMan);
+    
     game.physics.arcade.collide(layerCollision, ennemi);
-    game.physics.arcade.collide(eatMan, ennemi);
-    game.physics.arcade.collide(weapon, ennemi);
+    game.physics.arcade.collide(Player.Sprite, ennemi);
+    game.physics.arcade.collide(Player.weapon, ennemi);
     ennemi.body.velocity.x = -250;
     
     // setTimeout(function(){
@@ -137,261 +113,23 @@ function update(){
 	   //  console.log(ennemi.body.velocity.x);
     // },1000);
 
-	eatMan.body.velocity.x = 0;
-
-	if(eatMan.scale.x == 1)
-	{
-	
-		
-		// setTimeout(function()
-		// {
-			// weapon.fireAngle += 1;
-			// console.log(weapon.bullets.hash.fireAngle);
-		// },500);
-		
-
-		
-		
-
-	}
-	else if (eatMan.scale.x == -1)
-	{
-		weapon.fireAngle = Phaser.ANGLE_UP;
-	}
-
-
-	if(idle)
-	{
-	    eatMan.play('idle');
-	}
-
-    if (cursors.left.isDown && !cursors.up.isDown)
-    {
-    	idle = false; 
-    	isWalking = true;
-        
-        if(eatMan.scale.x == 1)
-        {
-        	eatMan.scale.x *= (-1);
-        	
-        }
-        eatMan.body.velocity.x = -200;
-    	eatMan.play('walk');
-
-    }
-
-    else if (cursors.right.isDown && !cursors.up.isDown)
-    {
-    	idle = false;
-    	isWalking = true;
-
-    	if(isWalking)
-    	{
-    		if(eatMan.scale.x == (-1))
-    		{
-	    		eatMan.scale.x *= (-1);
-
-	    		
-    		}
-    		eatMan.body.velocity.x = 200;
-	    	eatMan.play('walk');
-    	}
-
-    }
-
-    else if (cursors.left.isDown && cursors.up.isDown)
-    {
-        // if(eatMan.scale.x == 1)
-        // {
-        //     eatMan.scale.x *= (-1);
-
-                
-        // }
-
-        idle = false;
-        eatMan.body.velocity.x = -200;
-        if(!fire)
-        {
-        	fire = true;
-            
-            
-            fireAudio.play();
-            eatMan.play('fire');
-
-            if(eatMan.scale.x == 1)
-	        {
-	            eatMan.scale.x *= (-1);
-	            weapon.bulletGravity.x = 250;
-
-	            weapon.fire();
-	                
-	        }
-
-	        else if (eatMan.scale.x == -1)
-	        {
-	        	
-	        	 weapon.bulletGravity.x = -250;
-	        	 weapon.fire();
-	        }
-           
-           	setTimeout(function()
-           	{
-         		fire = false;	
-           	}, 600);
-
-            
-        }
-    }
-
-    else if (cursors.right.isDown && cursors.up.isDown)
-    {
-        // if(eatMan.scale.x == (-1))
-        // {
-        //     eatMan.scale.x *= (-1);
-                
-        // }
-
-        idle = false;
-       	eatMan.body.velocity.x = 200;
-        if(!fire)
-        {
-
-        	fire = true;
-            
-            
-            fireAudio.play();
-            eatMan.play('fire');
-
-            if(eatMan.scale.x == 1)
-	        {
-	            
-	            weapon.bulletGravity.x = 250;
-
-	            weapon.fire();
-	                
-	        }
-
-	        else if (eatMan.scale.x == -1)
-	        {
-	        	 eatMan.scale.x *= (-1);
-	        	 weapon.bulletGravity.x = -250;
-	        	 weapon.fire();
-	        }
-           
-           	setTimeout(function()
-           	{
-         		fire = false;	
-           	}, 600);
-
-        }
-    }
-
-  
-   
-    else if (cursors.down.isDown)
-    {
-        idle = false;
-        
-        
-        // console.log(isDown);
-        
-        	isDown = true;
-
-        	if(isDown)
-        	{
-        		eatMan.play('getDown');
-        		
-        	}
-        	
-
-    }
-
-
-    else if (cursors.up.isDown)
-    {
-    	idle = false;
-    	
-		
-        if(!fire)
-        {
-        	console.log(weapon);
-    		fire = true;
-        	
-            
-            fireAudio.play();
-            eatMan.play('fire');
-
-         	if(eatMan.scale.x == 1)
-	        {
-	            
-	            weapon.bulletGravity.x = 250;
-
-	            weapon.fire();
-	                
-	        }
-
-	        else if (eatMan.scale.x == -1)
-	        {
-	        	  weapon.bulletGravity.x = -250;
-	        	 weapon.fire();
-	        }
-           
-           	setTimeout(function(){
-
-         		fire = false;	
-           	}, 600);
-         	// console.log(eatMan.animations.currentAnim.isFinished);
-         
-			
-        }
-        
-    }
-
-    else
-	{
-		
-		idle = true;
-	}
-
-	/*        INPUTS          */
-
-	
-    
 
 
 
+	// function overlapFunction(item1, item2) 
+	// {
+	// 	console.log('test');
+	// 	item1.kill();
+	// }
 
-  
-
-  
-     if(eatMan.body.blocked.down)
-    {
-         if (jumpButton.isDown && game.time.now > jumpTimer)
-         {
-            
-                eatMan.body.velocity.y = -400;
-                jumpTimer = game.time.now + 750;
-
-                
-         }
-     }
-     
-
-
-	function overlapFunction(item1, item2) 
-	{
-		console.log('test');
-		item1.kill();
-	}
-
-		game.physics.arcade.overlap(weapon.bullets.hash,ennemi, overlapFunction, null, this);
-		game.physics.arcade.overlap(eatMan, ennemi, overlapFunction, null, this);
+	// 	// game.physics.arcade.overlap(weapon.bullets.hash,ennemi, overlapFunction, null, this);
+	// 	// game.physics.arcade.overlap(eatMan, ennemi, overlapFunction, null, this);
 
 };
 
 function render(){
 	
-game.debug.body(eatMan);
-game.debug.body(ennemi);
-game.debug.body(weapon);
+// game.debug.body(eatMan);
+// game.debug.body(ennemi);
+// game.debug.body(weapon);
 };
