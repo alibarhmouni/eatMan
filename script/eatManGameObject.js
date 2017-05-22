@@ -13,7 +13,7 @@ class Player
 		this.anchor = _anchor;
 		this.state = state;
 		this.jumpTimer = 0;
-		this.fire = false;
+		
 
 		
 		
@@ -29,14 +29,14 @@ class Player
 		this.weapon = game.add.weapon(10, 'bullet');
     	this.weapon.bulletKillType = Phaser.Weapon.KILL_CAMERA_BOUNDS;
     	game.physics.arcade.enable( this.weapon.bullets.hash );
-    	this.weapon.bulletGravity.y = 400;
+    	// this.weapon.bulletGravity.y = 400;
     	
-    	console.log(this.weapon);
+    	
 		// this.weapon.setBulletFrames(0, 1, true);
-    	this.weapon.fireAngle = -75;
+    	// this.weapon.fireAngle = -75;
     	this.weapon.bulletSpeed = 500;
     	this.weapon.fireRate = 500;
-    	this.weapon.trackSprite(this.Sprite, 0, 15, false);
+    	this.weapon.trackSprite(this.Sprite, 30, 30, false);
     	this.fireAudio = new Phaser.Sound(game,'fireBullet',1,false);
 
 
@@ -45,7 +45,8 @@ class Player
 		this.Sprite.animations.add('idle', [8,9], 5, true);
 	    this.Sprite.animations.add('walk', [0,1,2,3], 10, true);
 	    this.Sprite.animations.add('getDown', [6], 5, true);
-	    this.Sprite.animations.add('fire', [10,11], 10, false);
+	    this.Sprite.animations.add('fire', [12,13,14], 10, false);
+	    this.Sprite.animations.add('fireWalk', [16,17,18], 10, false);
 	    this.Sprite.animations.add('jump', [10,11], 5, true);
 	
 		this.weaponAngle = function()
@@ -82,12 +83,81 @@ class Player
 	    		}
 			}
 
+			var fire = false;
+			this.fireCheck = function()
+			{
+				if(!fire)
+				{
+					fire = true;
+					this.Sprite.play('fire');
+			        this.fireAudio.play();
+					if(this.Sprite.scale.x == 1)
+			        {
+			            // this.weapon.bulletGravity.x = 250;
+						this.weapon.fireAngle = Phaser.ANGLE_RIGHT;
+				        this.weapon.fire();
+			        }
+
+			        else if (this.Sprite.scale.x == -1)
+			        {
+			        	// this.weapon.bulletGravity.x = -250;
+						this.weapon.fireAngle = Phaser.ANGLE_LEFT;
+				        this.weapon.fire();
+
+			        }
+			        setTimeout(function()
+			    	{
+			           		
+			           		fire = false;
+			           		console.log(fire);
+
+					}, 600);
+
+				}
+				
+			}
+
+
+			this.fireWalk = function()
+			{
+				if(!fire)
+				{
+					fire = true;
+					this.Sprite.play('fireWalk');
+			        this.fireAudio.play();
+					if(this.Sprite.scale.x == 1)
+			        {
+			            // this.weapon.bulletGravity.x = 250;
+						this.weapon.fireAngle = Phaser.ANGLE_RIGHT;
+				        this.weapon.fire();
+			        }
+
+			        else if (this.Sprite.scale.x == -1)
+			        {
+			        	// this.weapon.bulletGravity.x = -250;
+						this.weapon.fireAngle = Phaser.ANGLE_LEFT;
+				        this.weapon.fire();
+
+			        }
+			        setTimeout(function()
+			    	{
+			           		
+			           		fire = false;
+			           		console.log(fire);
+
+					}, 600);
+
+				}
+				
+			}
+
 
 
 	}
 
 	update()
 	{
+		
 		game.physics.arcade.collide(layerCollision, this.Sprite);
 		this.Sprite.body.velocity.x = 0;
 
@@ -95,7 +165,7 @@ class Player
 			
 		
 
-		this.weaponAngle();
+		// this.weaponAngle();
 
 		switch(this.state)
 		{
@@ -105,71 +175,25 @@ class Player
 
 			case "walkingLeft":
 				this.scaleLeft();
-		        this.Sprite.body.velocity.x = - this.vx;
+		        this.Sprite.body.velocity.x = - 250;
 		    	this.Sprite.play('walk');
 		    	break;
 
 		    case "walkingRight":
 		    	this.scaleRight();
-	    		this.Sprite.body.velocity.x = this.vx;
+	    		this.Sprite.body.velocity.x = 250;
 		    	this.Sprite.play('walk');
 		    	break;
 		    case "leftFire":
 			    this.scaleLeft();
 		        this.Sprite.body.velocity.x = -this.vx;
-		        this.fireAudio.play();
-		        this.Sprite.play('fire');
-
-	            if(this.Sprite.scale.x == 1)
-		        {
-		            this.Sprite.scale.x *= (-1);
-		            this.weapon.bulletGravity.x = this.vx;
-
-		            this.weapon.fire();
-		                
-		        }
-
-		        else if (this.Sprite.scale.x == -1)
-		        {
-		        	
-		        	 this.weapon.bulletGravity.x = -this.vx;
-		        	 this.weapon.fire();
-		        }
-	           
-	           // 	setTimeout(function()
-	           // 	{
-	         		// this.fire = false;	
-	           // 	}, 600);
+		        this.fireWalk();
 
 		    	break;
 		    case "rightFire":
-			    if(this.Sprite.scale.x == (-1))
-		        {
-		            this.Sprite.scale.x *= (-1);  
-		        }
+			    this.scaleRight();
 		       	this.Sprite.body.velocity.x = this.vx;
-
-		       
-	            this.fireAudio.play();
-	            this.Sprite.play('fire');
-
-	            if(this.Sprite.scale.x == 1)
-		        {
-		            this.weapon.bulletGravity.x = 250;
-		            this.weapon.fire();
-		        }
-
-		        else if (this.Sprite.scale.x == -1)
-		        {
-		        	 this.Sprite.scale.x *= (-1);
-		        	 this.weapon.bulletGravity.x = -250;
-		        	 this.weapon.fire();
-		        }
-	           // 	setTimeout(function()
-	           // 	{
-	         		// this.fire = false;	
-	           // 	}, 600);
-
+		       	this.fireWalk();
 		    	break;
 		    case "down":
 	        	this.Sprite.play('getDown');
@@ -177,35 +201,8 @@ class Player
 
 	     	case "fire":
 
-		     	if(!this.fire)
-				{
-					this.fire = true;
-					
-					if(this.Sprite.scale.x == 1)
-			        {
-			            this.weapon.bulletGravity.x = 250;
-			            // this.weapon.fire();
-			        }
-
-			        else if (this.Sprite.scale.x == -1)
-			        {
-			        	this.weapon.bulletGravity.x = -250;
-			        	
-			        }
-			        this.weapon.fire();
-			        this.Sprite.play('fire');
-			        this.fireAudio.play();
-			       //this.fire = false;	
-
-			       //setTimeout(function()
-	    		   //{
-	           			
-	               //this.fire = false;	
-	               //this.state = 'idle';
-				   // }, 600);
-				}
+	     		this.fireCheck();
 	     		break;
-	     
 		}
 
 		

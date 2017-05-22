@@ -11,7 +11,7 @@ function preload(){
     game.load.image('plante1', 'img/plants1.png');
     game.load.image('plante2', 'img/plants2.png');
     game.load.audio('fireBullet', 'audio/fireBullet.mp3');
-    game.load.spritesheet('eatMan', 'img/meatSpriteSheet.png', 80, 110, 28);
+    game.load.spritesheet('eatMan', 'img/meatSpriteSheet2.png', 80, 110, 28);
 	game.load.spritesheet('bullet', 'img/graisse.png', 10, 10, 2);
     game.load.spritesheet('flowerSprite', 'img/flowerSprite.png', 192/3, 64, 3);
     game.load.spritesheet('treeSprite', 'img/treeSpriteSheet.png', 1350/3, 678, 3);
@@ -38,7 +38,10 @@ function create(){
 
     game.stage.backgroundColor = "#0B5D73";
 
-   
+         /*     TREE     */
+    tree = game.add.sprite(700,200,'treeSprite');
+    tree.animations.add('treeDance', [0,1,2], 1, true);
+    tree.animations.play('treeDance');
 
     layer = map.createLayer('fond');
     layerCollision = map.createLayer('collisions');
@@ -47,14 +50,9 @@ function create(){
     map.setCollisionBetween(0, 101,true,layerCollision);
     game.physics.startSystem(Phaser.Physics.arcade);
 
-        /*     TREE     */
-    tree = game.add.sprite(700,200,'treeSprite');
-    tree.animations.add('treeDance', [0,1,2], 2, true);
-    tree.animations.play('treeDance');
-
-
+  
     /*     CHARACTERS     */
-	mainCharacter = new Player(0,"eatMan",10,800,805,300,0,0.5,"idle");
+	mainCharacter = new Player(0,"eatMan",10,1000,805,300,0,0.5,"idle");
     enemy = new Enemy(1,"ennemy",5,900,756,300,0,0.5,"idle");
 	
 	plante1 = game.add.sprite(600,805,'plante1');
@@ -71,7 +69,7 @@ function create(){
    
     cursors = game.input.keyboard.createCursorKeys();
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-    fireButton = game.input.keyboard.addKey(Phaser.Keyboard.A);
+    fireButton = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
     game.input.onDown.add(gofull, this);
 };
 
@@ -93,21 +91,21 @@ function create(){
 function update(){
     mainCharacter.update(); 
 
-    if (cursors.left.isDown && !cursors.up.isDown)
+    if (cursors.left.isDown && !fireButton.isDown)
     {
         mainCharacter.state = "walkingLeft";
     }
 
-    else if (cursors.right.isDown && !cursors.up.isDown)
+    else if (cursors.right.isDown && !fireButton.isDown)
     {
         mainCharacter.state = "walkingRight";
     }
 
-    else if (cursors.left.isDown && cursors.up.isDown)
+    else if (cursors.left.isDown && fireButton.isDown)
     {
          mainCharacter.state = "leftFire";
     }
-    else if (cursors.right.isDown && cursors.up.isDown)
+    else if (cursors.right.isDown && fireButton.isDown)
     {
          mainCharacter.state = "rightFire";
     }
@@ -116,7 +114,7 @@ function update(){
         mainCharacter.state = "down";
     }
 
-    else if (cursors.up.isDown)
+    else if (fireButton.isDown)
     {
 
         mainCharacter.state = "fire";
@@ -167,7 +165,7 @@ function update(){
 
 function render(){
 	
-game.debug.body(mainCharacter.Sprite);
-game.debug.body(enemy.Sprite);
+// game.debug.body(mainCharacter.Sprite);
+// game.debug.body(enemy.Sprite);
 // game.debug.body(weapon);
 };
