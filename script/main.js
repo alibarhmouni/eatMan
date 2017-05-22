@@ -27,6 +27,7 @@ var layer;
 var layerCollision;
 var arrierePlan;
 var fireAudio;
+var isJumping;
 
 function create(){
 
@@ -52,7 +53,7 @@ function create(){
 
   
     /*     CHARACTERS     */
-	mainCharacter = new Player(0,"eatMan",10,1000,805,300,0,0.5,"idle");
+	mainCharacter = new Player(0,"eatMan",10,500,805,300,0,0.5,"idle");
     enemy = new Enemy(1,"ennemy",5,900,756,300,0,0.5,"idle");
 	
 	plante1 = game.add.sprite(600,805,'plante1');
@@ -144,22 +145,65 @@ function update(){
 
     enemy.update();
 
-	function overlapFunction(item1, item2) 
+	function overlapBulletEnemy(_bullet, _enemy) 
 	{
 		
-        item2.animations.play('enemyCry');
+        _enemy.animations.play('enemyCry');
         enemy.state = "hit"
-        item1.kill();
-        // console.log(enemy.lifePoints); 
+        _bullet.kill();
         if(enemy.lifePoints <= 0)
         {
             // enemy.state = "dead";
-            item2.kill();
+            _enemy.kill();
         }
         
 	}
-	game.physics.arcade.overlap(mainCharacter.weapon.bullets.hash,enemy.Sprite, overlapFunction, null, this);
-	// game.physics.arcade.overlap(mainCharacter, enemy, overlapFunction, null, this);
+
+	function overlapEatmanEnemy(_character, _enemy) 
+	{
+		
+        
+        mainCharacter.state = "hit";
+        if(mainCharacter.lifePoints <= 0)
+        {
+           
+            _character.kill();
+        }
+        console.log(mainCharacter.lifePoints);
+        if(_character.body.position.x <= _enemy.body.position.x)
+        {	
+        	if(!isJumping)
+        	{
+        		isJumping = true;
+        		_character.body.velocity.x = -2000;
+        		_character.body.velocity.y = -250;
+        	}
+        	setTimeout(function(){
+        		isJumping = false;
+        	},1000);
+        	
+        }
+
+        if(_character.body.position.x > _enemy.body.position.x)
+        {
+        	if(!isJumping)
+        	{
+        		isJumping = true;
+        		_character.body.velocity.x = 2000;
+        		_character.body.velocity.y = -250;
+        	}
+        	setTimeout(function(){
+        		isJumping = false;
+        	},1000);
+        }
+        
+        
+       
+        
+	}
+
+	game.physics.arcade.overlap(mainCharacter.weapon.bullets.hash,enemy.Sprite, overlapBulletEnemy, null, this);
+	game.physics.arcade.overlap(mainCharacter.Sprite, enemy.Sprite, overlapEatmanEnemy, null, this);
 
 };
 

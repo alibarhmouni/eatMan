@@ -48,6 +48,7 @@ class Player
 	    this.Sprite.animations.add('fire', [12,13,14], 10, false);
 	    this.Sprite.animations.add('fireWalk', [16,17,18], 10, false);
 	    this.Sprite.animations.add('jump', [10,11], 5, true);
+	    this.Sprite.animations.add('hit', [10,15], 10, true);
 	
 		this.weaponAngle = function()
 			{
@@ -150,6 +151,25 @@ class Player
 				}
 				
 			}
+			
+			var cry = false;
+			this.characterHit = function()
+			{
+				if(!cry)
+				{
+					cry = true;
+					this.Sprite.play('hit');
+					this.Sprite.tint =  0xE50F00;
+					this.lifePoints -=1;
+					var _self = this;
+					setTimeout(function()
+			    	{
+			    	   _self.Sprite.tint = 0xffffff;
+			           cry = false;
+					}, 600);
+				}
+			}
+			
 
 
 
@@ -203,6 +223,13 @@ class Player
 
 	     		this.fireCheck();
 	     		break;
+	     	case "hit":
+	     		this.characterHit();
+
+	     		
+		    	break;
+		   
+		    
 		}
 
 		
