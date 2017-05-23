@@ -23,6 +23,7 @@ class Player
 		this.Sprite.body.gravity.set(0,600);
 		this.Sprite.anchor.set(this.anchor);
 		this.Sprite.body.setSize(60, 80, 15, 30);
+		this.Sprite.scale.set(1.5);
 
 
 		/*     WEAPON     */
@@ -52,7 +53,7 @@ class Player
 	
 		this.weaponAngle = function()
 			{
-				if(this.Sprite.scale.x == 1)
+				if(this.Sprite.scale.x == 1.5)
 				{
 					// setTimeout(function()
 					// {
@@ -60,7 +61,7 @@ class Player
 					// },500);
 				}
 
-				else if (this.Sprite.scale.x == -1)
+				else if (this.Sprite.scale.x == -1.5)
 				{
 					this.weapon.fireAngle = Phaser.ANGLE_UP;
 				}
@@ -68,7 +69,7 @@ class Player
 
 			this.scaleLeft = function()
 			{
-				if(this.Sprite.scale.x == 1)
+				if(this.Sprite.scale.x == 1.5)
 		        {
 		            this.Sprite.scale.x *= (-1);
 
@@ -78,7 +79,7 @@ class Player
 
 			this.scaleRight = function()
 			{
-				if(this.Sprite.scale.x == (-1))
+				if(this.Sprite.scale.x == (-1.5))
 	    		{
 		    		this.Sprite.scale.x *= (-1);
 	    		}
@@ -92,14 +93,14 @@ class Player
 					fire = true;
 					this.Sprite.play('fire');
 			        this.fireAudio.play();
-					if(this.Sprite.scale.x == 1)
+					if(this.Sprite.scale.x == 1.5)
 			        {
 			            // this.weapon.bulletGravity.x = 250;
 						this.weapon.fireAngle = Phaser.ANGLE_RIGHT;
 				        this.weapon.fire();
 			        }
 
-			        else if (this.Sprite.scale.x == -1)
+			        else if (this.Sprite.scale.x == -1.5)
 			        {
 			        	// this.weapon.bulletGravity.x = -250;
 						this.weapon.fireAngle = Phaser.ANGLE_LEFT;
@@ -126,14 +127,14 @@ class Player
 					fire = true;
 					this.Sprite.play('fireWalk');
 			        this.fireAudio.play();
-					if(this.Sprite.scale.x == 1)
+					if(this.Sprite.scale.x == 1.5)
 			        {
 			            // this.weapon.bulletGravity.x = 250;
 						this.weapon.fireAngle = Phaser.ANGLE_RIGHT;
 				        this.weapon.fire();
 			        }
 
-			        else if (this.Sprite.scale.x == -1)
+			        else if (this.Sprite.scale.x == -1.5)
 			        {
 			        	// this.weapon.bulletGravity.x = -250;
 						this.weapon.fireAngle = Phaser.ANGLE_LEFT;

@@ -44,7 +44,7 @@ function create(){
     game.stage.backgroundColor = "#0B5D73";
 
          /*     TREE     */
-    tree = game.add.sprite(650,120,'treeSprite');
+    tree = game.add.sprite(1250,20,'treeSprite');
     tree.animations.add('treeDance', [0,1,2], 1, true);
     tree.animations.play('treeDance');
 
@@ -215,7 +215,7 @@ function update(){
 
 function render(){
 	
-game.debug.body(mainCharacter.Sprite);
-game.debug.body(enemy.Sprite);
+// game.debug.body(mainCharacter.Sprite);
+// game.debug.body(enemy.Sprite);
 // game.debug.body(weapon);
 };
