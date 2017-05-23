@@ -11,11 +11,15 @@ class Enemy
 		this.vy = _vy;
 		this.anchor = _anchor;
 		this.state = state;
-		this.Sprite = game.add.sprite(900,756,'enemy');
+		this.Sprite = game.add.sprite(this.x,this.y,'enemy');
+		 game.physics.arcade.enable( this.Sprite );
+		 this.Sprite.body.gravity.set(0,600);
 		this.Sprite.animations.add('enemyWalk', [0,1,2,1], 5, true);
 	    this.Sprite.animations.add('enemyCry', [3,4], 5, true);
 	    this.Sprite.animations.play('enemyWalk');
-	    game.physics.arcade.enable( this.Sprite );
+	   
+		this.Sprite.body.setSize(60, 100, 15, 10);
+
 	}
 
 	update()

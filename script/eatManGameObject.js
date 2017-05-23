@@ -21,8 +21,8 @@ class Player
 		this.Sprite = game.add.sprite(this.x, this.y, this.name);
 		game.physics.arcade.enable( this.Sprite );
 		this.Sprite.body.gravity.set(0,600);
-		game.camera.follow(this.Sprite);
 		this.Sprite.anchor.set(this.anchor);
+		this.Sprite.body.setSize(60, 80, 15, 30);
 
 
 		/*     WEAPON     */
@@ -180,6 +180,7 @@ class Player
 		
 		game.physics.arcade.collide(layerCollision, this.Sprite);
 		this.Sprite.body.velocity.x = 0;
+		this.Sprite.body.setSize(60, 80, 15, 30);
 
 		/*     Fire angle     */
 			
@@ -217,6 +218,7 @@ class Player
 		    	break;
 		    case "down":
 	        	this.Sprite.play('getDown');
+	        	this.Sprite.body.setSize(60, 55, 15, 50);
 	     		break;
 
 	     	case "fire":
@@ -228,6 +230,7 @@ class Player
 
 	     		
 		    	break;
+
 		   
 		    
 		}

@@ -7,10 +7,10 @@ function preload(){
     game.load.tilemap('map', 'map.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('tileMap', 'img/map.png');
     game.load.image('platform', 'img/platform.png');
-    // game.load.image('sweet', 'img/sweetSpriteSheet.png');
+    game.load.image('platformChoco', 'img/platformChocoSheet.png');
+    game.load.image('sweet', 'img/sweetSpriteSheet.png');
     game.load.image('plante1', 'img/plants1.png');
     game.load.image('plante2', 'img/plants2.png');
-    game.load.audio('fireBullet', 'audio/fireBullet.mp3');
     game.load.spritesheet('eatMan', 'img/meatSpriteSheet2.png', 80, 110, 28);
 	game.load.spritesheet('bullet', 'img/graisse.png', 10, 10, 2);
     game.load.spritesheet('flowerSprite', 'img/flowerSprite.png', 192/3, 64, 3);
@@ -32,37 +32,43 @@ var isJumping;
 function create(){
 
 	map = game.add.tilemap('map');
-    map.addTilesetImage('tileset','tileMap');
+	map.addTilesetImage('sweetSpriteSheet','sweet');
+    map.addTilesetImage('map1','tileMap');
     map.addTilesetImage('platform','platform');
-    // map.addTilesetImage('sweetSpriteSheet','sweet');
+    map.addTilesetImage('platformChocoSheet','platformChoco');
+    map.createFromObjects('collisions2', 7, 'chocolat', 0, true, false,);
+   
+
     game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
     game.stage.backgroundColor = "#0B5D73";
 
          /*     TREE     */
-    tree = game.add.sprite(700,200,'treeSprite');
+    tree = game.add.sprite(650,120,'treeSprite');
     tree.animations.add('treeDance', [0,1,2], 1, true);
     tree.animations.play('treeDance');
 
     layer = map.createLayer('fond');
     layerCollision = map.createLayer('collisions');
-    // arrierePlan = map.createLayer('arrierePlan');
+    arrierePlan = map.createLayer('arrierePlan');
+    arrierePlan = map.createLayer('arrierePlan2');
     layerCollision.alpha = 0;
-    map.setCollisionBetween(0, 101,true,layerCollision);
+    map.setCollisionBetween(0, 13,true,layerCollision);
     game.physics.startSystem(Phaser.Physics.arcade);
 
+	
   
     /*     CHARACTERS     */
-	mainCharacter = new Player(0,"eatMan",10,500,805,300,0,0.5,"idle");
-    enemy = new Enemy(1,"ennemy",5,900,756,300,0,0.5,"idle");
-	
-	plante1 = game.add.sprite(600,805,'plante1');
-	plante2 = game.add.sprite(200,805,'plante2');
+	mainCharacter = new Player(0,"eatMan",10,100,505,300,0,0.5,"idle");
+    enemy = new Enemy(1,"ennemy",5,1100,505,300,0,0.5,"idle");
+	game.camera.follow(mainCharacter.Sprite);
+	plante1 = game.add.sprite(100,605,'plante1');
+	plante2 = game.add.sprite(300,605,'plante2');
 
     game.world.setBounds(0, 0, 16000, 896);
     
       /* Flower animations */
-    flower = game.add.sprite(1000,807,'flowerSprite');
+    flower = game.add.sprite(1200,605,'flowerSprite');
     flower.animations.add('danse', [0,1,2,1], 3, true);
     flower.animations.play('danse');
 
@@ -209,7 +215,7 @@ function update(){
 
 function render(){
 	
-// game.debug.body(mainCharacter.Sprite);
-// game.debug.body(enemy.Sprite);
+game.debug.body(mainCharacter.Sprite);
+game.debug.body(enemy.Sprite);
 // game.debug.body(weapon);
 };
