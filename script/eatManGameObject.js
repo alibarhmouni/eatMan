@@ -13,17 +13,19 @@ class Player
 		this.anchor = _anchor;
 		this.state = state;
 		this.jumpTimer = 0;
-		
 
-		
 		
 
 		this.Sprite = game.add.sprite(this.x, this.y, this.name);
 		game.physics.arcade.enable( this.Sprite );
+		this.Sprite.body.checkCollision.up = false;
+		this.Sprite.body.checkCollision.left = false;
+		this.Sprite.body.checkCollision.right = false;
 		this.Sprite.body.gravity.set(0,600);
 		this.Sprite.anchor.set(this.anchor);
 		this.Sprite.body.setSize(60, 80, 15, 30);
 		this.Sprite.scale.set(1.5);
+		this.Sprite.body.collideWorldBounds=true;
 
 
 		/*     WEAPON     */
@@ -39,6 +41,7 @@ class Player
     	this.weapon.fireRate = 500;
     	this.weapon.trackSprite(this.Sprite, 30, 30, false);
     	this.fireAudio = new Phaser.Sound(game,'fireBullet',1,false);
+
 
 
 		/*     adding animations      */
@@ -111,7 +114,6 @@ class Player
 			    	{
 			           		
 			           		fire = false;
-			           		console.log(fire);
 
 					}, 600);
 
@@ -161,7 +163,7 @@ class Player
 					cry = true;
 					this.Sprite.play('hit');
 					this.Sprite.tint =  0xE50F00;
-					this.lifePoints -=1;
+					this.lifePoints -=10;
 					var _self = this;
 					setTimeout(function()
 			    	{
@@ -242,8 +244,8 @@ class Player
 	         if (jumpButton.isDown && game.time.now > this.jumpTimer)
 	         {
 	            
-	                this.Sprite.body.velocity.y = -400;
-	                this.jumpTimer = game.time.now + 750;
+	                this.Sprite.body.velocity.y = -450;
+	                this.jumpTimer = game.time.now + 650;
 	         }
         }
 

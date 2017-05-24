@@ -19,6 +19,7 @@ class Enemy
 	    this.Sprite.animations.play('enemyWalk');
 		this.Sprite.scale.set(1.5);
 		this.Sprite.body.setSize(60, 100, 15, 10);
+		
 
 	}
 
@@ -29,7 +30,7 @@ class Enemy
 		{
 			case "hit":
 	     		
-            	this.lifePoints -=1;
+            	// this.lifePoints -=1;
                 this.state = "idle";  
 
 	     		break;
