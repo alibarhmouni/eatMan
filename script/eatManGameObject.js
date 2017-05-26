@@ -39,7 +39,7 @@ class Player
     	// this.weapon.fireAngle = -75;
     	this.weapon.bulletSpeed = 500;
     	this.weapon.fireRate = 500;
-    	this.weapon.trackSprite(this.Sprite, 30, 45, false);
+    	// this.weapon.trackSprite(this.Sprite, 90, 45, false);
     	this.fireAudio = new Phaser.Sound(game,'fireBullet',1,false);
 
 
@@ -98,6 +98,7 @@ class Player
 			        this.fireAudio.play();
 					if(this.Sprite.scale.x == 1.5)
 			        {
+			        	this.weapon.trackSprite(this.Sprite, 90, 45, false);
 			            // this.weapon.bulletGravity.x = 250;
 						this.weapon.fireAngle = Phaser.ANGLE_RIGHT;
 				        this.weapon.fire();
@@ -105,6 +106,7 @@ class Player
 
 			        else if (this.Sprite.scale.x == -1.5)
 			        {
+			        	this.weapon.trackSprite(this.Sprite, -90, 45, false);
 			        	// this.weapon.bulletGravity.x = -250;
 						this.weapon.fireAngle = Phaser.ANGLE_LEFT;
 				        this.weapon.fire();
