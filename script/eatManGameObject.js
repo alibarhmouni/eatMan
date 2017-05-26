@@ -1,11 +1,11 @@
 class Player
 {
-	constructor(_id, _name, _lifePoints, _x, _y, _vx, _vy, _anchor,state)
+	constructor(_id, _name, _health, _x, _y, _vx, _vy, _anchor,state)
 	{
 
 		this.id = _id;
 		this.name = _name;
-		this.lifePoints = _lifePoints;
+		this.health = _health;
 		this.x = _x;
 		this.y = _y;
 		this.vx = _vx;
@@ -39,7 +39,7 @@ class Player
     	// this.weapon.fireAngle = -75;
     	this.weapon.bulletSpeed = 500;
     	this.weapon.fireRate = 500;
-    	this.weapon.trackSprite(this.Sprite, 30, 30, false);
+    	this.weapon.trackSprite(this.Sprite, 30, 50, false);
     	this.fireAudio = new Phaser.Sound(game,'fireBullet',1,false);
 
 
@@ -163,7 +163,7 @@ class Player
 					cry = true;
 					this.Sprite.play('hit');
 					this.Sprite.tint =  0xE50F00;
-					this.lifePoints -=10;
+					this.health -=10;
 					var _self = this;
 					setTimeout(function()
 			    	{

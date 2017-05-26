@@ -1,22 +1,19 @@
 var createEnemies = function()
     {
-        for (var i = 0; i < 1; i++)
-        {
-            enemies[i] = new Enemy(i,"ennemy",5,100,7670,800,0,0.5,"idle");
-            
-            tweenEnemy = game.add.tween(enemies[i].Sprite).to( { x:  800 }, 16000, "Quart.easeOut");
-			tweenEnemy.start();
-		
-			
-        }
-		  
-		  
+
         
-    
+            enemies[0] = new Enemy(0,"ennemy",5,100,7785,300,0,0.5,"idle");
+            enemies[1] = new Enemy(0,"ennemy",5,1000,7785,300,0,0.5,"idle");
+            enemies[0].Sprite.scale.x = -1.5;
+            enemies[1].Sprite.scale.x = -1.5;
+        
+
+		  
+		  
     }
 
 
-var testCollisions = function(_game, _lifePoints)
+var testCollisions = function(_game,_player)
 {
 	function overlapBulletEnemy(_bullet, _enemy) 
 	{
@@ -25,9 +22,9 @@ var testCollisions = function(_game, _lifePoints)
         enemies[i].state = "hit";
         _bullet.kill();
         
-        enemies[i].lifePoints -=1;
+        enemies[i].health -=1;
 
-        if(enemies[i].lifePoints <= 0)
+        if(enemies[i].health <= 0)
         {
             // enemy.state = "dead";
             enemies[i].Sprite.kill();
@@ -41,7 +38,7 @@ var testCollisions = function(_game, _lifePoints)
 		
         
         mainCharacter.state = "hit";
-        if(mainCharacter.lifePoints <= 0)
+        if(mainCharacter.health <= 0)
         {
            
             _character.kill();
@@ -73,20 +70,23 @@ var testCollisions = function(_game, _lifePoints)
         		isJumping = false;
         	},1000);
         }
-        console.log(_game.myHealthBar);
-        _game.myHealthBar.setPercent(_lifePoints); 
+
+        console.log(_player.health);
+        _game.myHealthBar.setPercent(_player.health); 
 
          
 	}
 
 
-    for(i=0; i<1; i++)
+    for(i=0; i<2; i++)
     {
-    	// enemies[i].update();
+    	
         game.physics.arcade.collide(layerCollision,  enemies[i].Sprite);
         game.physics.arcade.collide(mainCharacter.Sprite, enemies[i].Sprite);
         game.physics.arcade.overlap(mainCharacter.weapon.bullets.hash,enemies[i].Sprite, overlapBulletEnemy, null, this);
         game.physics.arcade.overlap(mainCharacter.Sprite, enemies[i].Sprite, overlapEatmanEnemy, null, this);
+        enemies[i].update();
     }
 
 }
+

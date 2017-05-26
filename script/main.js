@@ -24,7 +24,6 @@ var layer;
 var layerCollision;
 var arrierePlan;
 var isJumping;
-var barConfig;
 var enemies = [];
 var tweenEnemy;
 function create()
@@ -55,13 +54,15 @@ function create()
     layer.resizeWorld();
     map.setCollisionBetween(0, 68,true,layerCollision);
 
-    mainCharacter = new Player(0,"eatMan",100,100,7770,700,0,0.5,"idle");
+    mainCharacter = new Player(0,"eatMan",100,700,7650,700,0,0.5,"idle");
 
      /*     HEALTH BAR     */
-    barConfig = {x: game.camera.x + 150, y: game.camera.y + 50, width: 250};
-    this.myHealthBar = new HealthBar(this.game, barConfig);
+    this.barConfig = {x: game.camera.x + 150, y: game.camera.y + 50, width: 250};
+    this.myHealthBar = new HealthBar(this.game, this.barConfig);
 
     createEnemies();
+        
+    
 	
 
 	
@@ -80,6 +81,7 @@ function create()
 
 };
 
+
 function gofull() 
 {
 
@@ -95,9 +97,26 @@ function gofull()
 }
 
 
-function update(){
+function update()
+{
     mainCharacter.update(); 
     this.myHealthBar.setPosition(game.camera.x + 150, game.camera.y + 50);
+   
+    // if(mainCharacter.health <= 50)
+    // {
+    
+    //     barConfig = {x: game.camera.x + 150, y: game.camera.y + 50, width: 250, bar: {color: "#FF9C27"}};
+    //     this.myHealthBar.setupConfiguration(barConfig);
+    //     this.myHealthBar.drawHealthBar();
+    // }
+    // else if(mainCharacter.health <= 20)
+    // {
+    //     barConfig = {x: game.camera.x + 150, y: game.camera.y + 50, width: 250, bar: {color: "#FF220D"}};
+    //     this.myHealthBar.setupConfiguration(barConfig);
+    //     this.myHealthBar.drawHealthBar();
+    // }
+
+
 
 
     if (cursors.left.isDown && !fireButton.isDown)
@@ -140,13 +159,13 @@ function update(){
     
 
 
-    testCollisions(this,mainCharacter.lifePoints);
+    testCollisions(this,mainCharacter);
 	
 };
 
 function render(){
 	
 // game.debug.body(mainCharacter.Sprite);
-// game.debug.body(enemy.Sprite);
+// game.debug.body(enemies[0].Sprite);
 // game.debug.body(mainCharacter.weapon.bullets.hash);
 };
