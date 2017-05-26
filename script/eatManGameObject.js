@@ -39,7 +39,7 @@ class Player
     	// this.weapon.fireAngle = -75;
     	this.weapon.bulletSpeed = 500;
     	this.weapon.fireRate = 500;
-    	this.weapon.trackSprite(this.Sprite, 30, 50, false);
+    	this.weapon.trackSprite(this.Sprite, 30, 45, false);
     	this.fireAudio = new Phaser.Sound(game,'fireBullet',1,false);
 
 

@@ -9,7 +9,7 @@ function preload(){
     game.load.image('plante2', 'img/plants2.png');
     game.load.audio('fireBullet','audio/fireBullet.mp3' );
     game.load.spritesheet('eatMan', 'img/meatSpriteSheet2.png', 80, 110, 28);
-	game.load.spritesheet('bullet', 'img/graisse.png', 10, 10, 2);
+	game.load.spritesheet('bullet', 'img/meatBullet.png', 60, 25, 1);
     game.load.spritesheet('flowerSprite', 'img/flowerSprite.png', 192/3, 64, 3);
     game.load.spritesheet('treeSprite', 'img/treeSpriteSheet.png', 1350/3, 678, 3);
     game.load.spritesheet('enemy', 'img/spriteSheetEnemy.png', 240/3, 220/2, 6);
