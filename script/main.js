@@ -7,6 +7,7 @@ function preload(){
     game.load.image('ground', 'img/groundSheet.png');
     game.load.image('plante2', 'img/plants2.png');
     game.load.image('bonus', 'img/bonus.png');
+    game.load.image('particles', 'img/particle2.png');
     game.load.image('ketchup', 'img/ketchup.png');
     game.load.audio('fireBullet','audio/fireBullet.mp3' );
     game.load.spritesheet('eatMan', 'img/meatSpriteSheet2.png', 80, 110, 28);
@@ -29,6 +30,7 @@ var layerWorldCollision;
 var platforms;
 var isJumping;
 var enemies = [];
+var emitter;
 var enemiesId = 0;
 var tweenEnemy;
 var countEnemies = 5;
@@ -58,6 +60,38 @@ function create()
     map = game.add.tilemap('map');
     map.addTilesetImage('groundSheet','ground');
 
+
+
+
+    /*     PARTICLES     */
+    emitter = game.add.emitter(game.world.centerX, 400, 500);
+    emitter.makeParticles('particles');
+    // emitter.gravity = 200;
+    emitter.maxParticleScale = 1;
+    emitter.minParticleScale = 0.5;
+    emitter.width = 100;
+    emitter.height = 100;
+    emitter.setRotation(0, 0);
+    emitter.setYSpeed(20, 100);
+    // emitter.setAlpha(0.3, 0.8);
+    emitter.setScale(1, 1);
+    emitter.gravity = 200;
+    console.log(emitter);
+    
+
+    /*     health particles     */
+    // emitter.setRotation(0, 0);
+    // emitter.setAlpha(0.3, 0.8);
+    // emitter.setScale(0.5, 1);
+    // emitter.gravity = -200;
+    
+
+
+
+    emitter.x = 300;
+    emitter.y = 300;
+    emitter.start(true, 1000, null, 500);
+
     /*     INTERFACE     */
 
 
@@ -68,10 +102,6 @@ function create()
     });
 
    
-
-    
-
-
 
     HealthText =  game.add.text(25, 40, " HEALTH : ", {
         font: "25px Arial",
@@ -84,8 +114,6 @@ function create()
 
 
 
-    
-  
  
    
     // this.myHealthBar.setFixedToCamera();
@@ -129,6 +157,27 @@ function create()
    
 
 };
+
+
+function particleBurst(_positionX, _positionY) {
+
+    //  Position the emitter where the mouse/touch event was
+    // emitter.x = _positionX;
+    // emitter.y = _positionY;
+
+    // //  The first parameter sets the effect to "explode" which means all particles are emitted at once
+    // //  The second gives each particle a 2000ms lifespan
+    // //  The third is ignored when using burst/explode mode
+    // //  The final parameter (10) is how many particles will be emitted in this single burst
+    // emitter.start(true, 1000, null, 10);
+    // game.time.events.add(2000, destroyEmitter, this);
+
+}
+// function destroyEmitter() {
+
+//     emitter.destroy();
+
+// }
 
 
 function gofull() 

@@ -16,6 +16,7 @@ var testCollisions = function(_game,_player)
                 // console.log(randomBonus);
                 createBonus( _enemy.body.position.x, _enemy.body.position.y +75);
                 _enemy.kill();
+                particleBurst(_enemy.body.position.x,_enemy.body.position.y);
                 enemiesKilled +=1;
                 console.log("enemies killed: "+ enemiesKilled);
             }
