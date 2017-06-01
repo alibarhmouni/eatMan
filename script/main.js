@@ -34,7 +34,7 @@ var tweenEnemy;
 var countEnemies = 5;
 var enemiesDirections = ["left","right"];
 var randomDirection;
-var isCreatingEnemies = true;
+var isCreatingEnemies = false;
 var coordonees =
 {
     x:[900,300,900,1200],
@@ -120,18 +120,30 @@ function gofull()
 
 function update()
 {
+
     mainCharacter.update();
-    if(isCreatingEnemies)
-    {
+
+
+    
+    if(!isCreatingEnemies)
+    {   
+        isCreatingEnemies = true;
         createEnemies();
-        
+
+        setTimeout(function(){
+
+            isCreatingEnemies = false;
+
+        },1000);
     }
 
-    setTimeout(function(){
-        isCreatingEnemies = false;
-    },1);
-    isCreatingEnemies = true;
-    for(i=0 ;i<enemies.length; i++)
+
+
+    
+
+    
+
+    for(i=0; i < enemies.length; i++)
     {
         if(enemies[i].Sprite.body.blocked.left )
         {
