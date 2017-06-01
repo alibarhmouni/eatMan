@@ -1,4 +1,4 @@
-var enemiesPosition = function()
+var enemiesPosition = function(_enemy)
 {
 	
 	/* function that makes enemy move ad return
@@ -7,45 +7,77 @@ var enemiesPosition = function()
 	* sec arg: the highest x position where the enemy must return
 	* thrd arg: the smallest x position where the enemy must return
 
-	*/
+	*/	
 
-	var positions = function( _enemy, _alertX, _alertX2)
+	var positions = function( __enemy, _direction)
 	{
+		if(_direction == "left")
+		{
+
+			__enemy.Sprite.body.velocity.x *= (-1);
+		}
+		else if(_direction == "right")
+		{
+
+			__enemy.Sprite.body.velocity.x *= 1;
+		}
 		
-		if(_enemy.Sprite.body.position.x >= _alertX)
+		
+		
+		if(__enemy.Sprite.body.blocked.right || __enemy.Sprite.body.blocked.left)
 		{
 			
-			if(_enemy.Sprite.body.velocity.x > 0)
+			if(__enemy.Sprite.body.velocity.x > 0)
 			{
-				_enemy.Sprite.body.velocity.x *= -1;
+				__enemy.Sprite.body.velocity.x *= -1;
+			}
+			else if(__enemy.Sprite.body.velocity.x < 0)
+			{
+				__enemy.Sprite.body.velocity.x *= -1;
 			}
 			
-			if(_enemy.Sprite.scale.x == -1.5)
+			if(__enemy.Sprite.scale.x == -1.5)
 			{
-
-				_enemy.Sprite.scale.x *= (-1);
+				console.log('test');
+				__enemy.Sprite.scale.x *= (-1);
+			}
+			else if(__enemy.Sprite.scale.x == 1.5)
+			{
+				__enemy.Sprite.scale.x *= (-1);
 			}
 		}
 
-		else if(_enemy.Sprite.body.position.x <= _alertX2)
-		{
-			if(_enemy.Sprite.body.velocity.x < 0)
-			{
-				_enemy.Sprite.body.velocity.x *= -1;
-			}
+		// else if(__enemy.Sprite.body.blocked.left == true)
+		// {
+		// 	if(__enemy.Sprite.body.velocity.x < 0)
+		// 	{
+		// 		__enemy.Sprite.body.velocity.x *= -1;
+		// 	}
 			
-			if(_enemy.Sprite.scale.x == 1.5)
-			{
-				_enemy.Sprite.scale.x *= (-1);
-			}
+		// 	if(__enemy.Sprite.scale.x == 1.5)
+		// 	{
+		// 		__enemy.Sprite.scale.x *= (-1);
+		// 	}
 			
-			// console.log(_enemy.Sprite.scale.x);
-		}
+		// 	// console.log(__enemy.Sprite.scale.x);
+		// }
 
 	}
 
-	positions(enemies[0],470,50);
-	positions(enemies[1],1400,900);
+	for (var i = 0; i < countEnemies; i++) 
+	{
+		
+		positions(_enemy, _enemy.direction);
+		// console.log(enemies[i].direction);
+	}
+
+
+
+	// positions(enemies[1],2400,100);
+	// positions(enemies[2],2400,100);
+	// positions(enemies[3],2400,100);
+	// positions(enemies[4],2400,100);
+
 
 	
 	     		

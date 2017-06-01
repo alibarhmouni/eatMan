@@ -5,8 +5,9 @@ function preload(){
 	
     game.load.tilemap('map', 'map.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('ground', 'img/groundSheet.png');
-    game.load.image('plante1', 'img/plants1.png');
     game.load.image('plante2', 'img/plants2.png');
+    game.load.image('bonus', 'img/bonus.png');
+    game.load.image('ketchup', 'img/ketchup.png');
     game.load.audio('fireBullet','audio/fireBullet.mp3' );
     game.load.spritesheet('eatMan', 'img/meatSpriteSheet2.png', 80, 110, 28);
 	game.load.spritesheet('bullet', 'img/meatBullet.png', 60, 25, 1);
@@ -16,16 +17,35 @@ function preload(){
 
 };
 var map;
+var bonusNumber = 0;
 var mainCharacter;
+var randomBonus;
 var enemy;
 var jumpButton;
 var flower;
-var layer;
+var ground;
 var layerCollision;
-var arrierePlan;
+var layerWorldCollision;
+var platforms;
 var isJumping;
 var enemies = [];
+var enemiesId = 0;
 var tweenEnemy;
+var countEnemies = 5;
+var enemiesDirections = ["left","right"];
+var randomDirection;
+var isCreatingEnemies = true;
+var coordonees =
+{
+    x:[900,300,900,1200],
+    y:[2430,2020,2210,1850]
+}
+var randomCoordonees;
+
+var bonus = [];
+var bonusArray = ["plante2","ketchup"];
+var currentBonus;
+
 function create()
 {
 
@@ -36,7 +56,9 @@ function create()
 
     game.camera.x = 0;
     game.camera.y = 7090;
-
+    
+  
+ 
    
     // this.myHealthBar.setFixedToCamera();
 
@@ -47,34 +69,33 @@ function create()
 
  
 
-    layer = map.createLayer('fond');
+    ground = map.createLayer('groundLayer');
     layerCollision = map.createLayer('collisions');
-    arrierePlan = map.createLayer('arrierePlan');
     layerCollision.alpha = 0;
-    layer.resizeWorld();
-    map.setCollisionBetween(0, 68,true,layerCollision);
+    ground.resizeWorld();
+    map.setCollisionBetween(0, 644,true,layerCollision);
+    
 
-    mainCharacter = new Player(0,"eatMan",100,700,7650,700,0,0.5,"idle");
+    mainCharacter = new Player(0,"eatMan",100,700,650,700,0,0.5,"idle");
 
      /*     HEALTH BAR     */
     this.barConfig = {x: game.camera.x + 150, y: game.camera.y + 50, width: 250};
     this.myHealthBar = new HealthBar(this.game, this.barConfig);
-
-    createEnemies();
-        
+    game.camera.follow(mainCharacter.Sprite);
     
-	
+
+    // randomCoordonees = Math.round(Math.random()*3);    
+    // createBonus(coordonees.x[randomCoordonees],coordonees.y[randomCoordonees]);
 
 	
 
-	game.camera.follow(mainCharacter.Sprite);
-	plante1 = game.add.sprite(100,605,'plante1');
-	plante2 = game.add.sprite(300,605,'plante2');
+
 
 
     cursors = game.input.keyboard.createCursorKeys();
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     fireButton = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+    bonusButton = game.input.keyboard.addKey(Phaser.Keyboard.UP);
     game.input.onDown.add(gofull, this);
 
    
@@ -99,7 +120,35 @@ function gofull()
 
 function update()
 {
-    mainCharacter.update(); 
+    mainCharacter.update();
+    if(isCreatingEnemies)
+    {
+        createEnemies();
+        
+    }
+
+    setTimeout(function(){
+        isCreatingEnemies = false;
+    },1);
+    isCreatingEnemies = true;
+    for(i=0 ;i<enemies.length; i++)
+    {
+        if(enemies[i].Sprite.body.blocked.left )
+        {
+
+            enemies[i].Sprite.body.velocity.x = 300;
+            enemies[i].Sprite.scale.x = (-1.5);
+        }
+        else if(enemies[i].Sprite.body.blocked.right)
+        {
+
+            enemies[i].Sprite.scale.x = 1.5;
+            enemies[i].Sprite.body.velocity.x = (-300);
+        }
+
+    }
+    
+
     this.myHealthBar.setPosition(game.camera.x + 150, game.camera.y + 50);
    
     // if(mainCharacter.health <= 50)
@@ -148,6 +197,12 @@ function update()
         mainCharacter.state = "fire";
         
     }
+    else if (bonusButton.isDown)
+    {
+
+        mainCharacter.state = "usingBonus";
+        
+    }
 
     else
     {
@@ -160,11 +215,17 @@ function update()
 
 
     testCollisions(this,mainCharacter);
+    // console.log(mainCharacter.bonusCharacter);
+
 	
 };
 
 function render(){
-	
+    // for(i = 0; i < bonus.length; i++)
+    // {
+    //     game.debug.body(bonus[i]);
+    // }
+
 // game.debug.body(mainCharacter.Sprite);
 // game.debug.body(enemies[0].Sprite);
 // game.debug.body(mainCharacter.weapon.bullets.hash);

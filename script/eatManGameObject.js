@@ -10,23 +10,28 @@ class Player
 		this.y = _y;
 		this.vx = _vx;
 		this.vy = _vy;
+		this.bonusCharacter = [];
 		this.anchor = _anchor;
 		this.state = state;
 		this.jumpTimer = 0;
 
+		// let BONUS = {
+		// 	FLEUR:1,
+		// };
+
+		// let bonus = BONUS.FLEUR;
 		
 
 		this.Sprite = game.add.sprite(this.x, this.y, this.name);
 		game.physics.arcade.enable( this.Sprite );
 		this.Sprite.body.checkCollision.up = false;
-		this.Sprite.body.checkCollision.left = false;
-		this.Sprite.body.checkCollision.right = false;
+		// this.Sprite.body.checkCollision.left = false;
+		// this.Sprite.body.checkCollision.right = false;
 		this.Sprite.body.gravity.set(0,600);
 		this.Sprite.anchor.set(this.anchor);
 		this.Sprite.body.setSize(60, 80, 15, 30);
-		this.Sprite.scale.set(1.5);
+		this.Sprite.scale.set(1);
 		this.Sprite.body.collideWorldBounds=true;
-
 
 		/*     WEAPON     */
 		this.weapon = game.add.weapon(10, 'bullet');
@@ -56,7 +61,7 @@ class Player
 	
 		this.weaponAngle = function()
 			{
-				if(this.Sprite.scale.x == 1.5)
+				if(this.Sprite.scale.x == 1)
 				{
 					// setTimeout(function()
 					// {
@@ -64,7 +69,7 @@ class Player
 					// },500);
 				}
 
-				else if (this.Sprite.scale.x == -1.5)
+				else if (this.Sprite.scale.x == -1)
 				{
 					this.weapon.fireAngle = Phaser.ANGLE_UP;
 				}
@@ -72,7 +77,7 @@ class Player
 
 			this.scaleLeft = function()
 			{
-				if(this.Sprite.scale.x == 1.5)
+				if(this.Sprite.scale.x == 1)
 		        {
 		            this.Sprite.scale.x *= (-1);
 
@@ -82,7 +87,7 @@ class Player
 
 			this.scaleRight = function()
 			{
-				if(this.Sprite.scale.x == (-1.5))
+				if(this.Sprite.scale.x == (-1))
 	    		{
 		    		this.Sprite.scale.x *= (-1);
 	    		}
@@ -96,17 +101,17 @@ class Player
 					fire = true;
 					this.Sprite.play('fire');
 			        this.fireAudio.play();
-					if(this.Sprite.scale.x == 1.5)
+					if(this.Sprite.scale.x == 1)
 			        {
-			        	this.weapon.trackSprite(this.Sprite, 90, 45, false);
+			        	this.weapon.trackSprite(this.Sprite, 80, 30, false);
 			            // this.weapon.bulletGravity.x = 250;
 						this.weapon.fireAngle = Phaser.ANGLE_RIGHT;
 				        this.weapon.fire();
 			        }
 
-			        else if (this.Sprite.scale.x == -1.5)
+			        else if (this.Sprite.scale.x == -1)
 			        {
-			        	this.weapon.trackSprite(this.Sprite, -90, 45, false);
+			        	this.weapon.trackSprite(this.Sprite, -80, 30, false);
 			        	// this.weapon.bulletGravity.x = -250;
 						this.weapon.fireAngle = Phaser.ANGLE_LEFT;
 				        this.weapon.fire();
@@ -131,14 +136,14 @@ class Player
 					fire = true;
 					this.Sprite.play('fireWalk');
 			        this.fireAudio.play();
-					if(this.Sprite.scale.x == 1.5)
+					if(this.Sprite.scale.x == 1)
 			        {
 			            // this.weapon.bulletGravity.x = 250;
 						this.weapon.fireAngle = Phaser.ANGLE_RIGHT;
 				        this.weapon.fire();
 			        }
 
-			        else if (this.Sprite.scale.x == -1.5)
+			        else if (this.Sprite.scale.x == -1)
 			        {
 			        	// this.weapon.bulletGravity.x = -250;
 						this.weapon.fireAngle = Phaser.ANGLE_LEFT;
@@ -182,6 +187,7 @@ class Player
 
 	update()
 	{
+		// console.log(this.bonusCharacter);
 		
 		game.physics.arcade.collide(layerCollision, this.Sprite);
 		this.Sprite.body.velocity.x = 0;
@@ -197,6 +203,24 @@ class Player
 		{
 			case "idle":
 				this.Sprite.play('idle');
+				break;
+
+			case "usingBonus":
+				bonusNumber +=1;
+				
+				if(this.bonusCharacter.length < 1)
+				{
+					console.log("bonus empty");
+					
+    			}
+    			else
+    			{
+    				currentBonus = game.add.sprite(this.Sprite.body.position.x,(this.Sprite.body.position.y+20),this.bonusCharacter[0]);
+    				game.physics.arcade.enable( currentBonus );
+    				this.bonusCharacter.pop();
+
+    				
+    			}
 				break;
 
 			case "walkingLeft":
@@ -241,14 +265,18 @@ class Player
 		}
 
 		
-        if(this.Sprite.body.blocked.down)
+        
+        if (jumpButton.isDown && game.time.now > this.jumpTimer)
         {
-	         if (jumpButton.isDown && game.time.now > this.jumpTimer)
-	         {
+	        if(this.Sprite.body.blocked.down)
+        	{
 	            
-	                this.Sprite.body.velocity.y = -450;
-	                this.jumpTimer = game.time.now + 650;
-	         }
+                this.Sprite.body.velocity.y = -550;
+                this.jumpTimer = game.time.now + 650;
+                
+	        }
+	       
+	       
         }
 
 
