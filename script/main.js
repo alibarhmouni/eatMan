@@ -88,9 +88,9 @@ function create()
 
 
 
-    emitter.x = 300;
-    emitter.y = 300;
-    emitter.start(true, 1000, null, 500);
+    // emitter.x = 300;
+    // emitter.y = 300;
+    // emitter.start(true, 1000, null, 500);
 
     /*     INTERFACE     */
 
@@ -162,14 +162,14 @@ function create()
 function particleBurst(_positionX, _positionY) {
 
     //  Position the emitter where the mouse/touch event was
-    // emitter.x = _positionX;
-    // emitter.y = _positionY;
+    emitter.x = _positionX;
+    emitter.y = _positionY;
 
     // //  The first parameter sets the effect to "explode" which means all particles are emitted at once
     // //  The second gives each particle a 2000ms lifespan
     // //  The third is ignored when using burst/explode mode
     // //  The final parameter (10) is how many particles will be emitted in this single burst
-    // emitter.start(true, 1000, null, 10);
+    emitter.start(true, 1000, null, 100);
     // game.time.events.add(2000, destroyEmitter, this);
 
 }
