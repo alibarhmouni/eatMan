@@ -32,9 +32,12 @@ var enemies = [];
 var enemiesId = 0;
 var tweenEnemy;
 var countEnemies = 5;
+var appearanceTimingEnemies = 5000;
+var enemiesKilled = 0;
 var enemiesDirections = ["left","right"];
 var randomDirection;
 var isCreatingEnemies = false;
+var randomLife = 5;
 var coordonees =
 {
     x:[900,300,900,1200],
@@ -43,8 +46,9 @@ var coordonees =
 var randomCoordonees;
 
 var bonus = [];
-var bonusArray = ["plante2","ketchup"];
+var bonusArray = ["plante2","ketchup","shoot_x2"];
 var currentBonus;
+var scoreText;
 
 function create()
 {
@@ -54,8 +58,32 @@ function create()
     map = game.add.tilemap('map');
     map.addTilesetImage('groundSheet','ground');
 
-    game.camera.x = 0;
-    game.camera.y = 7090;
+    /*     INTERFACE     */
+
+
+    scoreText =  game.add.text(700, 57, " SCORE : ", {
+        font: "25px Arial",
+        fill: "#FFFFFF",
+        align: "center"
+    });
+
+   
+
+    
+
+
+
+    HealthText =  game.add.text(25, 40, " HEALTH : ", {
+        font: "25px Arial",
+        fill: "#FFFFFF",
+        align: "center"
+    });
+
+    scoreText.anchor.setTo(0.5, 0.5);
+    scoreText.anchor.setTo(0.5, 0.5);
+
+
+
     
   
  
@@ -76,10 +104,10 @@ function create()
     map.setCollisionBetween(0, 644,true,layerCollision);
     
 
-    mainCharacter = new Player(0,"eatMan",100,700,650,700,0,0.5,"idle");
+    mainCharacter = new Player(0,"eatMan",100,700,650,500,0,0.5,"idle");
 
      /*     HEALTH BAR     */
-    this.barConfig = {x: game.camera.x + 150, y: game.camera.y + 50, width: 250};
+    this.barConfig = {x: 300, y: 55, width: 250};
     this.myHealthBar = new HealthBar(this.game, this.barConfig);
     game.camera.follow(mainCharacter.Sprite);
     
@@ -120,8 +148,11 @@ function gofull()
 
 function update()
 {
+    // scoreText += game.add.text(825, 32, enemiesKilled, { fontSize: '32px', fill: '#FF030D' });
+   updateScore();
 
     mainCharacter.update();
+
 
 
     
@@ -134,14 +165,11 @@ function update()
 
             isCreatingEnemies = false;
 
-        },1000);
+        },appearanceTimingEnemies);
     }
 
 
 
-    
-
-    
 
     for(i=0; i < enemies.length; i++)
     {
@@ -161,7 +189,7 @@ function update()
     }
     
 
-    this.myHealthBar.setPosition(game.camera.x + 150, game.camera.y + 50);
+    this.myHealthBar.setPosition(300, 55);
    
     // if(mainCharacter.health <= 50)
     // {
@@ -224,13 +252,21 @@ function update()
 
     game.physics.arcade.collide(Player.weapon, mainCharacter.Sprite);
     
-
-
+   
+    
     testCollisions(this,mainCharacter);
+
+    // console.log(enemies);
     // console.log(mainCharacter.bonusCharacter);
 
 	
 };
+
+function updateScore() {
+
+    scoreText.setText(" SCORE: " + enemiesKilled);
+
+}
 
 function render(){
     // for(i = 0; i < bonus.length; i++)

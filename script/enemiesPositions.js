@@ -13,54 +13,18 @@ var enemiesPosition = function(_enemy)
 	{
 		if(_direction == "left")
 		{
-
+			// console.log(_direction);
+			__enemy.Sprite.scale.set(1.5);
 			__enemy.Sprite.body.velocity.x *= (-1);
+			
 		}
 		else if(_direction == "right")
 		{
-
 			__enemy.Sprite.body.velocity.x *= 1;
 		}
 		
 		
-		
-		if(__enemy.Sprite.body.blocked.right || __enemy.Sprite.body.blocked.left)
-		{
-			
-			if(__enemy.Sprite.body.velocity.x > 0)
-			{
-				__enemy.Sprite.body.velocity.x *= -1;
-			}
-			else if(__enemy.Sprite.body.velocity.x < 0)
-			{
-				__enemy.Sprite.body.velocity.x *= -1;
-			}
-			
-			if(__enemy.Sprite.scale.x == -1.5)
-			{
-				console.log('test');
-				__enemy.Sprite.scale.x *= (-1);
-			}
-			else if(__enemy.Sprite.scale.x == 1.5)
-			{
-				__enemy.Sprite.scale.x *= (-1);
-			}
-		}
-
-		// else if(__enemy.Sprite.body.blocked.left == true)
-		// {
-		// 	if(__enemy.Sprite.body.velocity.x < 0)
-		// 	{
-		// 		__enemy.Sprite.body.velocity.x *= -1;
-		// 	}
-			
-		// 	if(__enemy.Sprite.scale.x == 1.5)
-		// 	{
-		// 		__enemy.Sprite.scale.x *= (-1);
-		// 	}
-			
-		// 	// console.log(__enemy.Sprite.scale.x);
-		// }
+	
 
 	}
 

@@ -16,7 +16,8 @@ var testCollisions = function(_game,_player)
                 // console.log(randomBonus);
                 createBonus( _enemy.body.position.x, _enemy.body.position.y +75);
                 _enemy.kill();
-                enemies[i].state = 'invisible';
+                enemiesKilled +=1;
+                console.log("enemies killed: "+ enemiesKilled);
             }
             
             
@@ -107,6 +108,8 @@ var testCollisions = function(_game,_player)
         game.physics.arcade.overlap(mainCharacter.Sprite, bonus, overlapBonus, null, this);
         // game.physics.arcade.overlap(layerWorldCollision, enemies[i].Sprite, overlapWorldEnemy, null, this);
         enemies[i].update();
+        
+
     }
 
 }

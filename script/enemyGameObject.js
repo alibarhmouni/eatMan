@@ -43,11 +43,6 @@ class Enemy
 
 	  //    		break;
 
-	     	case "invisible":
-	     		console.log("ennemi mort ");
-                
-
-	     		break;
 
 	     	
 

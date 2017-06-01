@@ -42,8 +42,8 @@ class Player
     	
 		// this.weapon.setBulletFrames(0, 1, true);
     	// this.weapon.fireAngle = -75;
-    	this.weapon.bulletSpeed = 500;
-    	this.weapon.fireRate = 500;
+    	this.weapon.bulletSpeed = 1000;
+    	this.weapon.fireRate = 100;
     	// this.weapon.trackSprite(this.Sprite, 90, 45, false);
     	this.fireAudio = new Phaser.Sound(game,'fireBullet',1,false);
 
@@ -120,9 +120,9 @@ class Player
 			        setTimeout(function()
 			    	{
 			           		
-			           		fire = false;
+			           	fire = false;
 
-					}, 600);
+					}, 100);
 
 				}
 				
@@ -139,6 +139,7 @@ class Player
 					if(this.Sprite.scale.x == 1)
 			        {
 			            // this.weapon.bulletGravity.x = 250;
+			            this.weapon.trackSprite(this.Sprite, 80, 30, false);
 						this.weapon.fireAngle = Phaser.ANGLE_RIGHT;
 				        this.weapon.fire();
 			        }
@@ -146,6 +147,7 @@ class Player
 			        else if (this.Sprite.scale.x == -1)
 			        {
 			        	// this.weapon.bulletGravity.x = -250;
+			        	this.weapon.trackSprite(this.Sprite, -80, 30, false);
 						this.weapon.fireAngle = Phaser.ANGLE_LEFT;
 				        this.weapon.fire();
 
@@ -153,10 +155,9 @@ class Player
 			        setTimeout(function()
 			    	{
 			           		
-			           		fire = false;
-			           		console.log(fire);
+			           	fire = false;
 
-					}, 600);
+					}, 100);
 
 				}
 				
@@ -225,13 +226,13 @@ class Player
 
 			case "walkingLeft":
 				this.scaleLeft();
-		        this.Sprite.body.velocity.x = - 250;
+		        this.Sprite.body.velocity.x = - this.vx;
 		    	this.Sprite.play('walk');
 		    	break;
 
 		    case "walkingRight":
 		    	this.scaleRight();
-	    		this.Sprite.body.velocity.x = 250;
+	    		this.Sprite.body.velocity.x = this.vx;
 		    	this.Sprite.play('walk');
 		    	break;
 		    case "leftFire":
