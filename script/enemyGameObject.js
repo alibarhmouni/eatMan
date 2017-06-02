@@ -37,11 +37,12 @@ class Enemy
 
 		switch(this.state)
 		{
-			// case "hit":
-	  //    		// console.log(this.health);
-   //              this.state = "idle";  
+			case "hit":
+                // this.state = "idle";
+                
+                console.log(this.Sprite);
 
-	  //    		break;
+	     		break;
 
 
 	     	

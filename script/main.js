@@ -7,14 +7,16 @@ function preload(){
     game.load.image('ground', 'img/groundSheet.png');
     game.load.image('plante2', 'img/plants2.png');
     game.load.image('bonus', 'img/bonus.png');
-    game.load.image('particles', 'img/particle2.png');
+    game.load.image('particles', 'img/particle.png');
     game.load.image('ketchup', 'img/ketchup.png');
     game.load.audio('fireBullet','audio/fireBullet.mp3' );
     game.load.spritesheet('eatMan', 'img/meatSpriteSheet2.png', 80, 110, 28);
+    game.load.spritesheet('explosion', 'img/explosionSheet.png', 416/3, 276/2, 3);
 	game.load.spritesheet('bullet', 'img/meatBullet.png', 60, 25, 1);
     game.load.spritesheet('flowerSprite', 'img/flowerSprite.png', 192/3, 64, 3);
     game.load.spritesheet('treeSprite', 'img/treeSpriteSheet.png', 1350/3, 678, 3);
     game.load.spritesheet('enemy', 'img/spriteSheetEnemy.png', 240/3, 220/2, 6);
+
 
 };
 var map;
@@ -48,9 +50,13 @@ var coordonees =
 var randomCoordonees;
 
 var bonus = [];
-var bonusArray = ["plante2","ketchup","shoot_x2"];
+var bonusArray = ["plante2","ketchup","shoot_x2","super_explosion"];
 var currentBonus;
 var scoreText;
+var bmd;
+var innerCircle;
+var outerCircle;
+var explosion;
 
 function create()
 {
@@ -59,24 +65,25 @@ function create()
     game.world.setBounds(0,0,896,8000);
     map = game.add.tilemap('map');
     map.addTilesetImage('groundSheet','ground');
-
-
+    bmd = game.make.bitmapData(1600, 900);
+    bmd.addToWorld();
+   
+    // game.add.tween(innerCircle).to( { x: 100, y: 100, radius: 1 }, 3000, "Sine.easeInOut", true, 0, -1, true);
+    
 
 
     /*     PARTICLES     */
-    emitter = game.add.emitter(game.world.centerX, 400, 500);
+    emitter = game.add.emitter(0, 0, 1000);
     emitter.makeParticles('particles');
-    // emitter.gravity = 200;
     emitter.maxParticleScale = 1;
     emitter.minParticleScale = 0.5;
     emitter.width = 100;
     emitter.height = 100;
     emitter.setRotation(0, 0);
-    emitter.setYSpeed(20, 100);
-    // emitter.setAlpha(0.3, 0.8);
+    emitter.setYSpeed(1000, 1000);
+    // emitter.children.gravity = -200;
     emitter.setScale(1, 1);
-    emitter.gravity = 200;
-    console.log(emitter);
+    // console.log(emitter.children);
     
 
     /*     health particles     */
@@ -86,11 +93,6 @@ function create()
     // emitter.gravity = -200;
     
 
-
-
-    // emitter.x = 300;
-    // emitter.y = 300;
-    // emitter.start(true, 1000, null, 500);
 
     /*     INTERFACE     */
 
@@ -123,7 +125,6 @@ function create()
 
     game.stage.backgroundColor = "#0B5D73";
 
- 
 
     ground = map.createLayer('groundLayer');
     layerCollision = map.createLayer('collisions');
@@ -139,12 +140,6 @@ function create()
     this.myHealthBar = new HealthBar(this.game, this.barConfig);
     game.camera.follow(mainCharacter.Sprite);
     
-
-    // randomCoordonees = Math.round(Math.random()*3);    
-    // createBonus(coordonees.x[randomCoordonees],coordonees.y[randomCoordonees]);
-
-	
-
 
 
 
@@ -163,13 +158,15 @@ function particleBurst(_positionX, _positionY) {
 
     //  Position the emitter where the mouse/touch event was
     emitter.x = _positionX;
-    emitter.y = _positionY;
+    emitter.y = _positionY + 50;
+    emitter.start(true, 2000, true, 10);
+
 
     // //  The first parameter sets the effect to "explode" which means all particles are emitted at once
     // //  The second gives each particle a 2000ms lifespan
     // //  The third is ignored when using burst/explode mode
     // //  The final parameter (10) is how many particles will be emitted in this single burst
-    emitter.start(true, 1000, null, 100);
+    // emitter.start(false, 1000, null, 100);
     // game.time.events.add(2000, destroyEmitter, this);
 
 }
@@ -200,6 +197,9 @@ function update()
     // scoreText += game.add.text(825, 32, enemiesKilled, { fontSize: '32px', fill: '#FF030D' });
    updateScore();
 
+   
+
+
     mainCharacter.update();
 
 
@@ -219,9 +219,9 @@ function update()
 
 
 
-
     for(i=0; i < enemies.length; i++)
     {
+
         if(enemies[i].Sprite.body.blocked.left )
         {
 
@@ -304,6 +304,7 @@ function update()
    
     
     testCollisions(this,mainCharacter);
+    // console.log(enemies);
 
     // console.log(enemies);
     // console.log(mainCharacter.bonusCharacter);
