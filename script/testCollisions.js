@@ -2,39 +2,37 @@ var testCollisions = function(_game,_player)
 {
 	function overlapBulletEnemy(enemy, _index, _bullet, _enemy) 
 	{
-        console.log(_enemy);
+        // console.log(_enemy);
         _enemy.animations.play('enemyCry');
 
         _bullet.kill();
         
         enemy.health -=1;
+        // console.log(enemy.health);
 
-        if(enemy.health <= 0)
-        {
+        // if(enemy.health <= 0)
+        // {
+            
+        //     createExplosion(_enemy.body.position.x, _enemy.body.position.y);
+        //     particleBurst(_enemy.body.position.x, _enemy.body.position.y);
+        //     enemiesKilled +=1;
             
             
-            createExplosion(_enemy.body.position.x,_enemy.body.position.y);
-            particleBurst(_enemy.body.position.x,_enemy.body.position.y);
-            enemiesKilled +=1;
-            randomBonus = Math.floor(Math.random()*5);
-            
-            if(randomBonus == 1)
-            {   
-                setTimeout(function(){
+        //     if( (Math.floor(Math.random()*2)) == 1)
+        //     {   
+        //         createBonus(_enemy.body.position.x, _enemy.body.position.y +75);
+                              
+        //     }
 
-                    createBonus( _enemy.body.position.x, _enemy.body.position.y +75);
-                },1000)
-                
-            }
-            _enemy.kill();
-            // enemiesId --;
-            // enemies.splice(_index, 1);
-            // enemies.length --;
+        //     _enemy.destroy();
+        //     enemiesId --;
+        //     enemies.splice(_index, 1);
+        //     // enemies.length --;
             
 
-            console.log("enemies killed: "+ enemiesKilled);
+        //     console.log("enemies killed: "+ enemiesKilled);
             
-        }
+        // }
 
         
 	}
@@ -53,7 +51,7 @@ var testCollisions = function(_game,_player)
         _bonus.kill();
    
     }
-    function overlapEnemyBonus(_enemy, _currentBonus)
+    function overlapEnemyBonus(enemy, _enemy, _currentBonus)
     {
         if(_currentBonus.key == "plante2")
         {
@@ -63,15 +61,18 @@ var testCollisions = function(_game,_player)
         else if(_currentBonus.key == "ketchup")
         {
             // _enemy.animations.play('EnemySlip');
-            enemies[i].state = "slip";
+            enemy.state = "slip";
         }
     }
 
-    function overlapEnemyExplosion(_enemy, _explosion)
+    function overlapEnemyExplosion(enemy, _index, _enemy, _explosion)
     {
-        enemies[i].health = 0;
+        // enemy.health = 0;
+        // createExplosion(_enemy.body.position.x, _enemy.body.position.y);
+        _enemy.destroy();
+        enemiesId --;
+        enemies.splice(_index, 1);
         console.log("boum!");
-        // createExplosion(_enemy.body.position.x,_enemy.body.position.y);
     }
 
   
@@ -121,7 +122,7 @@ var testCollisions = function(_game,_player)
 	}
 
     // console.log(enemies);
-    for(let i=0; i<enemies.length; i++)
+    for(let i = 0; i < enemies.length; i++)
     {
 
         game.physics.arcade.collide(layerCollision,  enemies[i].Sprite);
@@ -129,12 +130,14 @@ var testCollisions = function(_game,_player)
         game.physics.arcade.collide(layerCollision, emitter.children);
 
         game.physics.arcade.collide(mainCharacter.weapon.bullets.hash,enemies[i].Sprite, overlapBulletEnemy.bind(this, enemies[i],i));
-        game.physics.arcade.overlap(mainCharacter.Sprite, enemies[i].Sprite, overlapEatmanEnemy, null, this);
-        game.physics.arcade.overlap(enemies[i].Sprite, currentBonus, overlapEnemyBonus, null, this);
-        game.physics.arcade.overlap(enemies[i].Sprite, explosion, overlapEnemyExplosion, null, this);
-        game.physics.arcade.overlap(mainCharacter.Sprite, bonus, overlapBonus, null, this);
+        game.physics.arcade.overlap(mainCharacter.Sprite, enemies[i].Sprite, overlapEatmanEnemy);
+        game.physics.arcade.overlap(enemies[i].Sprite, currentBonus, overlapEnemyBonus.bind(this, enemies[i]));
+        game.physics.arcade.overlap(enemies[i].Sprite, explosion, overlapEnemyExplosion.bind(this, enemies[i],i));
+        game.physics.arcade.overlap(mainCharacter.Sprite, bonus, overlapBonus);
+        // console.log(enemies);
         
-        enemies[i].update();
+        
+        // enemies[i].update();
         
 
     }

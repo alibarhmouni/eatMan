@@ -22,7 +22,6 @@ function preload(){
 var map;
 var bonusNumber = 0;
 var mainCharacter;
-var randomBonus;
 var enemy;
 var jumpButton;
 var flower;
@@ -194,48 +193,30 @@ function gofull()
 
 function update()
 {
-    // scoreText += game.add.text(825, 32, enemiesKilled, { fontSize: '32px', fill: '#FF030D' });
-   updateScore();
-
-   
-
+     // scoreText += game.add.text(825, 32, enemiesKilled, { fontSize: '32px', fill: '#FF030D' });
+    updateScore();
 
     mainCharacter.update();
 
 
-
     
-    if(!isCreatingEnemies)
-    {   
-        isCreatingEnemies = true;
-        createEnemies();
+    // for(i = 0; i < enemies.length; i++)
+    // {
 
-        setTimeout(function(){
+    //     if(enemies[i].Sprite.body.blocked.left )
+    //     {
 
-            isCreatingEnemies = false;
+    //         enemies[i].Sprite.body.velocity.x = 300;
+    //         enemies[i].Sprite.scale.x = (-1.5);
+    //     }
+    //     else if(enemies[i].Sprite.body.blocked.right)
+    //     {
 
-        },appearanceTimingEnemies);
-    }
+    //         enemies[i].Sprite.scale.x = 1.5;
+    //         enemies[i].Sprite.body.velocity.x = (-300);
+    //     }
 
-
-
-    for(i=0; i < enemies.length; i++)
-    {
-
-        if(enemies[i].Sprite.body.blocked.left )
-        {
-
-            enemies[i].Sprite.body.velocity.x = 300;
-            enemies[i].Sprite.scale.x = (-1.5);
-        }
-        else if(enemies[i].Sprite.body.blocked.right)
-        {
-
-            enemies[i].Sprite.scale.x = 1.5;
-            enemies[i].Sprite.body.velocity.x = (-300);
-        }
-
-    }
+    // }
     
 
     this.myHealthBar.setPosition(300, 55);
@@ -306,6 +287,67 @@ function update()
     testCollisions(this,mainCharacter);
     // console.log(enemies);
 
+    for (var i = 0; i < enemies.length; i++) 
+    {
+        // console.log(enemies.length);
+        // console.log(enemies.indexOf(enemies[i]));
+        if(enemies[i].Sprite.body.blocked.left )
+        {
+
+            enemies[i].Sprite.body.velocity.x = 300;
+            enemies[i].Sprite.scale.x = (-1.5);
+        }
+        else if(enemies[i].Sprite.body.blocked.right)
+        {
+
+            enemies[i].Sprite.scale.x = 1.5;
+            enemies[i].Sprite.body.velocity.x = (-300);
+        }
+
+        if(enemies[i].health <= 0)
+        {
+            
+            createExplosion(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y);
+            particleBurst(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y);
+
+            enemiesKilled +=1;
+            
+            
+            if( (Math.floor(Math.random()*2)) == 1)
+            {   
+                createBonus(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y +75);
+                              
+            }
+            enemies[i].Sprite.destroy();
+            enemiesId --;
+            enemies.splice(enemies.indexOf(enemies[i]), 1);
+            
+            // enemies.length --;
+            
+            // enemies.length --;
+            
+
+            // console.log("enemies killed: "+ enemiesKilled);
+            
+        }
+    }
+
+    if(!isCreatingEnemies)
+    {   
+        isCreatingEnemies = true;
+        createEnemies();
+
+        setTimeout(function(){
+
+            isCreatingEnemies = false;
+
+        },appearanceTimingEnemies);
+    }
+
+   
+
+    // console.log(enemies);
+
     // console.log(enemies);
     // console.log(mainCharacter.bonusCharacter);
 
@@ -326,5 +368,6 @@ function render(){
 
 // game.debug.body(mainCharacter.Sprite);
 // game.debug.body(enemies[0].Sprite);
+// game.debug.body(explosion.Sprite);
 // game.debug.body(mainCharacter.weapon.bullets.hash);
 };
