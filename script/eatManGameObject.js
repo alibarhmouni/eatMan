@@ -31,7 +31,8 @@ class Player
 		this.Sprite.anchor.set(this.anchor);
 		this.Sprite.body.setSize(60, 80, 15, 30);
 		this.Sprite.scale.set(1);
-		this.Sprite.body.collideWorldBounds=true;
+		this.Sprite.body.collideWorldBounds=false;
+		
 
 		/*     WEAPON     */
 		this.weapon = game.add.weapon(10, 'bullet');

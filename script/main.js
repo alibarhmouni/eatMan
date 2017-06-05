@@ -71,7 +71,7 @@ function create()
 {
 
     game.physics.startSystem(Phaser.Physics.arcade);
-    // game.world.setBounds(0,0,1600,900);
+    game.world.setBounds(0,0,1600,900);
     map = game.add.tilemap('map');
     map.addTilesetImage('groundSheet','ground');
     bmd = game.make.bitmapData(1600, 900);
@@ -100,11 +100,10 @@ function create()
     // this.myHealthBar.setFixedToCamera();
 
 
-    // game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+    game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
     game.stage.backgroundColor = "#0B5D73";
     ukulele = game.add.audio('ukulele',1,true);
-    // ukulele = new Phaser.Sound(game,'ukulele',1,true);
     mineAudio = new Phaser.Sound(game,'mineAudio',1,false);
     minePosition = new Phaser.Sound(game,'minePosition',1,false);
     ukulele.play();
@@ -113,12 +112,15 @@ function create()
 
     ground = map.createLayer('groundLayer');
     layerCollision = map.createLayer('collisions');
+    layerSideCollision = map.createLayer('sideCollisions');
     layerCollision.alpha = 0;
+    layerSideCollision.alpha = 0;
     ground.resizeWorld();
     map.setCollisionBetween(0, 501,true,layerCollision);
+    map.setCollisionBetween(0, 107,true,layerSideCollision);
     
 
-    mainCharacter = new Player(0,"eatMan",100,700,650,500,0,0.5,"idle");
+    mainCharacter = new Player(0,"eatMan",100,700,450,500,0,0.5,"idle");
 
      /*     HEALTH BAR     */
     this.barConfig = {x: 300, y: 55, width: 250};
@@ -155,20 +157,8 @@ function create()
     scoreText.anchor.setTo(0.5, 0.5);
     scoreText.anchor.setTo(0.5, 0.5);
 
-    // mineAudio.onStop.addOnce(function()
-    //     { 
-    //         mineAudio.play();
-
-    //     },this);
 
 };
-
-// function restartMusic() 
-// {
-
-   
-
-// }
 
 
 
@@ -311,11 +301,11 @@ function update()
             enemiesKilled +=1;
             
             
-            // if( (Math.floor(Math.random()*2)) == 1)
-            // {   
+            if( (Math.floor(Math.random()*2)) == 1)
+            {   
                 createBonus(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y +75);
                               
-            // }
+            }
 
             enemies[i].Sprite.destroy();
             enemiesId --;

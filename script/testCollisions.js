@@ -125,6 +125,11 @@ var testCollisions = function(_game,_player)
          
 	}
 
+    // function overlapSides()
+    // {
+    //     console.log('side');
+    // }
+
     // console.log(enemies);
     for(let i = 0; i < enemies.length; i++)
     {
@@ -132,6 +137,7 @@ var testCollisions = function(_game,_player)
         game.physics.arcade.collide(layerCollision,  enemies[i].Sprite);
         game.physics.arcade.collide(layerCollision, emitter.children);
 
+        game.physics.arcade.collide(layerSideCollision,enemies[i].Sprite);
         game.physics.arcade.overlap(mainCharacter.weapon.bullets.hash,enemies[i].Sprite, overlapBulletEnemy.bind(this, enemies[i],i));
         game.physics.arcade.overlap(mainCharacter.Sprite, enemies[i].Sprite, overlapEatmanEnemy);
         game.physics.arcade.overlap(enemies[i].Sprite, explosion, overlapEnemyExplosion.bind(this, enemies[i],i));

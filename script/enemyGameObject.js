@@ -22,10 +22,7 @@ class Enemy
 		this.Sprite.scale.set(1.5);
 		this.Sprite.body.setSize(60, 100, 15, 10);
 		this.Sprite.body.velocity.x = this.vx;
-		this.Sprite.body.checkCollision.up = false;
-		this.Sprite.body.checkCollision.left = false;
-		this.Sprite.body.checkCollision.right = false;
-		this.Sprite.body.collideWorldBounds=true;
+		this.Sprite.body.collideWorldBounds = false;
 	
 	
 		
