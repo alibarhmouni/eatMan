@@ -45,22 +45,24 @@ var testCollisions = function(_game,_player)
         // _enemy.scale.x *= (-1);
         // enemies[i].vx *= (-1);
     }
-    function overlapBonus(_player,_bonus)
+    function overlapBonus(bonus, _index, _player, _my_bonus)
     {
-        mainCharacter.bonusCharacter[0] = bonusArray[Math.round(Math.random()*1)];
-        _bonus.destroy();
+        mainCharacter.bonusCharacter[0] = bonusArray[Math.round(Math.random()*0)];
+        _my_bonus.destroy();
+        bonus.splice(_index,1);
+        bonusNumber --;
    
     }
-    function overlapEnemyBonus(enemy, _enemy, _currentBonus)
+    function overlapEnemyBonus(enemy, _enemy, _bonusGround)
     {
-        if(_currentBonus.key == "mine")
+        if(_bonusGround.key == "mine")
         {
-
-            createExplosion(_currentBonus.body.position.x, _currentBonus.body.position.y, 1,"genkidama");
-            _currentBonus.destroy();
+            mineAudio.play();
+            createExplosion(_bonusGround.body.position.x, _bonusGround.body.position.y, 1,"genkidama",10);
+            _bonusGround.destroy();
 
         }
-        else if(_currentBonus.key == "ketchup")
+        else if(_bonusGround.key == "ketchup")
         {
             // _enemy.animations.play('EnemySlip');
             enemy.state = "slip";
@@ -132,15 +134,22 @@ var testCollisions = function(_game,_player)
 
         game.physics.arcade.overlap(mainCharacter.weapon.bullets.hash,enemies[i].Sprite, overlapBulletEnemy.bind(this, enemies[i],i));
         game.physics.arcade.overlap(mainCharacter.Sprite, enemies[i].Sprite, overlapEatmanEnemy);
-        game.physics.arcade.overlap(enemies[i].Sprite, currentBonus, overlapEnemyBonus.bind(this, enemies[i]));
         game.physics.arcade.overlap(enemies[i].Sprite, explosion, overlapEnemyExplosion.bind(this, enemies[i],i));
-        game.physics.arcade.overlap(mainCharacter.Sprite, bonus, overlapBonus);
-        // console.log(enemies);
-        
-        
-        // enemies[i].update();
+         
+
+        for (let j = 0; j < bonusOnGround.length; j++) 
+        {
+            console.log(bonusOnGround);
+
+            game.physics.arcade.overlap(enemies[i].Sprite, bonusOnGround[j], overlapEnemyBonus.bind(this, enemies[i]));
+        }
         
 
+    }
+
+    for (var i = 0; i < bonus.length; i++) 
+    {
+        game.physics.arcade.overlap(mainCharacter.Sprite, bonus[i], overlapBonus.bind(this,bonus,i));
     }
 
 }

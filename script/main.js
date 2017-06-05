@@ -8,7 +8,11 @@ function preload(){
     game.load.image('bonus', 'img/bonus.png');
     game.load.image('particles', 'img/particle.png');
     game.load.image('ketchup', 'img/ketchup.png');
+
+    game.load.audio('ukulele', 'audio/bensound-ukulele.mp3');
     game.load.audio('fireBullet','audio/fireBullet.mp3' );
+    game.load.audio('mineAudio','audio/Bomb2.mp3' );
+    game.load.audio('minePosition','audio/mine.wav' );
 
     game.load.spritesheet('mine', 'img/steak.png', 110, 100, 2);
     game.load.spritesheet('genkidama', 'img/genkidamaSheet.png', 1260/3, 420, 3);
@@ -51,13 +55,17 @@ var coordonees =
 var randomCoordonees;
 
 var bonus = [];
-var bonusArray = ["mine","ketchup","shoot_x2","super_explosion"];
+var bonusOnGround = [];
+var bonusArray = ["mine","ketchup"];
 var currentBonus;
 var scoreText;
 var bmd;
 var innerCircle;
 var outerCircle;
 var explosion;
+var mineAudio;
+var minePosition;
+var ukulele;
 
 function create()
 {
@@ -95,6 +103,12 @@ function create()
     // game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
     game.stage.backgroundColor = "#0B5D73";
+    ukulele = game.add.audio('ukulele',1,true);
+    // ukulele = new Phaser.Sound(game,'ukulele',1,true);
+    mineAudio = new Phaser.Sound(game,'mineAudio',1,false);
+    minePosition = new Phaser.Sound(game,'minePosition',1,false);
+    ukulele.play();
+
 
 
     ground = map.createLayer('groundLayer');
@@ -141,7 +155,23 @@ function create()
     scoreText.anchor.setTo(0.5, 0.5);
     scoreText.anchor.setTo(0.5, 0.5);
 
+    // mineAudio.onStop.addOnce(function()
+    //     { 
+    //         mineAudio.play();
+
+    //     },this);
+
 };
+
+// function restartMusic() 
+// {
+
+   
+
+// }
+
+
+
 
 
 function particleBurst(_positionX, _positionY) {
@@ -186,6 +216,7 @@ function update()
 {
      // scoreText += game.add.text(825, 32, enemiesKilled, { fontSize: '32px', fill: '#FF030D' });
     updateScore();
+    
 
     mainCharacter.update();
 
@@ -241,6 +272,7 @@ function update()
     {
 
         mainCharacter.state = "usingBonus";
+
         
     }
 
@@ -273,18 +305,17 @@ function update()
 
         if(enemies[i].health <= 0)
         {
-            console.log(enemies[i].health);
-            createExplosion(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y + (enemies[i].Sprite.body.height/2), 1, "explosion");
+            createExplosion(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y + (enemies[i].Sprite.body.height/2), 1, "explosion",10);
             particleBurst(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y);
 
             enemiesKilled +=1;
             
             
-            if( (Math.floor(Math.random()*2)) == 1)
-            {   
+            // if( (Math.floor(Math.random()*2)) == 1)
+            // {   
                 createBonus(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y +75);
                               
-            }
+            // }
 
             enemies[i].Sprite.destroy();
             enemiesId --;
@@ -335,6 +366,9 @@ function update()
         },appearanceTimingEnemies);
     }
 
+    // console.log(bonus);
+    // console.log(bonusNumber);
+    // console.log(bonusOnGround);
 
 	
 };

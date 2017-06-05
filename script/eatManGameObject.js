@@ -207,7 +207,7 @@ class Player
 				break;
 
 			case "usingBonus":
-				bonusNumber +=1;
+				// bonusNumber --;
 				
 				if(this.bonusCharacter.length < 1)
 				{
@@ -217,7 +217,13 @@ class Player
     			else
     			{
     				currentBonus = game.add.sprite(this.Sprite.body.position.x,(this.Sprite.body.position.y+20),this.bonusCharacter[0]);
+    				bonusOnGround.push(currentBonus);
     				game.physics.arcade.enable( currentBonus );
+    				if(currentBonus.key == "mine")
+    				{
+    					minePosition.play();
+    				}
+    				
     				currentBonus.animations.add('usingMine', [0,1], 10, true);
     				currentBonus.play('usingMine');
     				this.bonusCharacter.pop();
