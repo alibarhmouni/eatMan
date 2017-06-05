@@ -5,11 +5,13 @@ function preload(){
 	
     game.load.tilemap('map', 'map.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('ground', 'img/groundSheet.png');
-    game.load.image('plante2', 'img/plants2.png');
     game.load.image('bonus', 'img/bonus.png');
     game.load.image('particles', 'img/particle.png');
     game.load.image('ketchup', 'img/ketchup.png');
     game.load.audio('fireBullet','audio/fireBullet.mp3' );
+
+    game.load.spritesheet('mine', 'img/steak.png', 110, 100, 2);
+    game.load.spritesheet('genkidama', 'img/genkidamaSheet.png', 1260/3, 420, 3);
     game.load.spritesheet('eatMan', 'img/meatSpriteSheet2.png', 80, 110, 28);
     game.load.spritesheet('explosion', 'img/explosionSheet.png', 416/3, 276/2, 3);
 	game.load.spritesheet('bullet', 'img/meatBullet.png', 60, 25, 1);
@@ -49,7 +51,7 @@ var coordonees =
 var randomCoordonees;
 
 var bonus = [];
-var bonusArray = ["plante2","ketchup","shoot_x2","super_explosion"];
+var bonusArray = ["mine","ketchup","shoot_x2","super_explosion"];
 var currentBonus;
 var scoreText;
 var bmd;
@@ -61,16 +63,12 @@ function create()
 {
 
     game.physics.startSystem(Phaser.Physics.arcade);
-    game.world.setBounds(0,0,896,8000);
+    // game.world.setBounds(0,0,1600,900);
     map = game.add.tilemap('map');
     map.addTilesetImage('groundSheet','ground');
     bmd = game.make.bitmapData(1600, 900);
     bmd.addToWorld();
-   
-    // game.add.tween(innerCircle).to( { x: 100, y: 100, radius: 1 }, 3000, "Sine.easeInOut", true, 0, -1, true);
     
-
-
     /*     PARTICLES     */
     emitter = game.add.emitter(0, 0, 1000);
     emitter.makeParticles('particles');
@@ -82,7 +80,6 @@ function create()
     emitter.setYSpeed(1000, 1000);
     // emitter.children.gravity = -200;
     emitter.setScale(1, 1);
-    // console.log(emitter.children);
     
 
     /*     health particles     */
@@ -92,35 +89,10 @@ function create()
     // emitter.gravity = -200;
     
 
-
-    /*     INTERFACE     */
-
-
-    scoreText =  game.add.text(700, 57, " SCORE : ", {
-        font: "25px Arial",
-        fill: "#FFFFFF",
-        align: "center"
-    });
-
-   
-
-    HealthText =  game.add.text(25, 40, " HEALTH : ", {
-        font: "25px Arial",
-        fill: "#FFFFFF",
-        align: "center"
-    });
-
-    scoreText.anchor.setTo(0.5, 0.5);
-    scoreText.anchor.setTo(0.5, 0.5);
-
-
-
- 
-   
     // this.myHealthBar.setFixedToCamera();
 
 
-    game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+    // game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
     game.stage.backgroundColor = "#0B5D73";
 
@@ -129,7 +101,7 @@ function create()
     layerCollision = map.createLayer('collisions');
     layerCollision.alpha = 0;
     ground.resizeWorld();
-    map.setCollisionBetween(0, 644,true,layerCollision);
+    map.setCollisionBetween(0, 501,true,layerCollision);
     
 
     mainCharacter = new Player(0,"eatMan",100,700,650,500,0,0.5,"idle");
@@ -148,7 +120,26 @@ function create()
     bonusButton = game.input.keyboard.addKey(Phaser.Keyboard.UP);
     game.input.onDown.add(gofull, this);
 
+
+     /*     INTERFACE     */
+
+
+    scoreText =  game.add.text(700, 57, " SCORE : ", {
+        font: "25px Arial",
+        fill: "#FFFFFF",
+        align: "center"
+    });
+
    
+
+    HealthText =  game.add.text(25, 40, " HEALTH : ", {
+        font: "25px Arial",
+        fill: "#FFFFFF",
+        align: "center"
+    });
+
+    scoreText.anchor.setTo(0.5, 0.5);
+    scoreText.anchor.setTo(0.5, 0.5);
 
 };
 
@@ -197,27 +188,6 @@ function update()
     updateScore();
 
     mainCharacter.update();
-
-
-    
-    // for(i = 0; i < enemies.length; i++)
-    // {
-
-    //     if(enemies[i].Sprite.body.blocked.left )
-    //     {
-
-    //         enemies[i].Sprite.body.velocity.x = 300;
-    //         enemies[i].Sprite.scale.x = (-1.5);
-    //     }
-    //     else if(enemies[i].Sprite.body.blocked.right)
-    //     {
-
-    //         enemies[i].Sprite.scale.x = 1.5;
-    //         enemies[i].Sprite.body.velocity.x = (-300);
-    //     }
-
-    // }
-    
 
     this.myHealthBar.setPosition(300, 55);
    
@@ -280,17 +250,14 @@ function update()
     }
 
 
-    game.physics.arcade.collide(Player.weapon, mainCharacter.Sprite);
     
    
     
     testCollisions(this,mainCharacter);
-    // console.log(enemies);
 
     for (var i = 0; i < enemies.length; i++) 
     {
-        // console.log(enemies.length);
-        // console.log(enemies.indexOf(enemies[i]));
+
         if(enemies[i].Sprite.body.blocked.left )
         {
 
@@ -306,8 +273,8 @@ function update()
 
         if(enemies[i].health <= 0)
         {
-            
-            createExplosion(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y);
+            console.log(enemies[i].health);
+            createExplosion(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y + (enemies[i].Sprite.body.height/2), 1, "explosion");
             particleBurst(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y);
 
             enemiesKilled +=1;
@@ -318,19 +285,43 @@ function update()
                 createBonus(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y +75);
                               
             }
+
             enemies[i].Sprite.destroy();
             enemiesId --;
             enemies.splice(enemies.indexOf(enemies[i]), 1);
-            
-            // enemies.length --;
-            
-            // enemies.length --;
-            
 
             // console.log("enemies killed: "+ enemiesKilled);
-            
+        }
+
+        if(enemiesKilled > 50)
+        {
+            appearanceTimingEnemies = 500;
+        }
+
+        else if(enemiesKilled <= 50 && enemiesKilled > 40)
+        {
+            appearanceTimingEnemies = 1000;
+        }
+        else  if(enemiesKilled <= 40 && enemiesKilled > 30)
+        {
+            appearanceTimingEnemies = 2000;
+        }
+        else  if(enemiesKilled <= 30 && enemiesKilled > 20)
+        {
+            appearanceTimingEnemies = 3000;
+        }
+        else  if(enemiesKilled <= 20 && enemiesKilled > 10)
+        {
+            appearanceTimingEnemies = 4000;
+        }
+        else  if(enemiesKilled <= 10)
+        {
+            appearanceTimingEnemies = 5000;
         }
     }
+
+
+    
 
     if(!isCreatingEnemies)
     {   
@@ -344,12 +335,6 @@ function update()
         },appearanceTimingEnemies);
     }
 
-   
-
-    // console.log(enemies);
-
-    // console.log(enemies);
-    // console.log(mainCharacter.bonusCharacter);
 
 	
 };

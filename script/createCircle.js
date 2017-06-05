@@ -1,13 +1,18 @@
    
-   var createExplosion = function(_enemyX, _enemyY)
+   var createExplosion = function(_enemyX, _enemyY, _size, _type)
 
    {
-	   	explosion = game.add.sprite(_enemyX,_enemyY,'explosion');
-	    // explosion.scale.setTo(0.5,0.5);
-	    game.physics.arcade.enable( explosion );
-	    explosion.animations.add('explode', [0,1,2,1,0], 10, true);
-   	    explosion.animations.play('explode');
+	   explosion = game.add.sprite(_enemyX,_enemyY,_type);
+	   explosion.scale.setTo(_size,_size);
+      explosion.anchor.set(0.5);
+	   game.physics.arcade.enable( explosion );
+	   explosion.animations.add('explode', [0,1,2,1,0], 10, true);
+   	explosion.animations.play('explode');
+      var _exp = explosion;
+
    	    setTimeout(function(){
-   	    	explosion.destroy();
+            console.log('explosion destroy');
+            console.log(explosion); 
+   	    	_exp.destroy();
    	    },500);
    }

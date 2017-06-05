@@ -218,8 +218,9 @@ class Player
     			{
     				currentBonus = game.add.sprite(this.Sprite.body.position.x,(this.Sprite.body.position.y+20),this.bonusCharacter[0]);
     				game.physics.arcade.enable( currentBonus );
+    				currentBonus.animations.add('usingMine', [0,1], 10, true);
+    				currentBonus.play('usingMine');
     				this.bonusCharacter.pop();
-
     				
     			}
 				break;
