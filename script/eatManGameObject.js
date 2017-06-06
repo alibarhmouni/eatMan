@@ -229,7 +229,7 @@ class Player
     				currentBonus.animations.add('usingMine', [0,1], 10, true);
     				currentBonus.play('usingMine');
     				// setTimeout(function(){
-    					mineBip.play();
+    					// mineBip.play();
     				// }, 1000);
     				this.bonusCharacter.pop();
     				

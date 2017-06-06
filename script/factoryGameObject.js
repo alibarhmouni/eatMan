@@ -24,6 +24,8 @@ class Factory
 					enterFactory = true;
 					// this.Sprite.tint =  '0xE50F00';
 					this.health +=25;
+					customers ++;
+					customersPercent += 2.5;
 					this.Sprite.play('openDore');
 					
 					var _self = this;

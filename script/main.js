@@ -22,8 +22,6 @@ function preload(){
     game.load.spritesheet('eatMan', 'img/meatSpriteSheet2.png', 80, 110, 28);
     game.load.spritesheet('explosion', 'img/explosionSheet.png', 416/3, 276/2, 3);
 	game.load.spritesheet('bullet', 'img/meatBullet.png', 60, 25, 1);
-    game.load.spritesheet('flowerSprite', 'img/flowerSprite.png', 192/3, 64, 3);
-    game.load.spritesheet('treeSprite', 'img/treeSpriteSheet.png', 1350/3, 678, 3);
     game.load.spritesheet('enemy', 'img/spriteSheetEnemy.png', 240/3, 220/2, 6);
 
 
@@ -33,16 +31,13 @@ var bonusNumber = 0;
 var mainCharacter;
 var enemy;
 var jumpButton;
-var flower;
 var ground;
 var layerCollision;
 var layerWorldCollision;
-var platforms;
 var isJumping;
 var enemies = [];
 var emitter;
 var enemiesId = 0;
-var tweenEnemy;
 var countEnemies = 5;
 var appearanceTimingEnemies = 5000;
 var enemiesKilled = 0;
@@ -51,12 +46,6 @@ var randomDirection;
 var isCreatingEnemies = false;
 var randomLife = 5;
 var factory;
-var coordonees =
-{
-    x:[900,300,900,1200],
-    y:[2430,2020,2210,1850]
-}
-var randomCoordonees;
 
 var bonus = [];
 var bonusOnGround = [];
@@ -71,6 +60,9 @@ var mineAudio;
 var minePosition;
 var ukulele;
 var enterFactory;
+var factoryText;
+var customers = 0;
+customersPercent = 0;
 
 function create()
 {
@@ -111,7 +103,7 @@ function create()
 
     ukulele = game.add.audio('ukulele',1,true);
     mineAudio = new Phaser.Sound(game,'mineAudio',1,false);
-    mineBip = new Phaser.Sound(game,'mineBip',1,true);
+    mineBip = new Phaser.Sound(game,'mineBip',1,false);
     minePosition = new Phaser.Sound(game,'minePosition',1,false);
     // ukulele.play();
 
@@ -168,7 +160,19 @@ function create()
     scoreText.anchor.setTo(0.5, 0.5);
     scoreText.anchor.setTo(0.5, 0.5);
     factory = new Factory("shop", 0,800,730,0.5,"idle");
-     mainCharacter = new Player(0,"eatMan",100,700,450,500,0,0.5,"idle");
+    mainCharacter = new Player(0,"eatMan",100,700,450,500,0,0.5,"idle");
+
+    factoryText =  game.add.text(510, 735, " Customers : ", {
+        font: "25px Arial",
+        fill: "#ffe400",
+        align: "center"
+    });
+
+    // factoryTextPercent =  game.add.text(599, 756, "full: ", {
+    //     font: "20px Arial",
+    //     fill: "#fb0000",
+    //     align: "center"
+    // });
 
 
 };
@@ -219,13 +223,15 @@ function update()
 {
      // scoreText += game.add.text(825, 32, enemiesKilled, { fontSize: '32px', fill: '#FF030D' });
     updateScore();
+    updateCustomers();
+    // updateCustomerPercent();
     
 
     mainCharacter.update();
     factory.update();
 
     this.myHealthBar.setPosition(300, 55);
-    this.factoryHealthBar.setPosition(800,650);
+    this.factoryHealthBar.setPosition(800,580);
     this.factoryHealthBar.setPercent(factory.health/10); 
     // if(mainCharacter.health <= 50)
     // {
@@ -379,6 +385,7 @@ function update()
     // console.log(bonus);
     // console.log(bonusNumber);
     // console.log(bonusOnGround);
+    console.log(customers);
 
 	
 };
@@ -388,6 +395,18 @@ function updateScore() {
     scoreText.setText(" SCORE: " + enemiesKilled);
 
 }
+
+function updateCustomers() {
+
+    factoryText.setText(" Customers: \n" + customers);
+
+}
+
+// function updateCustomerPercent() {
+
+//     factoryTextPercent.setText("( "+ customersPercent + " % )");
+
+// }
 
 function render(){
     // for(i = 0; i < bonus.length; i++)
