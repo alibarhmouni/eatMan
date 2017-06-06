@@ -14,7 +14,7 @@ var enemiesPosition = function(_enemy)
 		if(_direction == "left")
 		{
 			// console.log(_direction);
-			__enemy.Sprite.scale.set(1.5);
+			__enemy.Sprite.scale.set(1);
 			__enemy.Sprite.body.velocity.x *= (-1);
 			
 		}

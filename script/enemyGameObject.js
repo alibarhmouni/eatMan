@@ -19,7 +19,7 @@ class Enemy
 	    this.Sprite.animations.add('enemyCry', [3,4], 5, true);
 	    this.Sprite.animations.play('enemyWalk');
 	    this.Sprite.anchor.set(this.anchor);
-		this.Sprite.scale.set(1.5);
+		this.Sprite.scale.set(1);
 		this.Sprite.body.setSize(60, 100, 15, 10);
 		this.Sprite.body.velocity.x = this.vx;
 		this.Sprite.body.collideWorldBounds = false;
@@ -44,8 +44,9 @@ class Enemy
 
 	     	
 
-	     	case "slip":
-	     		
+	     	case "enteringFactory":
+	     		console.log("testTouchingFactory");
+	    
                 
 
 	     		break;

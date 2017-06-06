@@ -171,12 +171,12 @@ class Player
 				{
 					cry = true;
 					this.Sprite.play('hit');
-					this.Sprite.tint =  0xE50F00;
+					this.Sprite.tint =  '0xE50F00';
 					this.health -=10;
 					var _self = this;
 					setTimeout(function()
 			    	{
-			    	   _self.Sprite.tint = 0xffffff;
+			    	   _self.Sprite.tint = '0xffffff';
 			           cry = false;
 					}, 600);
 				}

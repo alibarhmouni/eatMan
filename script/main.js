@@ -8,6 +8,7 @@ function preload(){
     game.load.image('bonus', 'img/bonus.png');
     game.load.image('particles', 'img/particle.png');
     game.load.image('ketchup', 'img/ketchup.png');
+    game.load.image('factory', 'img/factory.png');
 
     game.load.audio('ukulele', 'audio/bensound-ukulele.mp3');
     game.load.audio('fireBullet','audio/fireBullet.mp3' );
@@ -15,6 +16,7 @@ function preload(){
     game.load.audio('minePosition','audio/mine.wav' );
 
     game.load.spritesheet('mine', 'img/steak.png', 110, 100, 2);
+    game.load.spritesheet('shop', 'img/shop.png', 500, 224, 2);
     game.load.spritesheet('genkidama', 'img/genkidamaSheet.png', 1260/3, 420, 3);
     game.load.spritesheet('eatMan', 'img/meatSpriteSheet2.png', 80, 110, 28);
     game.load.spritesheet('explosion', 'img/explosionSheet.png', 416/3, 276/2, 3);
@@ -47,6 +49,7 @@ var enemiesDirections = ["left","right"];
 var randomDirection;
 var isCreatingEnemies = false;
 var randomLife = 5;
+var factory;
 var coordonees =
 {
     x:[900,300,900,1200],
@@ -66,6 +69,7 @@ var explosion;
 var mineAudio;
 var minePosition;
 var ukulele;
+var enterFactory;
 
 function create()
 {
@@ -98,7 +102,8 @@ function create()
     
 
     // this.myHealthBar.setFixedToCamera();
-
+    factory = new Factory("shop", 0,800,800,0.5,"idle");
+    
 
     game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
@@ -126,7 +131,12 @@ function create()
     this.barConfig = {x: 300, y: 55, width: 250};
     this.myHealthBar = new HealthBar(this.game, this.barConfig);
     game.camera.follow(mainCharacter.Sprite);
-    
+
+    /*     FACTORY BAR     */
+
+    this.barConfigFactory = {x: 300, y: 55, width: 150, height: 10};
+    this.factoryHealthBar = new HealthBar(this.game, this.barConfigFactory);
+
 
 
 
@@ -209,9 +219,11 @@ function update()
     
 
     mainCharacter.update();
+    factory.update();
 
     this.myHealthBar.setPosition(300, 55);
-   
+    this.factoryHealthBar.setPosition(800,675);
+    this.factoryHealthBar.setPercent(factory.health/10); 
     // if(mainCharacter.health <= 50)
     // {
     
@@ -277,36 +289,40 @@ function update()
     
     testCollisions(this,mainCharacter);
 
+
     for (var i = 0; i < enemies.length; i++) 
     {
+        enemies[i].update();
 
         if(enemies[i].Sprite.body.blocked.left )
         {
 
             enemies[i].Sprite.body.velocity.x = 300;
-            enemies[i].Sprite.scale.x = (-1.5);
+            enemies[i].Sprite.scale.x = (-1);
         }
         else if(enemies[i].Sprite.body.blocked.right)
         {
 
-            enemies[i].Sprite.scale.x = 1.5;
+            enemies[i].Sprite.scale.x = 1;
             enemies[i].Sprite.body.velocity.x = (-300);
         }
 
         if(enemies[i].health <= 0)
         {
-            createExplosion(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y + (enemies[i].Sprite.body.height/2), 1, "explosion",10);
-            particleBurst(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y);
+            if(enemies[i].state != "enteringFactory") 
+            {
+                createExplosion(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y + (enemies[i].Sprite.body.height/2), 1, "explosion",10);
+                particleBurst(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y);
+
+                if( (Math.floor(Math.random()*2)) == 1)
+                {   
+                    createBonus(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y +75);
+                                  
+                }
+            }
+            
 
             enemiesKilled +=1;
-            
-            
-            if( (Math.floor(Math.random()*2)) == 1)
-            {   
-                createBonus(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y +75);
-                              
-            }
-
             enemies[i].Sprite.destroy();
             enemiesId --;
             enemies.splice(enemies.indexOf(enemies[i]), 1);
@@ -374,7 +390,7 @@ function render(){
     // {
     //     game.debug.body(bonus[i]);
     // }
-
+// game.debug.body(factory.Sprite);
 // game.debug.body(mainCharacter.Sprite);
 // game.debug.body(enemies[0].Sprite);
 // game.debug.body(explosion.Sprite);

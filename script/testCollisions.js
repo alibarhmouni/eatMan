@@ -53,13 +53,14 @@ var testCollisions = function(_game,_player)
         bonusNumber --;
    
     }
-    function overlapEnemyBonus(enemy, _enemy, _bonusGround)
+    function overlapEnemyBonus(enemy, _bonusOnGroundArray, _index, _enemy, _bonusGround)
     {
         if(_bonusGround.key == "mine")
         {
             mineAudio.play();
             createExplosion(_bonusGround.body.position.x, _bonusGround.body.position.y, 1,"genkidama",10);
             _bonusGround.destroy();
+            _bonusOnGroundArray.splice(_index ,1);
 
         }
         else if(_bonusGround.key == "ketchup")
@@ -72,11 +73,6 @@ var testCollisions = function(_game,_player)
     function overlapEnemyExplosion(enemy, _index, _enemy, _explosion)
     {
         enemy.health = 0;
-        // createExplosion(_enemy.body.position.x, _enemy.body.position.y);
-        // _enemy.destroy();
-        // enemiesId --;
-        // enemies.splice(_index, 1);
-        // console.log("boum!");
     }
 
   
@@ -125,10 +121,16 @@ var testCollisions = function(_game,_player)
          
 	}
 
-    // function overlapSides()
-    // {
-    //     console.log('side');
-    // }
+    function overlapEnemyFactory( _factoryObject, _enemyGameObject, _enemy, _factory)
+    {
+        _factoryObject.state = "hit";
+        console.log(_factoryObject.health);
+        _enemyGameObject.state = "enteringFactory";
+        enterFactory = false;
+        _enemyGameObject.health = 0;
+          
+
+    }
 
     // console.log(enemies);
     for(let i = 0; i < enemies.length; i++)
@@ -141,13 +143,14 @@ var testCollisions = function(_game,_player)
         game.physics.arcade.overlap(mainCharacter.weapon.bullets.hash,enemies[i].Sprite, overlapBulletEnemy.bind(this, enemies[i],i));
         game.physics.arcade.overlap(mainCharacter.Sprite, enemies[i].Sprite, overlapEatmanEnemy);
         game.physics.arcade.overlap(enemies[i].Sprite, explosion, overlapEnemyExplosion.bind(this, enemies[i],i));
+        game.physics.arcade.overlap(enemies[i].Sprite, factory.Sprite, overlapEnemyFactory.bind(this,factory,enemies[i]));
          
 
         for (let j = 0; j < bonusOnGround.length; j++) 
         {
-            console.log(bonusOnGround);
+            // console.log(bonusOnGround);
 
-            game.physics.arcade.overlap(enemies[i].Sprite, bonusOnGround[j], overlapEnemyBonus.bind(this, enemies[i]));
+            game.physics.arcade.overlap(enemies[i].Sprite, bonusOnGround[j], overlapEnemyBonus.bind(this, enemies[i], bonusOnGround, j));
         }
         
 
