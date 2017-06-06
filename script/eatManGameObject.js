@@ -24,14 +24,14 @@ class Player
 
 		this.Sprite = game.add.sprite(this.x, this.y, this.name);
 		game.physics.arcade.enable( this.Sprite );
-		this.Sprite.body.checkCollision.up = false;
+		// this.Sprite.body.checkCollision.up = false;
 		// this.Sprite.body.checkCollision.left = false;
 		// this.Sprite.body.checkCollision.right = false;
 		this.Sprite.body.gravity.set(0,600);
 		this.Sprite.anchor.set(this.anchor);
 		this.Sprite.body.setSize(60, 80, 15, 30);
 		this.Sprite.scale.set(1);
-		this.Sprite.body.collideWorldBounds=false;
+		this.Sprite.body.collideWorldBounds=true;
 		
 
 		/*     WEAPON     */
@@ -225,8 +225,12 @@ class Player
     					minePosition.play();
     				}
     				
+    				
     				currentBonus.animations.add('usingMine', [0,1], 10, true);
     				currentBonus.play('usingMine');
+    				// setTimeout(function(){
+    					mineBip.play();
+    				// }, 1000);
     				this.bonusCharacter.pop();
     				
     			}
@@ -280,7 +284,7 @@ class Player
 	        if(this.Sprite.body.blocked.down)
         	{
 	            
-                this.Sprite.body.velocity.y = -550;
+                this.Sprite.body.velocity.y = -450;
                 this.jumpTimer = game.time.now + 650;
                 
 	        }

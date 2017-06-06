@@ -14,6 +14,7 @@ function preload(){
     game.load.audio('fireBullet','audio/fireBullet.mp3' );
     game.load.audio('mineAudio','audio/Bomb2.mp3' );
     game.load.audio('minePosition','audio/mine.wav' );
+    game.load.audio('mineBip','audio/bip.wav' );
 
     game.load.spritesheet('mine', 'img/steak.png', 110, 100, 2);
     game.load.spritesheet('shop', 'img/shop.png', 500, 224, 2);
@@ -90,7 +91,6 @@ function create()
     emitter.height = 100;
     emitter.setRotation(0, 0);
     emitter.setYSpeed(1000, 1000);
-    // emitter.children.gravity = -200;
     emitter.setScale(1, 1);
     
 
@@ -102,16 +102,18 @@ function create()
     
 
     // this.myHealthBar.setFixedToCamera();
-    factory = new Factory("shop", 0,800,800,0.5,"idle");
+    
     
 
     game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
     game.stage.backgroundColor = "#0B5D73";
+
     ukulele = game.add.audio('ukulele',1,true);
     mineAudio = new Phaser.Sound(game,'mineAudio',1,false);
+    mineBip = new Phaser.Sound(game,'mineBip',1,true);
     minePosition = new Phaser.Sound(game,'minePosition',1,false);
-    ukulele.play();
+    // ukulele.play();
 
 
 
@@ -125,12 +127,11 @@ function create()
     map.setCollisionBetween(0, 107,true,layerSideCollision);
     
 
-    mainCharacter = new Player(0,"eatMan",100,700,450,500,0,0.5,"idle");
-
+   
      /*     HEALTH BAR     */
     this.barConfig = {x: 300, y: 55, width: 250};
     this.myHealthBar = new HealthBar(this.game, this.barConfig);
-    game.camera.follow(mainCharacter.Sprite);
+    // game.camera.follow(mainCharacter.Sprite);
 
     /*     FACTORY BAR     */
 
@@ -166,6 +167,8 @@ function create()
 
     scoreText.anchor.setTo(0.5, 0.5);
     scoreText.anchor.setTo(0.5, 0.5);
+    factory = new Factory("shop", 0,800,730,0.5,"idle");
+     mainCharacter = new Player(0,"eatMan",100,700,450,500,0,0.5,"idle");
 
 
 };
@@ -222,7 +225,7 @@ function update()
     factory.update();
 
     this.myHealthBar.setPosition(300, 55);
-    this.factoryHealthBar.setPosition(800,675);
+    this.factoryHealthBar.setPosition(800,650);
     this.factoryHealthBar.setPercent(factory.health/10); 
     // if(mainCharacter.health <= 50)
     // {
@@ -316,13 +319,14 @@ function update()
 
                 if( (Math.floor(Math.random()*2)) == 1)
                 {   
-                    createBonus(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y +75);
-                                  
+                    createBonus(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y);
+
                 }
+                enemiesKilled +=1;
             }
             
 
-            enemiesKilled +=1;
+            
             enemies[i].Sprite.destroy();
             enemiesId --;
             enemies.splice(enemies.indexOf(enemies[i]), 1);

@@ -159,6 +159,7 @@ var testCollisions = function(_game,_player)
     for (var i = 0; i < bonus.length; i++) 
     {
         game.physics.arcade.overlap(mainCharacter.Sprite, bonus[i], overlapBonus.bind(this,bonus,i));
+        game.physics.arcade.collide(layerCollision,  bonus[i]);
     }
 
 }
