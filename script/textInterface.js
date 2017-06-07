@@ -19,10 +19,9 @@ var textInterface = function()
 
     scoreText.anchor.setTo(0.5, 0.5);
     scoreText.anchor.setTo(0.5, 0.5);
-    factory = new Factory("shop", 0,800,730,0.5,"idle");
-    mainCharacter = new Player(0,"eatMan",100,700,450,500,0,0.5,"idle");
+   
 
-    factoryText =  game.add.text(510, 735, " Customers : ", {
+    factoryText =  game.add.text(510, 715, " Customers : ", {
         font: "25px Arial",
         fill: "#ffe400",
         align: "center"

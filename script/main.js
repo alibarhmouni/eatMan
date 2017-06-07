@@ -13,6 +13,7 @@ function preload(){
     game.load.image('particles', 'img/particle.png');
     game.load.image('ketchup', 'img/ketchup.png');
     game.load.image('factory', 'img/factory.png');
+    game.load.image('plante', 'img/plants1.png');
 
     game.load.audio('ukulele', 'audio/bensound-ukulele.mp3');
     game.load.audio('fireBullet','audio/fireBullet.mp3' );
@@ -77,6 +78,7 @@ var customers = 0;
 var customersPercent = 0;
 var pad1;
 var indicator;
+var plante;
 
 function create()
 {
@@ -119,7 +121,7 @@ function create()
     map.setCollisionBetween(0, 501,true,layerCollision);
     map.setCollisionBetween(0, 107,true,layerSideCollision);
     
-
+    plante = game.add.sprite(600,440,'plante');
    
      /*     HEALTH BAR     */
     this.barConfig = {x: 300, y: 55, width: 250};
@@ -140,8 +142,10 @@ function create()
     bonusButton = game.input.keyboard.addKey(Phaser.Keyboard.UP);
     game.input.onDown.add(gofull, this);
 
-
+    factory = new Factory("shop", 0,800,710,0.5,"idle");
     textInterface();
+
+    mainCharacter = new Player(0,"eatMan",100,700,450,500,0,0.5,"idle");
 
     padInit();
 
@@ -366,4 +370,9 @@ function render(){
 // game.debug.body(enemies[0].Sprite);
 // game.debug.body(explosion.Sprite);
 // game.debug.body(mainCharacter.weapon.bullets.hash);
+// if(bonusOnGround[0])
+// {
+//     game.debug.body(bonusOnGround[0]);
+// }
+
 };

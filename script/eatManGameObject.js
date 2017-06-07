@@ -217,12 +217,16 @@ class Player
     			}
     			else
     			{
-    				currentBonus = game.add.sprite(this.Sprite.body.position.x,(this.Sprite.body.position.y+20),this.bonusCharacter[0]);
+    				currentBonus = game.add.sprite(this.Sprite.body.position.x,(this.Sprite.body.position.y+55),this.bonusCharacter[0]);
     				bonusOnGround.push(currentBonus);
     				game.physics.arcade.enable( currentBonus );
     				if(currentBonus.key == "mine")
     				{	
+    					console.log(currentBonus);
     					currentBonus.scale.set(0.75);
+    					currentBonus.anchor.set(0.5);
+    					// currentBonus.body.gravity.set(0,200);
+    					
     					minePosition.play();
     				}
     				
