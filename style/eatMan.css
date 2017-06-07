@@ -1,0 +1,78 @@
+
+#mainMenu{
+	position:absolute;
+	width: 1200px;
+	height:900px;
+	background: url('../img/menuBackground.png')no-repeat;
+	border-radius:5px;
+	left:50%;
+	top:50%;
+	margin-top: -450px;
+	margin-left: -600px;
+	padding:0;
+	
+}
+.spriteMenu{
+	width: 582px;
+	height:197px;
+	position:absolute;
+	top:178px;
+	left: 250px;
+	z-index: 2;
+}
+.spriteMenu img{
+	height:100%;
+	width:100%;
+}
+
+.button1{
+	position:relative;
+	width: 300px;
+	height:150px;
+	border-radius:10px;
+	margin-top:375px;
+	margin-left:225px;
+	background-color: #87470D;
+	border:5px solid black;
+}
+
+.button1:hover{
+	background-color: red;
+
+}
+
+.button1 p{
+	font-size: 55px;
+	text-align: center;
+	margin:0;
+}
+
+
+.button2{
+	position:relative;
+	width: 300px;
+	height:150px;
+	border-radius:10px;
+	// margin-top:525px;
+	margin-left:125px;
+	background-color: #87470D;
+	border:5px solid black;
+}
+
+.button2:hover{
+	background-color: red;
+
+}
+
+.button2 p{
+	font-size: 55px;
+	text-align: center;
+	margin:0;
+}
+
+#Game{
+	position:absolute;
+}
+.red{
+	background-color: red;
+}

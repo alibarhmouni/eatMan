@@ -5,6 +5,10 @@ function preload(){
 	
     game.load.tilemap('map', 'map.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('ground', 'img/groundSheet.png');
+    game.load.image('pavement', 'img/pavement.png');
+    game.load.image('pavement2', 'img/pavement2.png');
+    game.load.image('street', 'img/street.png');
+    game.load.image('street2', 'img/street2.png');
     game.load.image('bonus', 'img/bonus.png');
     game.load.image('particles', 'img/particle.png');
     game.load.image('ketchup', 'img/ketchup.png');
@@ -23,6 +27,14 @@ function preload(){
     game.load.spritesheet('explosion', 'img/explosionSheet.png', 416/3, 276/2, 3);
 	game.load.spritesheet('bullet', 'img/meatBullet.png', 60, 25, 1);
     game.load.spritesheet('enemy', 'img/spriteSheetEnemy.png', 240/3, 220/2, 6);
+
+
+    /*     INTERFACE MAIN MENU     */
+    
+            interfaceMainMenu();
+
+
+     /*     INTERFACE MAIN MENU     */
 
 
 };
@@ -62,7 +74,9 @@ var ukulele;
 var enterFactory;
 var factoryText;
 var customers = 0;
-customersPercent = 0;
+var customersPercent = 0;
+var pad1;
+var indicator;
 
 function create()
 {
@@ -71,26 +85,13 @@ function create()
     game.world.setBounds(0,0,1600,900);
     map = game.add.tilemap('map');
     map.addTilesetImage('groundSheet','ground');
+    map.addTilesetImage('pavement','pavement');
+    map.addTilesetImage('pavement2','pavement2');
+    map.addTilesetImage('street','street');
+    map.addTilesetImage('street2','street2');
     bmd = game.make.bitmapData(1600, 900);
     bmd.addToWorld();
-    
-    /*     PARTICLES     */
-    emitter = game.add.emitter(0, 0, 1000);
-    emitter.makeParticles('particles');
-    emitter.maxParticleScale = 1;
-    emitter.minParticleScale = 0.5;
-    emitter.width = 100;
-    emitter.height = 100;
-    emitter.setRotation(0, 0);
-    emitter.setYSpeed(1000, 1000);
-    emitter.setScale(1, 1);
-    
-
-    /*     health particles     */
-    // emitter.setRotation(0, 0);
-    // emitter.setAlpha(0.3, 0.8);
-    // emitter.setScale(0.5, 1);
-    // emitter.gravity = -200;
+    particlesCreation();
     
 
     // this.myHealthBar.setFixedToCamera();
@@ -106,7 +107,7 @@ function create()
     mineBip = new Phaser.Sound(game,'mineBip',1,false);
     minePosition = new Phaser.Sound(game,'minePosition',1,false);
     // ukulele.play();
-
+   
 
 
     ground = map.createLayer('groundLayer');
@@ -140,33 +141,10 @@ function create()
     game.input.onDown.add(gofull, this);
 
 
-     /*     INTERFACE     */
+    textInterface();
 
+    padInit();
 
-    scoreText =  game.add.text(700, 57, " SCORE : ", {
-        font: "25px Arial",
-        fill: "#FFFFFF",
-        align: "center"
-    });
-
-   
-
-    HealthText =  game.add.text(25, 40, " HEALTH : ", {
-        font: "25px Arial",
-        fill: "#FFFFFF",
-        align: "center"
-    });
-
-    scoreText.anchor.setTo(0.5, 0.5);
-    scoreText.anchor.setTo(0.5, 0.5);
-    factory = new Factory("shop", 0,800,730,0.5,"idle");
-    mainCharacter = new Player(0,"eatMan",100,700,450,500,0,0.5,"idle");
-
-    factoryText =  game.add.text(510, 735, " Customers : ", {
-        font: "25px Arial",
-        fill: "#ffe400",
-        align: "center"
-    });
 
     // factoryTextPercent =  game.add.text(599, 756, "full: ", {
     //     font: "20px Arial",
@@ -177,7 +155,12 @@ function create()
 
 };
 
+// function dump() {
 
+//     console.log(pad1._axes[0]);
+//     console.log(pad1._rawPad.axes[0]);
+
+// }
 
 
 
@@ -221,14 +204,19 @@ function gofull()
 
 function update()
 {
-     // scoreText += game.add.text(825, 32, enemiesKilled, { fontSize: '32px', fill: '#FF030D' });
+      
     updateScore();
     updateCustomers();
-    // updateCustomerPercent();
-    
-
     mainCharacter.update();
     factory.update();
+    gamePadControls();
+   
+
+    // updateCustomerPercent();
+     // scoreText += game.add.text(825, 32, enemiesKilled, { fontSize: '32px', fill: '#FF030D' });
+    
+
+   
 
     this.myHealthBar.setPosition(300, 55);
     this.factoryHealthBar.setPosition(800,580);
@@ -250,47 +238,7 @@ function update()
 
 
 
-    if (cursors.left.isDown && !fireButton.isDown)
-    {
-        mainCharacter.state = "walkingLeft";
-    }
-
-    else if (cursors.right.isDown && !fireButton.isDown)
-    {
-        mainCharacter.state = "walkingRight";
-    }
-
-    else if (cursors.left.isDown && fireButton.isDown)
-    {
-         mainCharacter.state = "leftFire";
-    }
-    else if (cursors.right.isDown && fireButton.isDown)
-    {
-         mainCharacter.state = "rightFire";
-    }
-    else if (cursors.down.isDown)
-    {
-        mainCharacter.state = "down";
-    }
-
-    else if (fireButton.isDown)
-    {
-
-        mainCharacter.state = "fire";
-        
-    }
-    else if (bonusButton.isDown)
-    {
-
-        mainCharacter.state = "usingBonus";
-
-        
-    }
-
-    else
-    {
-        mainCharacter.state = "idle";
-    }
+   
 
 
     
@@ -385,7 +333,7 @@ function update()
     // console.log(bonus);
     // console.log(bonusNumber);
     // console.log(bonusOnGround);
-    console.log(customers);
+    // console.log(customers);
 
 	
 };

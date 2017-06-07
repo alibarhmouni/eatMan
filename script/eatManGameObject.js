@@ -221,7 +221,8 @@ class Player
     				bonusOnGround.push(currentBonus);
     				game.physics.arcade.enable( currentBonus );
     				if(currentBonus.key == "mine")
-    				{
+    				{	
+    					currentBonus.scale.set(0.75);
     					minePosition.play();
     				}
     				
@@ -254,9 +255,11 @@ class Player
 
 		    	break;
 		    case "rightFire":
+
 			    this.scaleRight();
 		       	this.Sprite.body.velocity.x = this.vx;
 		       	this.fireWalk();
+
 		    	break;
 		    case "down":
 	        	this.Sprite.play('getDown');
@@ -279,7 +282,7 @@ class Player
 
 		
         
-        if (jumpButton.isDown && game.time.now > this.jumpTimer)
+        if ((jumpButton.isDown || pad1.isDown(Phaser.Gamepad.XBOX360_A)) && game.time.now > this.jumpTimer)
         {
 	        if(this.Sprite.body.blocked.down)
         	{

@@ -78,12 +78,13 @@ var testCollisions = function(_game,_player)
   
 
 
-	function overlapEatmanEnemy(_character, _enemy) 
+	function overlapEatmanEnemy( _mainCharacter, _character, _enemy) 
 	{
 		
-        console.log('collision');
-        mainCharacter.state = "hit";
-        if(mainCharacter.health <= 0)
+        _mainCharacter.state = "hit";
+        console.log(_mainCharacter.state);
+
+        if(_mainCharacter.health <= 0)
         {
            
             _character.kill();
@@ -116,7 +117,7 @@ var testCollisions = function(_game,_player)
         	},1000);
         }
 
-        _game.myHealthBar.setPercent(_player.health); 
+        _game.myHealthBar.setPercent(_mainCharacter.health); 
 
          
 	}
@@ -124,7 +125,6 @@ var testCollisions = function(_game,_player)
     function overlapEnemyFactory( _factoryObject, _enemyGameObject, _enemy, _factory)
     {
         _factoryObject.state = "hit";
-        console.log(_factoryObject.health);
         _enemyGameObject.state = "enteringFactory";
         enterFactory = false;
         _enemyGameObject.health = 0;
@@ -141,7 +141,7 @@ var testCollisions = function(_game,_player)
 
         game.physics.arcade.collide(layerSideCollision,enemies[i].Sprite);
         game.physics.arcade.overlap(mainCharacter.weapon.bullets.hash,enemies[i].Sprite, overlapBulletEnemy.bind(this, enemies[i],i));
-        game.physics.arcade.overlap(mainCharacter.Sprite, enemies[i].Sprite, overlapEatmanEnemy);
+        game.physics.arcade.overlap(mainCharacter.Sprite, enemies[i].Sprite, overlapEatmanEnemy.bind(this, mainCharacter));
         game.physics.arcade.overlap(enemies[i].Sprite, explosion, overlapEnemyExplosion.bind(this, enemies[i],i));
         game.physics.arcade.overlap(enemies[i].Sprite, factory.Sprite, overlapEnemyFactory.bind(this,factory,enemies[i]));
          

@@ -12,7 +12,7 @@ class Factory
 		game.physics.arcade.enable( this.Sprite );
     	this.Sprite.anchor.set(0.5);
     	this.Sprite.animations.add('openDore', [1,0], 5, false);
-    	this.Sprite.body.setSize(190, 75, 150, 120);
+    	this.Sprite.body.setSize(75, 130, 210, 90);
     	this.Sprite.scale.set(1.20);
 
 
