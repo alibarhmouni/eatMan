@@ -25,9 +25,13 @@ function preload(){
     game.load.spritesheet('shop', 'img/shop.png', 500, 224, 2);
     game.load.spritesheet('genkidama', 'img/genkidamaSheet.png', 1260/3, 420, 3);
     game.load.spritesheet('eatMan', 'img/meatSpriteSheet2.png', 80, 110, 28);
+    game.load.spritesheet('eatMan1', 'img/meatSpriteSheet2.png', 80, 110, 28);
+    game.load.spritesheet('eatMan2', 'img/meatSpriteSheet2.png', 80, 110, 28);
+    game.load.spritesheet('eatMan3', 'img/meatSpriteSheet2.png', 80, 110, 28);
     game.load.spritesheet('explosion', 'img/explosionSheet.png', 416/3, 276/2, 3);
-	game.load.spritesheet('bullet', 'img/meatBullet.png', 60, 25, 1);
+    game.load.spritesheet('bullet', 'img/meatBullet.png', 60, 25, 1);
     game.load.spritesheet('enemy', 'img/spriteSheetEnemy.png', 240/3, 220/2, 6);
+    game.load.spritesheet('fireBall', 'img/fireBallSheet.png', 150, 90, 3);
 
 
     /*     INTERFACE MAIN MENU     */
@@ -52,7 +56,7 @@ var enemies = [];
 var emitter;
 var enemiesId = 0;
 var countEnemies = 5;
-var appearanceTimingEnemies = 5000;
+var appearanceTimingEnemies = 1500;
 var enemiesKilled = 0;
 var enemiesDirections = ["left","right"];
 var randomDirection;
@@ -79,6 +83,9 @@ var customersPercent = 0;
 var pad1;
 var indicator;
 var plante;
+var mineBarPercent = 0;
+var mainCharacterArray = [];
+var explosionCount = 0;
 
 function create()
 {
@@ -121,17 +128,32 @@ function create()
     map.setCollisionBetween(0, 501,true,layerCollision);
     map.setCollisionBetween(0, 107,true,layerSideCollision);
     
-    plante = game.add.sprite(600,440,'plante');
+    // plante = game.add.sprite(600,440,'plante');
+
+
    
      /*     HEALTH BAR     */
-    this.barConfig = {x: 300, y: 55, width: 250};
+    this.barConfig = {x: 300, y: 55, width: 150, height: 10};
     this.myHealthBar = new HealthBar(this.game, this.barConfig);
     // game.camera.follow(mainCharacter.Sprite);
+
+    this.barConfig1 = {x: 300, y: 55, width: 150, height: 10};
+    this.myHealthBar1 = new HealthBar(this.game, this.barConfig1);
+
+    this.barConfig2 = {x: 300, y: 55, width: 150, height: 10};
+    this.myHealthBar2 = new HealthBar(this.game, this.barConfig2);
+
+    this.barConfig3 = {x: 300, y: 55, width: 150, height: 10};
+    this.myHealthBar3 = new HealthBar(this.game, this.barConfig3);
 
     /*     FACTORY BAR     */
 
     this.barConfigFactory = {x: 300, y: 55, width: 150, height: 10};
     this.factoryHealthBar = new HealthBar(this.game, this.barConfigFactory);
+
+      /*     mine BAR     */
+    this.mineBarConfig = {x: 1500, y: 55, width: 100, height: 5, bar: {color: "#1435BD"}};
+    this.mineBar = new HealthBar(this.game, this.mineBarConfig);
 
 
 
@@ -146,6 +168,14 @@ function create()
     textInterface();
 
     mainCharacter = new Player(0,"eatMan",100,700,450,500,0,0.5,"idle");
+    mainCharacter1 = new Player(0,"eatMan1",100,600,450,500,0,0.5,"idle");
+    mainCharacter2 = new Player(0,"eatMan2",100,600,450,500,0,0.5,"idle");
+    mainCharacter3 = new Player(0,"eatMan3",100,600,450,500,0,0.5,"idle");
+
+    mainCharacterArray[0]= mainCharacter;
+    mainCharacterArray[1]= mainCharacter1;
+    mainCharacterArray[2]= mainCharacter2;
+    mainCharacterArray[3]= mainCharacter3;
 
     padInit();
 
@@ -170,18 +200,10 @@ function create()
 
 function particleBurst(_positionX, _positionY) {
 
-    //  Position the emitter where the mouse/touch event was
     emitter.x = _positionX;
     emitter.y = _positionY + 50;
     emitter.start(true, 2000, true, 10);
 
-
-    // //  The first parameter sets the effect to "explode" which means all particles are emitted at once
-    // //  The second gives each particle a 2000ms lifespan
-    // //  The third is ignored when using burst/explode mode
-    // //  The final parameter (10) is how many particles will be emitted in this single burst
-    // emitter.start(false, 1000, null, 100);
-    // game.time.events.add(2000, destroyEmitter, this);
 
 }
 // function destroyEmitter() {
@@ -212,19 +234,34 @@ function update()
     updateScore();
     updateCustomers();
     mainCharacter.update();
+    mainCharacter1.update();
+    mainCharacter2.update();
+    mainCharacter3.update();
+
     factory.update();
     gamePadControls();
    
 
     // updateCustomerPercent();
-     // scoreText += game.add.text(825, 32, enemiesKilled, { fontSize: '32px', fill: '#FF030D' });
+    // scoreText += game.add.text(825, 32, enemiesKilled, { fontSize: '32px', fill: '#FF030D' });
     
 
    
 
-    this.myHealthBar.setPosition(300, 55);
-    this.factoryHealthBar.setPosition(800,580);
-    this.factoryHealthBar.setPercent(factory.health/10); 
+    this.myHealthBar.setPosition(200, 55);
+    this.myHealthBar1.setPosition(500, 55);
+    this.myHealthBar2.setPosition(700, 55);
+    this.myHealthBar3.setPosition(900, 55);
+
+    this.factoryHealthBar.setPosition(800,565);
+    this.factoryHealthBar.setPercent(factory.health/10);
+    this.mineBar.setPercent(mineBarPercent);
+
+
+
+
+
+
     // if(mainCharacter.health <= 50)
     // {
     
@@ -239,14 +276,6 @@ function update()
     //     this.myHealthBar.drawHealthBar();
     // }
 
-
-
-
-   
-
-
-    
-   
     
     testCollisions(this,mainCharacter);
 
@@ -275,7 +304,7 @@ function update()
                 createExplosion(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y + (enemies[i].Sprite.body.height/2), 1, "explosion",10);
                 particleBurst(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y);
 
-                if( (Math.floor(Math.random()*2)) == 1)
+                if( (Math.floor(Math.random()*6)) == 1)
                 {   
                     createBonus(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y);
 
@@ -288,34 +317,40 @@ function update()
             enemies[i].Sprite.destroy();
             enemiesId --;
             enemies.splice(enemies.indexOf(enemies[i]), 1);
+            mineBarPercent += 10;
 
             // console.log("enemies killed: "+ enemiesKilled);
         }
 
-        if(enemiesKilled > 50)
+        if(enemiesKilled > 70)
         {
-            appearanceTimingEnemies = 500;
+            appearanceTimingEnemies = 100;
+        }
+
+        else if(enemiesKilled > 50)
+        {
+            appearanceTimingEnemies = 200;
         }
 
         else if(enemiesKilled <= 50 && enemiesKilled > 40)
         {
-            appearanceTimingEnemies = 1000;
+            appearanceTimingEnemies = 400;
         }
         else  if(enemiesKilled <= 40 && enemiesKilled > 30)
         {
-            appearanceTimingEnemies = 2000;
+            appearanceTimingEnemies = 600;
         }
         else  if(enemiesKilled <= 30 && enemiesKilled > 20)
         {
-            appearanceTimingEnemies = 3000;
+            appearanceTimingEnemies = 800;
         }
         else  if(enemiesKilled <= 20 && enemiesKilled > 10)
         {
-            appearanceTimingEnemies = 4000;
+            appearanceTimingEnemies = 1000;
         }
         else  if(enemiesKilled <= 10)
         {
-            appearanceTimingEnemies = 5000;
+            appearanceTimingEnemies = 1500;
         }
     }
 

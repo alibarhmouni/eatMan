@@ -45,9 +45,9 @@ var testCollisions = function(_game,_player)
         // _enemy.scale.x *= (-1);
         // enemies[i].vx *= (-1);
     }
-    function overlapBonus(bonus, _index, _player, _my_bonus)
+    function overlapBonus(bonus, _index, _playerObject ,_player, _my_bonus)
     {
-        mainCharacter.bonusCharacter[0] = bonusArray[Math.round(Math.random()*0)];
+        _playerObject.bonusCharacter[0] = bonusArray[Math.round(Math.random()*0)];
         _my_bonus.destroy();
         bonus.splice(_index,1);
         bonusNumber --;
@@ -72,7 +72,12 @@ var testCollisions = function(_game,_player)
 
     function overlapEnemyExplosion(enemy, _index, _enemy, _explosion)
     {
+        explosionCount ++;
         enemy.health = 0;
+        // if(explosionCount >= 5)
+        // {
+        //     _explosion.destroy();
+        // }
     }
 
   
@@ -116,8 +121,28 @@ var testCollisions = function(_game,_player)
         		isJumping = false;
         	},1000);
         }
+        
+        switch(_mainCharacter.name)
+        {
+            case "eatMan":
+                _game.myHealthBar.setPercent(_mainCharacter.health); 
+                break;
 
-        _game.myHealthBar.setPercent(_mainCharacter.health); 
+            case "eatMan1":
+                _game.myHealthBar1.setPercent(_mainCharacter.health); 
+                break;
+            case "eatMan2":
+                _game.myHealthBar2.setPercent(_mainCharacter.health); 
+                break;
+             case "eatMan3":
+                _game.myHealthBar3.setPercent(_mainCharacter.health); 
+                break;
+                
+
+        }
+
+
+        
 
          
 	}
@@ -129,20 +154,27 @@ var testCollisions = function(_game,_player)
         enterFactory = false;
         _enemyGameObject.health = 0;
           
-
     }
 
     // console.log(enemies);
+    // console.log(mainCharacterArray);
     for(let i = 0; i < enemies.length; i++)
     {
 
         game.physics.arcade.collide(layerCollision,  enemies[i].Sprite);
         game.physics.arcade.collide(layerCollision, emitter.children);
-       
-
         game.physics.arcade.collide(layerSideCollision,enemies[i].Sprite);
+
         game.physics.arcade.overlap(mainCharacter.weapon.bullets.hash,enemies[i].Sprite, overlapBulletEnemy.bind(this, enemies[i],i));
+        game.physics.arcade.overlap(mainCharacter1.weapon.bullets.hash,enemies[i].Sprite, overlapBulletEnemy.bind(this, enemies[i],i));
+        game.physics.arcade.overlap(mainCharacter2.weapon.bullets.hash,enemies[i].Sprite, overlapBulletEnemy.bind(this, enemies[i],i));
+        game.physics.arcade.overlap(mainCharacter3.weapon.bullets.hash,enemies[i].Sprite, overlapBulletEnemy.bind(this, enemies[i],i));
+        
         game.physics.arcade.overlap(mainCharacter.Sprite, enemies[i].Sprite, overlapEatmanEnemy.bind(this, mainCharacter));
+        game.physics.arcade.overlap(mainCharacter1.Sprite, enemies[i].Sprite, overlapEatmanEnemy.bind(this, mainCharacter1));
+        game.physics.arcade.overlap(mainCharacter2.Sprite, enemies[i].Sprite, overlapEatmanEnemy.bind(this, mainCharacter2));
+        game.physics.arcade.overlap(mainCharacter3.Sprite, enemies[i].Sprite, overlapEatmanEnemy.bind(this, mainCharacter3));
+        
         game.physics.arcade.overlap(enemies[i].Sprite, explosion, overlapEnemyExplosion.bind(this, enemies[i],i));
         game.physics.arcade.overlap(enemies[i].Sprite, factory.Sprite, overlapEnemyFactory.bind(this,factory,enemies[i]));
          
@@ -155,13 +187,17 @@ var testCollisions = function(_game,_player)
             game.physics.arcade.collide(layerCollision, bonusOnGround[j]);
         }
         
-
     }
 
     for (var i = 0; i < bonus.length; i++) 
     {
-        game.physics.arcade.overlap(mainCharacter.Sprite, bonus[i], overlapBonus.bind(this,bonus,i));
+        game.physics.arcade.overlap(mainCharacter.Sprite, bonus[i], overlapBonus.bind(this,bonus,i, mainCharacter));
+        game.physics.arcade.overlap(mainCharacter1.Sprite, bonus[i], overlapBonus.bind(this,bonus,i, mainCharacter1));
+        game.physics.arcade.overlap(mainCharacter2.Sprite, bonus[i], overlapBonus.bind(this,bonus,i, mainCharacter2));
+        game.physics.arcade.overlap(mainCharacter3.Sprite, bonus[i], overlapBonus.bind(this,bonus,i, mainCharacter3));
         game.physics.arcade.collide(layerCollision,  bonus[i]);
     }
+
+   
 
 }

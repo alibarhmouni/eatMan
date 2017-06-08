@@ -12,6 +12,7 @@ var particlesCreation = function()
     emitter.setYSpeed(1000, 1000);
     emitter.setScale(1, 1);
     
+    
 
     /*     health particles     */
     // emitter.setRotation(0, 0);

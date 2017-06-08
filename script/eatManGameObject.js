@@ -14,17 +14,11 @@ class Player
 		this.anchor = _anchor;
 		this.state = state;
 		this.jumpTimer = 0;
-
-		// let BONUS = {
-		// 	FLEUR:1,
-		// };
-
-		// let bonus = BONUS.FLEUR;
 		
 
 		this.Sprite = game.add.sprite(this.x, this.y, this.name);
 		game.physics.arcade.enable( this.Sprite );
-		// this.Sprite.body.checkCollision.up = false;
+		this.Sprite.body.checkCollision.up = false;
 		// this.Sprite.body.checkCollision.left = false;
 		// this.Sprite.body.checkCollision.right = false;
 		this.Sprite.body.gravity.set(0,600);
@@ -36,6 +30,7 @@ class Player
 
 		/*     WEAPON     */
 		this.weapon = game.add.weapon(10, 'bullet');
+		// bullets.callAll('animations.add', 'animations', 'fire', [0,1,2,3,4,5,6], 5, true);bullets.callAll('play', null, 'fire');
     	this.weapon.bulletKillType = Phaser.Weapon.KILL_CAMERA_BOUNDS;
     	game.physics.arcade.enable( this.weapon.bullets.hash );
     	// this.weapon.bulletGravity.y = 400;
@@ -172,7 +167,7 @@ class Player
 					cry = true;
 					this.Sprite.play('hit');
 					this.Sprite.tint =  '0xE50F00';
-					this.health -=10;
+					this.health -=5;
 					var _self = this;
 					setTimeout(function()
 			    	{
@@ -284,20 +279,20 @@ class Player
 		    
 		}
 
-		
-        
-        if ((jumpButton.isDown || pad1.isDown(Phaser.Gamepad.XBOX360_A)) && game.time.now > this.jumpTimer)
-        {
-	        if(this.Sprite.body.blocked.down)
-        	{
-	            
-                this.Sprite.body.velocity.y = -450;
-                this.jumpTimer = game.time.now + 650;
-                
+		for (var i = 0; i < pads.length ; i++) 
+		{
+			if ((jumpButton.isDown || pads[i].isDown(Phaser.Gamepad.XBOX360_A)) && game.time.now > this.jumpTimer)
+	        {
+		        if(mainCharacterArray[i].Sprite.body.blocked.down)
+	        	{
+		            
+	                mainCharacterArray[i].Sprite.body.velocity.y = -450;
+	                mainCharacterArray[i].jumpTimer = game.time.now + 650;
+	                
+		        }
+		       
 	        }
-	       
-	       
-        }
+	    }
 
 
 

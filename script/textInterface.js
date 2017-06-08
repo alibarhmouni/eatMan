@@ -11,11 +11,33 @@ var textInterface = function()
 
    
 
-    HealthText =  game.add.text(25, 40, " HEALTH : ", {
-        font: "25px Arial",
+    HealthText =  game.add.text(25, 40, " Player1 : ", {
+        font: "20px Arial",
         fill: "#FFFFFF",
         align: "center"
     });
+
+
+    HealthText =  game.add.text(25, 40, " Player2 : ", {
+        font: "20px Arial",
+        fill: "#FFFFFF",
+        align: "center"
+    });
+
+
+    HealthText =  game.add.text(25, 40, " Player3 : ", {
+        font: "20px Arial",
+        fill: "#FFFFFF",
+        align: "center"
+    });
+
+
+    HealthText =  game.add.text(25, 40, " Player4 : ", {
+        font: "20px Arial",
+        fill: "#FFFFFF",
+        align: "center"
+    });
+
 
     scoreText.anchor.setTo(0.5, 0.5);
     scoreText.anchor.setTo(0.5, 0.5);
