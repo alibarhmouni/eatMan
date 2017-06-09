@@ -84,8 +84,9 @@ var pad1;
 var indicator;
 var plante;
 var mineBarPercent = 0;
-var mainCharacterArray = [];
+var mainCharacterArray = new Array(4);
 var explosionCount = 0;
+var countEnemies = 0;
 
 function create()
 {
@@ -177,6 +178,7 @@ function create()
     mainCharacterArray[2]= mainCharacter2;
     mainCharacterArray[3]= mainCharacter3;
 
+
     padInit();
 
 
@@ -240,6 +242,7 @@ function update()
 
     factory.update();
     gamePadControls();
+    createEnemies(20, 300);
    
 
     // updateCustomerPercent();
@@ -357,17 +360,17 @@ function update()
 
     
 
-    if(!isCreatingEnemies)
-    {   
-        isCreatingEnemies = true;
-        createEnemies();
+    // if(!isCreatingEnemies)
+    // {   
+    //     isCreatingEnemies = true;
+    //     createEnemies(50,300);
 
-        setTimeout(function(){
+    //     setTimeout(function(){
 
-            isCreatingEnemies = false;
+    //         isCreatingEnemies = false;
 
-        },appearanceTimingEnemies);
-    }
+    //     },appearanceTimingEnemies);
+    // }
 
     // console.log(bonus);
     // console.log(bonusNumber);

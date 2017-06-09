@@ -160,7 +160,6 @@ var testCollisions = function(_game,_player)
     // console.log(mainCharacterArray);
     for(let i = 0; i < enemies.length; i++)
     {
-
         game.physics.arcade.collide(layerCollision,  enemies[i].Sprite);
         game.physics.arcade.collide(layerCollision, emitter.children);
         game.physics.arcade.collide(layerSideCollision,enemies[i].Sprite);
