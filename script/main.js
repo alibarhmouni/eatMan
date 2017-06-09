@@ -55,7 +55,6 @@ var isJumping;
 var enemies = [];
 var emitter;
 var enemiesId = 0;
-var countEnemies = 5;
 var appearanceTimingEnemies = 1500;
 var enemiesKilled = 0;
 var enemiesDirections = ["left","right"];
@@ -86,6 +85,9 @@ var plante;
 var mineBarPercent = 0;
 var mainCharacterArray = new Array(4);
 var explosionCount = 0;
+var waveEnemies = false;
+var maxEnemies = 5;
+let decompteEnemies = maxEnemies;
 var countEnemies = 0;
 
 function create()
@@ -182,12 +184,6 @@ function create()
     padInit();
 
 
-    // factoryTextPercent =  game.add.text(599, 756, "full: ", {
-    //     font: "20px Arial",
-    //     fill: "#fb0000",
-    //     align: "center"
-    // });
-
 
 };
 
@@ -208,11 +204,7 @@ function particleBurst(_positionX, _positionY) {
 
 
 }
-// function destroyEmitter() {
 
-//     emitter.destroy();
-
-// }
 
 
 function gofull() 
@@ -242,7 +234,32 @@ function update()
 
     factory.update();
     gamePadControls();
-    createEnemies(20, 300);
+
+    if(!waveEnemies)
+    {   
+      
+        createEnemies(maxEnemies, 300);
+        
+    }
+
+    
+    if(decompteEnemies <= 0)
+    { 
+        waveEnemies = true;  
+        enemiesId = 0;
+        countEnemies = 0;
+        decompteEnemies = maxEnemies;
+        
+        setTimeout(function(){
+            waveEnemies = false;
+        },5000)
+        
+    }
+
+    // console.log(waveEnemies);
+    // console.log(decompteEnemies);
+
+    
    
 
     // updateCustomerPercent();
@@ -313,6 +330,7 @@ function update()
 
                 }
                 enemiesKilled +=1;
+                decompteEnemies -=1;
             }
             
 
@@ -325,54 +343,43 @@ function update()
             // console.log("enemies killed: "+ enemiesKilled);
         }
 
-        if(enemiesKilled > 70)
-        {
-            appearanceTimingEnemies = 100;
-        }
+        // if(enemiesKilled > 70)
+        // {
+        //     appearanceTimingEnemies = 100;
+        // }
 
-        else if(enemiesKilled > 50)
-        {
-            appearanceTimingEnemies = 200;
-        }
+        // else if(enemiesKilled > 50)
+        // {
+        //     appearanceTimingEnemies = 200;
+        // }
 
-        else if(enemiesKilled <= 50 && enemiesKilled > 40)
-        {
-            appearanceTimingEnemies = 400;
-        }
-        else  if(enemiesKilled <= 40 && enemiesKilled > 30)
-        {
-            appearanceTimingEnemies = 600;
-        }
-        else  if(enemiesKilled <= 30 && enemiesKilled > 20)
-        {
-            appearanceTimingEnemies = 800;
-        }
-        else  if(enemiesKilled <= 20 && enemiesKilled > 10)
-        {
-            appearanceTimingEnemies = 1000;
-        }
-        else  if(enemiesKilled <= 10)
-        {
-            appearanceTimingEnemies = 1500;
-        }
+        // else if(enemiesKilled <= 50 && enemiesKilled > 40)
+        // {
+        //     appearanceTimingEnemies = 400;
+        // }
+        // else  if(enemiesKilled <= 40 && enemiesKilled > 30)
+        // {
+        //     appearanceTimingEnemies = 600;
+        // }
+        // else  if(enemiesKilled <= 30 && enemiesKilled > 20)
+        // {
+        //     appearanceTimingEnemies = 800;
+        // }
+        // else  if(enemiesKilled <= 20 && enemiesKilled > 10)
+        // {
+        //     appearanceTimingEnemies = 1000;
+        // }
+        // else  if(enemiesKilled <= 10)
+        // {
+        //     appearanceTimingEnemies = 1500;
+        // }
     }
 
 
     
 
-    // if(!isCreatingEnemies)
-    // {   
-    //     isCreatingEnemies = true;
-    //     createEnemies(50,300);
 
-    //     setTimeout(function(){
-
-    //         isCreatingEnemies = false;
-
-    //     },appearanceTimingEnemies);
-    // }
-
-    // console.log(bonus);
+    // console.log(enemies);
     // console.log(bonusNumber);
     // console.log(bonusOnGround);
     // console.log(customers);

@@ -243,7 +243,6 @@ class Player
 			case "walkingLeft":
 				this.scaleLeft();
 		        this.Sprite.body.velocity.x = - this.vx;
-		        console.log(this.Sprite.key);
 		        // if(this.Sprite.key == "eatMan" )
 		        // {
 		        // 	this.Sprite.play('Walk');

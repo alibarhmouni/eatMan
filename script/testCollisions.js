@@ -153,6 +153,7 @@ var testCollisions = function(_game,_player)
         _enemyGameObject.state = "enteringFactory";
         enterFactory = false;
         _enemyGameObject.health = 0;
+        decompteEnemies -=1;
           
     }
 
