@@ -87,7 +87,7 @@ var testCollisions = function(_game,_player)
 	{
 		
         _mainCharacter.state = "hit";
-        console.log(_mainCharacter.state);
+        // console.log(_mainCharacter.state);
 
         if(_mainCharacter.health <= 0)
         {
