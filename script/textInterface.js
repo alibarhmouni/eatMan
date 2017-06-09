@@ -18,14 +18,14 @@ var textInterface = function()
     });
 
 
-    HealthText =  game.add.text(25, 40, " Player2 : ", {
+    HealthText =  game.add.text(320, 40, " Player2 : ", {
         font: "20px Arial",
         fill: "#FFFFFF",
         align: "center"
     });
 
 
-    HealthText =  game.add.text(25, 40, " Player3 : ", {
+    HealthText =  game.add.text(520, 40, " Player3 : ", {
         font: "20px Arial",
         fill: "#FFFFFF",
         align: "center"

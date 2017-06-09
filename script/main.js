@@ -152,8 +152,8 @@ function create()
     this.factoryHealthBar = new HealthBar(this.game, this.barConfigFactory);
 
       /*     mine BAR     */
-    this.mineBarConfig = {x: 1500, y: 55, width: 100, height: 5, bar: {color: "#1435BD"}};
-    this.mineBar = new HealthBar(this.game, this.mineBarConfig);
+    // this.mineBarConfig = {x: 1500, y: 55, width: 100, height: 5, bar: {color: "#1435BD"}};
+    // this.mineBar = new HealthBar(this.game, this.mineBarConfig);
 
 
 
@@ -167,10 +167,10 @@ function create()
     factory = new Factory("shop", 0,800,710,0.5,"idle");
     textInterface();
 
-    mainCharacter = new Player(0,"eatMan",100,700,450,500,0,0.5,"idle");
-    mainCharacter1 = new Player(0,"eatMan1",100,600,450,500,0,0.5,"idle");
-    mainCharacter2 = new Player(0,"eatMan2",100,600,450,500,0,0.5,"idle");
-    mainCharacter3 = new Player(0,"eatMan3",100,600,450,500,0,0.5,"idle");
+    mainCharacter = new Player(0,"eatMan",100,700,450,500,0,0.5,"idle"," 0xffffff");
+    mainCharacter1 = new Player(0,"eatMan1",100,600,450,500,0,0.5,"idle", "0xFF50BD");
+    mainCharacter2 = new Player(0,"eatMan2",100,600,450,500,0,0.5,"idle", "0x4696FF");
+    mainCharacter3 = new Player(0,"eatMan3",100,600,450,500,0,0.5,"idle", "0x52FF30");
 
     mainCharacterArray[0]= mainCharacter;
     mainCharacterArray[1]= mainCharacter1;
@@ -249,13 +249,13 @@ function update()
    
 
     this.myHealthBar.setPosition(200, 55);
-    this.myHealthBar1.setPosition(500, 55);
-    this.myHealthBar2.setPosition(700, 55);
-    this.myHealthBar3.setPosition(900, 55);
+    this.myHealthBar1.setPosition(600, 55);
+    this.myHealthBar2.setPosition(1000, 55);
+    this.myHealthBar3.setPosition(1400, 55);
 
     this.factoryHealthBar.setPosition(800,565);
     this.factoryHealthBar.setPercent(factory.health/10);
-    this.mineBar.setPercent(mineBarPercent);
+    // this.mineBar.setPercent(mineBarPercent);
 
 
 
@@ -317,7 +317,7 @@ function update()
             enemies[i].Sprite.destroy();
             enemiesId --;
             enemies.splice(enemies.indexOf(enemies[i]), 1);
-            mineBarPercent += 10;
+            // mineBarPercent += 10;
 
             // console.log("enemies killed: "+ enemiesKilled);
         }

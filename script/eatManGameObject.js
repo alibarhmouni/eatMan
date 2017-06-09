@@ -1,6 +1,6 @@
 class Player
 {
-	constructor(_id, _name, _health, _x, _y, _vx, _vy, _anchor,state)
+	constructor(_id, _name, _health, _x, _y, _vx, _vy, _anchor,state, _spriteColor)
 	{
 
 		this.id = _id;
@@ -14,6 +14,7 @@ class Player
 		this.anchor = _anchor;
 		this.state = state;
 		this.jumpTimer = 0;
+		this.spriteColor = _spriteColor;
 		
 
 		this.Sprite = game.add.sprite(this.x, this.y, this.name);
@@ -26,6 +27,9 @@ class Player
 		this.Sprite.body.setSize(60, 80, 15, 30);
 		this.Sprite.scale.set(1);
 		this.Sprite.body.collideWorldBounds=true;
+		
+	    this.Sprite.tint = this.spriteColor;
+		
 		
 
 		/*     WEAPON     */
@@ -47,8 +51,8 @@ class Player
 
 		/*     adding animations      */
 		this.Sprite.animations.add('walk', [0,1,2,3], 10, true);
+		this.Sprite.animations.add('friteWalk', [0,1,2], 10, true);
 		this.Sprite.animations.add('idle', [8,9], 5, true);
-	    this.Sprite.animations.add('walk', [0,1,2,3], 10, true);
 	    this.Sprite.animations.add('getDown', [6], 5, true);
 	    this.Sprite.animations.add('fire', [12,13,14], 10, false);
 	    this.Sprite.animations.add('fireWalk', [16,17,18], 10, false);
@@ -171,7 +175,7 @@ class Player
 					var _self = this;
 					setTimeout(function()
 			    	{
-			    	   _self.Sprite.tint = '0xffffff';
+			    	   _self.Sprite.tint = _self.spriteColor;
 			           cry = false;
 					}, 600);
 				}
@@ -239,13 +243,31 @@ class Player
 			case "walkingLeft":
 				this.scaleLeft();
 		        this.Sprite.body.velocity.x = - this.vx;
-		    	this.Sprite.play('walk');
+		        console.log(this.Sprite.key);
+		        // if(this.Sprite.key == "eatMan" )
+		        // {
+		        // 	this.Sprite.play('Walk');
+		        // }
+		        // else if(this.Sprite.key == "eatMan")
+		        // {
+		        // 	this.Sprite.play('walk');
+		        // }
+		    	
 		    	break;
 
 		    case "walkingRight":
 		    	this.scaleRight();
 	    		this.Sprite.body.velocity.x = this.vx;
-		    	this.Sprite.play('walk');
+		    	
+		    	if(this.Sprite.key == "friteMan" )
+		        {
+		        	this.Sprite.play('friteWalk');
+		        }
+		        else if(this.Sprite.key == "eatMan")
+		        {
+		        	this.Sprite.play('walk');
+		        }
+
 		    	break;
 		    case "leftFire":
 			    this.scaleLeft();
