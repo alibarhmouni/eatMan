@@ -47,37 +47,37 @@ var testCollisions = function(_game,_player)
     }
     function overlapBonus(bonus, _index, _playerObject ,_player, _my_bonus)
     {
-        _playerObject.bonusCharacter[0] = bonusArray[Math.round(Math.random()*0)];
+        // _playerObject.bonusCharacter[0] = bonusArray[Math.round(Math.random()*0)];
+
+        _playerObject.health += 20;
+        if(_playerObject.health > 100)
+        {
+            _playerObject.health = 100;
+        }
         _my_bonus.destroy();
         bonus.splice(_index,1);
         bonusNumber --;
+
    
     }
     function overlapEnemyBonus(enemy, _bonusOnGroundArray, _index, _enemy, _bonusGround)
     {
-        if(_bonusGround.key == "mine")
-        {
+
             mineAudio.play();
             createExplosion(_bonusGround.body.position.x, _bonusGround.body.position.y, 1,"genkidama",10);
             _bonusGround.destroy();
             _bonusOnGroundArray.splice(_index ,1);
 
-        }
-        else if(_bonusGround.key == "ketchup")
-        {
-            // _enemy.animations.play('EnemySlip');
-            enemy.state = "slip";
-        }
     }
 
     function overlapEnemyExplosion(enemy, _index, _enemy, _explosion)
     {
-        explosionCount ++;
-        enemy.health = 0;
-        // if(explosionCount >= 5)
-        // {
-        //     _explosion.destroy();
-        // }
+        createExplosion2(_enemy.body.position.x, _enemy.body.position.y + (_enemy.body.height/2), 1, "explosion2",10);
+        _enemy.destroy();
+        enemiesId --;
+        decompteEnemies -=1;
+        enemies.splice(enemies.indexOf(enemy), 1);
+       
     }
 
   
@@ -122,24 +122,24 @@ var testCollisions = function(_game,_player)
         	},1000);
         }
         
-        switch(_mainCharacter.name)
-        {
-            case "eatMan":
-                _game.myHealthBar.setPercent(_mainCharacter.health); 
-                break;
+        // switch(_mainCharacter.name)
+        // {
+        //     case "eatMan":
+        //         _game.myHealthBar.setPercent(_mainCharacter.health); 
+        //         break;
 
-            case "eatMan1":
-                _game.myHealthBar1.setPercent(_mainCharacter.health); 
-                break;
-            case "eatMan2":
-                _game.myHealthBar2.setPercent(_mainCharacter.health); 
-                break;
-             case "eatMan3":
-                _game.myHealthBar3.setPercent(_mainCharacter.health); 
-                break;
+        //     case "eatMan1":
+        //         _game.myHealthBar1.setPercent(_mainCharacter.health); 
+        //         break;
+        //     case "eatMan2":
+        //         _game.myHealthBar2.setPercent(_mainCharacter.health); 
+        //         break;
+        //      case "eatMan3":
+        //         _game.myHealthBar3.setPercent(_mainCharacter.health); 
+        //         break;
                 
 
-        }
+        // }
 
 
         
@@ -174,18 +174,21 @@ var testCollisions = function(_game,_player)
         game.physics.arcade.overlap(mainCharacter1.Sprite, enemies[i].Sprite, overlapEatmanEnemy.bind(this, mainCharacter1));
         game.physics.arcade.overlap(mainCharacter2.Sprite, enemies[i].Sprite, overlapEatmanEnemy.bind(this, mainCharacter2));
         game.physics.arcade.overlap(mainCharacter3.Sprite, enemies[i].Sprite, overlapEatmanEnemy.bind(this, mainCharacter3));
-        
-        game.physics.arcade.overlap(enemies[i].Sprite, explosion, overlapEnemyExplosion.bind(this, enemies[i],i));
         game.physics.arcade.overlap(enemies[i].Sprite, factory.Sprite, overlapEnemyFactory.bind(this,factory,enemies[i]));
-         
-
+        
         for (let j = 0; j < bonusOnGround.length; j++) 
         {
-            console.log(bonusOnGround);
 
             game.physics.arcade.overlap(enemies[i].Sprite, bonusOnGround[j], overlapEnemyBonus.bind(this, enemies[i], bonusOnGround, j));
             game.physics.arcade.collide(layerCollision, bonusOnGround[j]);
         }
+
+
+        game.physics.arcade.overlap(enemies[i].Sprite, explosion, overlapEnemyExplosion.bind(this, enemies[i],i));
+        
+         
+
+        
         
     }
 

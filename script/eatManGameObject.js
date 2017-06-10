@@ -10,7 +10,7 @@ class Player
 		this.y = _y;
 		this.vx = _vx;
 		this.vy = _vy;
-		this.bonusCharacter = [];
+		// this.bonusCharacter = [];
 		this.anchor = _anchor;
 		this.state = state;
 		this.jumpTimer = 0;
@@ -96,34 +96,63 @@ class Player
 			var fire = false;
 			this.fireCheck = function()
 			{
-				if(!fire)
+				if(this.name == "eatGirl")
 				{
-					fire = true;
-					this.Sprite.play('fire');
-			        this.fireAudio.play();
-					if(this.Sprite.scale.x == 1)
-			        {
-			        	this.weapon.trackSprite(this.Sprite, 80, 30, false);
-			            // this.weapon.bulletGravity.x = 250;
-						this.weapon.fireAngle = Phaser.ANGLE_RIGHT;
-				        this.weapon.fire();
-			        }
+					if(!usingMines)
+					{
 
-			        else if (this.Sprite.scale.x == -1)
-			        {
-			        	this.weapon.trackSprite(this.Sprite, -80, 30, false);
-			        	// this.weapon.bulletGravity.x = -250;
-						this.weapon.fireAngle = Phaser.ANGLE_LEFT;
-				        this.weapon.fire();
+						usingMines = true;
+						mine = game.add.sprite(this.Sprite.body.position.x,(this.Sprite.body.position.y+55),"mine");
+	    				bonusOnGround.push(mine);
+	    				game.physics.arcade.enable( mine );
+	    				mine.scale.set(0.65);
+	    				mine.anchor.set(0.5);
+	    				// mine.body.gravity.set(0,200);
+	    				minePosition.play();
+	    				mine.animations.add('usingMine', [0,1], 10, true);
+	    				mine.play('usingMine');
+	    				setTimeout(function()
+					    {
+					           		
+					        usingMines = false;
 
-			        }
-			        setTimeout(function()
-			    	{
-			           		
-			           	fire = false;
+						}, 5000);
+					}
+					
+					
+				}
+				else{
 
-					}, 100);
 
+					if(!fire)
+					{
+						fire = true;
+						this.Sprite.play('fire');
+				        this.fireAudio.play();
+						if(this.Sprite.scale.x == 1)
+				        {
+				        	this.weapon.trackSprite(this.Sprite, 80, 30, false);
+				            // this.weapon.bulletGravity.x = 250;
+							this.weapon.fireAngle = Phaser.ANGLE_RIGHT;
+					        this.weapon.fire();
+				        }
+
+				        else if (this.Sprite.scale.x == -1)
+				        {
+				        	this.weapon.trackSprite(this.Sprite, -80, 30, false);
+				        	// this.weapon.bulletGravity.x = -250;
+							this.weapon.fireAngle = Phaser.ANGLE_LEFT;
+					        this.weapon.fire();
+
+				        }
+				        setTimeout(function()
+				    	{
+				           		
+				           	fire = false;
+
+						}, 100);
+
+					}
 				}
 				
 			}
@@ -205,40 +234,8 @@ class Player
 			case "idle":
 				this.Sprite.play('idle');
 				break;
-
-			case "usingBonus":
-				// bonusNumber --;
-				
-				if(this.bonusCharacter.length < 1)
-				{
-					console.log("bonus empty");
-					
-    			}
-    			else
-    			{
-    				currentBonus = game.add.sprite(this.Sprite.body.position.x,(this.Sprite.body.position.y+55),this.bonusCharacter[0]);
-    				bonusOnGround.push(currentBonus);
-    				game.physics.arcade.enable( currentBonus );
-    				if(currentBonus.key == "mine")
-    				{	
-    					console.log(currentBonus);
-    					currentBonus.scale.set(0.75);
-    					currentBonus.anchor.set(0.5);
-    					// currentBonus.body.gravity.set(0,200);
-    					
-    					minePosition.play();
-    				}
     				
-    				
-    				currentBonus.animations.add('usingMine', [0,1], 10, true);
-    				currentBonus.play('usingMine');
-    				// setTimeout(function(){
-    					// mineBip.play();
-    				// }, 1000);
-    				this.bonusCharacter.pop();
-    				
-    			}
-				break;
+    			
 
 			case "walkingLeft":
 				this.scaleLeft();

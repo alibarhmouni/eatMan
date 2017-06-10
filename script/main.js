@@ -24,11 +24,12 @@ function preload(){
     game.load.spritesheet('mine', 'img/steak.png', 110, 100, 2);
     game.load.spritesheet('shop', 'img/shop.png', 500, 224, 2);
     game.load.spritesheet('genkidama', 'img/genkidamaSheet.png', 1260/3, 420, 3);
+    game.load.spritesheet('eatGirl', 'img/meatSpriteSheetGirl.png', 80, 110, 28);
     game.load.spritesheet('eatMan', 'img/meatSpriteSheet2.png', 80, 110, 28);
-    game.load.spritesheet('eatMan1', 'img/meatSpriteSheet2.png', 80, 110, 28);
     game.load.spritesheet('eatMan2', 'img/meatSpriteSheet2.png', 80, 110, 28);
     game.load.spritesheet('eatMan3', 'img/meatSpriteSheet2.png', 80, 110, 28);
     game.load.spritesheet('explosion', 'img/explosionSheet.png', 416/3, 276/2, 3);
+    game.load.spritesheet('explosion2', 'img/explosionSheet2.png', 416/3, 276/2, 3);
     game.load.spritesheet('bullet', 'img/meatBullet.png', 60, 25, 1);
     game.load.spritesheet('enemy', 'img/spriteSheetEnemy.png', 240/3, 220/2, 6);
     game.load.spritesheet('fireBall', 'img/fireBallSheet.png', 150, 90, 3);
@@ -45,7 +46,7 @@ function preload(){
 };
 var map;
 var bonusNumber = 0;
-var mainCharacter;
+var usingMines = false;
 var enemy;
 var jumpButton;
 var ground;
@@ -83,12 +84,34 @@ var pad1;
 var indicator;
 var plante;
 var mineBarPercent = 0;
+var mine;
+var mainCharacter;
 var mainCharacterArray = new Array(4);
 var explosionCount = 0;
 var waveEnemies = false;
-var maxEnemies = 5;
-let decompteEnemies = maxEnemies;
+var decompteEnemies;
 var countEnemies = 0;
+
+
+// var maxEnemiesEasy = [5, 10, 15, 20, 25, 30];
+// var speedEnemiesEasy = [200, 300, 300, 350, 400];
+// var timeEnemiesEasy = [1400, 1300, 1200, 1100, 1000];
+
+// var maxEnemiesNormal = [15, 15, 20, 30, 35];
+// var speedEnemiesNormal = [400, 450, 500, 500, 500];
+// var timeEnemiesNormal = [900, 800, 700, 600, 500];
+
+// var maxEnemiesHard = [50, 60, 75, 90, 100, 110];
+// var speedEnemiesHard = [600, 650, 650, 700, 750];
+// var timeEnemiesHard = [500, 250, 200, 100, 50];
+
+var maxEnemies = 5;
+var speedEnemies = 300;
+
+var  randomEnemies = Math.round(Math.random()*5);
+decompteEnemies = maxEnemies;
+var stage = 1;
+
 
 function create()
 {
@@ -170,8 +193,8 @@ function create()
     factory = new Factory("shop", 0,800,710,0.5,"idle");
     textInterface();
 
-    mainCharacter = new Player(0,"eatMan",100,700,450,500,0,0.5,"idle"," 0xffffff");
-    mainCharacter1 = new Player(0,"eatMan1",100,600,450,500,0,0.5,"idle", "0xFF50BD");
+    mainCharacter = new Player(0,"eatGirl",100,700,450,500,0,0.5,"idle"," 0xFF50BD");
+    mainCharacter1 = new Player(0,"eatMan",100,600,450,500,0,0.5,"idle", "0xffffff");
     mainCharacter2 = new Player(0,"eatMan2",100,600,450,500,0,0.5,"idle", "0x4696FF");
     mainCharacter3 = new Player(0,"eatMan3",100,600,450,500,0,0.5,"idle", "0x52FF30");
 
@@ -186,6 +209,8 @@ function create()
 
 
 };
+
+
 
 // function dump() {
 
@@ -237,24 +262,36 @@ function update()
 
     if(!waveEnemies)
     {   
-      
-        createEnemies(maxEnemies, 300);
-        
+        // maxEnemies = maxEnemiesHard[randomEnemies];
+        // speedEnemies = speedEnemiesHard[randomEnemies];
+        createEnemies(maxEnemies, speedEnemies);
+       
     }
+     if(decompteEnemies <= 0)
+        { 
+            stage +=1;
+            waveEnemies = true;  
+            enemiesId = 0;
+            countEnemies = 0;
+            maxEnemies+=5;
+            speedEnemies +=100;
+            decompteEnemies = maxEnemies;
+            while(appearanceTimingEnemies > 250)
+            {
+                appearanceTimingEnemies -= 250;
+            }
+
+            
+            setTimeout(function()
+            {
+                waveEnemies = false;
+            },5000)
+            
+        }
 
     
-    if(decompteEnemies <= 0)
-    { 
-        waveEnemies = true;  
-        enemiesId = 0;
-        countEnemies = 0;
-        decompteEnemies = maxEnemies;
-        
-        setTimeout(function(){
-            waveEnemies = false;
-        },5000)
-        
-    }
+    
+    // console.log(stage);
 
     // console.log(waveEnemies);
     // console.log(decompteEnemies);
@@ -304,17 +341,18 @@ function update()
     {
         enemies[i].update();
 
-        if(enemies[i].Sprite.body.blocked.left )
+
+        if(enemies[i].Sprite.body.blocked.left)
         {
 
-            enemies[i].Sprite.body.velocity.x = 300;
+            enemies[i].Sprite.body.velocity.x  = speedEnemies;
             enemies[i].Sprite.scale.x = (-1);
         }
         else if(enemies[i].Sprite.body.blocked.right)
         {
 
             enemies[i].Sprite.scale.x = 1;
-            enemies[i].Sprite.body.velocity.x = (-300);
+            enemies[i].Sprite.body.velocity.x = (-speedEnemies);
         }
 
         if(enemies[i].health <= 0)
@@ -343,42 +381,30 @@ function update()
             // console.log("enemies killed: "+ enemiesKilled);
         }
 
-        // if(enemiesKilled > 70)
-        // {
-        //     appearanceTimingEnemies = 100;
-        // }
-
-        // else if(enemiesKilled > 50)
-        // {
-        //     appearanceTimingEnemies = 200;
-        // }
-
-        // else if(enemiesKilled <= 50 && enemiesKilled > 40)
-        // {
-        //     appearanceTimingEnemies = 400;
-        // }
-        // else  if(enemiesKilled <= 40 && enemiesKilled > 30)
-        // {
-        //     appearanceTimingEnemies = 600;
-        // }
-        // else  if(enemiesKilled <= 30 && enemiesKilled > 20)
-        // {
-        //     appearanceTimingEnemies = 800;
-        // }
-        // else  if(enemiesKilled <= 20 && enemiesKilled > 10)
-        // {
-        //     appearanceTimingEnemies = 1000;
-        // }
-        // else  if(enemiesKilled <= 10)
-        // {
-        //     appearanceTimingEnemies = 1500;
-        // }
     }
 
+    for (var i = 0; i < mainCharacterArray.length; i++) {
+        switch(mainCharacterArray[i].name)
+        {
+            case "eatMan":
+                this.myHealthBar.setPercent(mainCharacterArray[i].health); 
+                break;
 
+            case "eatMan1":
+                this.myHealthBar1.setPercent(mainCharacterArray[i].health); 
+                break;
+            case "eatMan2":
+                this.myHealthBar2.setPercent(mainCharacterArray[i].health); 
+                break;
+             case "eatMan3":
+                this.myHealthBar3.setPercent(mainCharacterArray[i].health); 
+                break;
+        }
+    }
+     
     
-
-
+    console.log(usingMines);
+    // console.log(mainCharacter.health);
     // console.log(enemies);
     // console.log(bonusNumber);
     // console.log(bonusOnGround);
