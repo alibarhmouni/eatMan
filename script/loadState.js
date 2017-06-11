@@ -18,6 +18,14 @@ var loadState =
         game.load.image('plante', 'img/plants1.png');
         game.load.image('backgroundMenu', 'img/menuBackground');
 
+        game.load.image('1Player', 'img/1Player.png');
+        game.load.image('2Players', 'img/2Players.png');
+        game.load.image('3Players', 'img/3Players.png');
+        game.load.image('4Players', 'img/4Players.png');
+        game.load.image('jouer', 'img/gameButton.png');
+        game.load.image('regles', 'img/regles.png');
+
+
         game.load.audio('ukulele', 'audio/bensound-ukulele.mp3');
         game.load.audio('fireBullet','audio/fireBullet.mp3' );
         game.load.audio('mineAudio','audio/Bomb2.mp3' );

@@ -1,7 +1,13 @@
 
 var jouerSprite;
 var regles;
+var Player1;
+var Player2;
+var Player3;
+var Player4;
 var mainMenuArray = [];
+var playersButtonArray= [];
+var playersInGame = [];
 var menuState = 
 {
 
@@ -17,8 +23,12 @@ var menuState =
 		var nameLabel = game.add.text(game.world.centerX, game.world.centerY/2 ,"EATMAN",{font: '50px Arial', fill: '#ffffff'});
 		nameLabel.anchor.set(0.5);
 
-		mainMenuArray[0] = game.add.sprite(game.world.centerX,game.world.centerY,'plante');
-		mainMenuArray[1] = game.add.sprite(game.world.centerX +200,game.world.centerY,'ketchup');
+		mainMenuArray[0] = game.add.sprite(game.world.centerX,800,'jouer');
+		mainMenuArray[1] = game.add.sprite(300 ,800,'regles');
+		playersButtonArray[0] = game.add.sprite(game.world.centerX ,150,'1Player');
+		playersButtonArray[1] = game.add.sprite(game.world.centerX ,300,'2Players');
+		playersButtonArray[2] = game.add.sprite(game.world.centerX ,450,'3Players');
+		playersButtonArray[3] = game.add.sprite(game.world.centerX ,600,'4Players');
 
 		for (var i = 0; i < mainMenuArray.length; i++) 
 		{
@@ -30,8 +40,20 @@ var menuState =
 			mainMenuArray[i].events.onInputOut.add(this.out.bind(i),this);
 			
 		}
+
 		mainMenuArray[0].events.onInputDown.add(this.start,this);
 
+
+		for (var i = 0; i < playersButtonArray.length; i++) 
+		{
+			playersButtonArray[i].anchor.set(0.5);
+			playersButtonArray[i].inputEnabled = true;
+			playersButtonArray[i].events.onInputOver.add(this.over.bind(i),this);
+			playersButtonArray[i].events.onInputOut.add(this.out.bind(i),this);
+			playersButtonArray[i].events.onInputDown.add(this.choosePlayersNumber.bind(i),this);
+		}
+
+		
 
 		
 
@@ -55,6 +77,28 @@ var menuState =
 	{
 
 		i.tint = '0xffffff';
+	},
+
+	choosePlayersNumber: function(i)
+	{
+		switch(i.key)
+		{
+			case "1Player":
+				playersInGame[0] = 1;
+				break
+			case "2Players":
+				playersInGame[0] = 2;
+				break
+			case "3Players":
+				playersInGame[0] = 3;
+				break
+			case "4Players":
+				playersInGame[0] = 4;
+				break
+		}
+		// console.log(playersInGame);
+		
+		// console.log(playersInGame);
 	}
 
 	

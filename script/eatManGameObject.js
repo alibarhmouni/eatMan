@@ -1,6 +1,6 @@
 class Player
 {
-	constructor(_id, _name, _health, _x, _y, _vx, _vy, _anchor,state, _spriteColor)
+	constructor(_id, _name, _health, _x, _y, _vx, _vy, _anchor,_state, _spriteColor)
 	{
 
 		this.id = _id;
@@ -12,7 +12,7 @@ class Player
 		this.vy = _vy;
 		// this.bonusCharacter = [];
 		this.anchor = _anchor;
-		this.state = state;
+		this.state = _state;
 		this.jumpTimer = 0;
 		this.spriteColor = _spriteColor;
 		
@@ -217,7 +217,7 @@ class Player
 
 	update()
 	{
-		// console.log(this.bonusCharacter);
+		// gamePadControls();
 		
 		game.physics.arcade.collide(layerCollision, this.Sprite);
 		this.Sprite.body.velocity.x = 0;
@@ -292,25 +292,36 @@ class Player
 
 	     		
 		    	break;
+		    default:
+		    	"idle";
 
 		   
 		    
 		}
 
-		for (var i = 0; i < pads.length ; i++) 
+		for (let i = 0; i < pads.length; i++) 
 		{
-			if ((jumpButton.isDown || pads[i].isDown(Phaser.Gamepad.XBOX360_A)) && game.time.now > this.jumpTimer)
-	        {
-		        if(mainCharacterArray[i].Sprite.body.blocked.down)
-	        	{
-		            
-	                mainCharacterArray[i].Sprite.body.velocity.y = -450;
-	                mainCharacterArray[i].jumpTimer = game.time.now + 650;
-	                
+			
+			for (var c = 0; c < mainCharacterArray.length; c++) 
+			{
+				
+				// console.log(pads.length);
+			
+				if ((jumpButton.isDown || pads[i].isDown(Phaser.Gamepad.XBOX360_A)) && game.time.now > this.jumpTimer)
+		        {
+			        if(mainCharacterArray[c].Sprite.body.blocked.down)
+		        	{
+			            
+		                mainCharacterArray[c].Sprite.body.velocity.y = -450;
+		                mainCharacterArray[c].jumpTimer = game.time.now + 650;
+		                
+			        }
+			       
 		        }
 		       
-	        }
+		    }
 	    }
+
 
 
 

@@ -7,7 +7,7 @@ var createEnemies = function(_maxEnemies, _speed)
     	if(!isCreatingEnemies)
     	{
     		if(countEnemies < _maxEnemies)
-		    {   
+		    {   countEnemies +=1;
 		        isCreatingEnemies = true;
 		        randomDirection = Math.floor(Math.random()*2);
 		      
@@ -28,10 +28,13 @@ var createEnemies = function(_maxEnemies, _speed)
 		            isCreatingEnemies = false;
 
 		        },appearanceTimingEnemies);
+		        
+		       enemiesId +=1;
 		       
 		    }
-		    enemiesId +=1;
-		    countEnemies +=1;
+		    
+		    
+
 		    
 	    }
     }

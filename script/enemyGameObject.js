@@ -45,7 +45,7 @@ class Enemy
 	     	
 
 	     	case "enteringFactory":
-	     		console.log("testTouchingFactory");
+	     		// console.log("testTouchingFactory");
 	    
                 
 

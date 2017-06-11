@@ -1,4 +1,4 @@
-
+ 
 		var map;
         var bonusNumber = 0;
         var usingMines = false;
@@ -41,11 +41,12 @@
         var mineBarPercent = 0;
         var mine;
         var mainCharacter;
-        var mainCharacterArray = new Array(4);
+        var mainCharacterArray = [];
         var explosionCount = 0;
         var waveEnemies = false;
-        var decompteEnemies;
         var countEnemies = 0;
+        var nameCharactersArray = ['eatMan', 'eatGirl','eatMan2','eatMan3' ];
+        var colorsCharacter = ['0xFF50BD','0xffffff','0x4696FF','0x52FF30'];
 
 
         // var maxEnemiesEasy = [5, 10, 15, 20, 25, 30];
@@ -66,6 +67,7 @@
         var  randomEnemies = Math.round(Math.random()*5);
         decompteEnemies = maxEnemies;
         var stage = 1;
+        
 
 
 
@@ -79,6 +81,7 @@ var playState =
 
 	create: function()
 	{
+        // console.log(playersInGame[0]);
 
 	    game.physics.startSystem(Phaser.Physics.arcade);
 	    game.world.setBounds(0,0,1600,900);
@@ -156,16 +159,14 @@ var playState =
 
 	    factory = new Factory("shop", 0,800,710,0.5,"idle");
 	    textInterface();
+        for (var i = 0; i < playersInGame[0]; i++) 
+        {
+            mainCharacterArray[i] = new Player(i,nameCharactersArray[i],100,700,450,500,0,0.5,"idle",colorsCharacter[i]);
+            
+        }
+        
 
-	    mainCharacter = new Player(0,"eatMan",100,700,450,500,0,0.5,"idle"," 0xFF50BD");
-	    mainCharacter1 = new Player(0,"eatGirl",100,600,450,500,0,0.5,"idle", "0xffffff");
-	    mainCharacter2 = new Player(0,"eatMan2",100,600,450,500,0,0.5,"idle", "0x4696FF");
-	    mainCharacter3 = new Player(0,"eatMan3",100,600,450,500,0,0.5,"idle", "0x52FF30");
 
-	    mainCharacterArray[0]= mainCharacter;
-	    mainCharacterArray[1]= mainCharacter1;
-	    mainCharacterArray[2]= mainCharacter2;
-	    mainCharacterArray[3]= mainCharacter3;
 
 	    function particleBurst(_positionX, _positionY)
 		{
@@ -195,19 +196,27 @@ var playState =
 		{
 	 		updateScore();
             updateCustomers();
-            mainCharacter.update();
-            mainCharacter1.update();
-            mainCharacter2.update();
-            mainCharacter3.update();
 
-            factory.update();
+            for (let i = 0; i < mainCharacterArray.length; i++) 
+            {
+
+                mainCharacterArray[i].update();
+                mainCharacterArray[i].state ="idle";
+                
+            }
+            
+            
             gamePadControls();
+            // console.log(mainCharacterArray[0].state);
+            factory.update();
+            
 
             if(!waveEnemies)
             {   
                 // maxEnemies = maxEnemiesHard[randomEnemies];
                 // speedEnemies = speedEnemiesHard[randomEnemies];
                 createEnemies(maxEnemies, speedEnemies);
+
                
             }
              if(decompteEnemies <= 0)
@@ -276,8 +285,9 @@ var playState =
             //     this.myHealthBar.drawHealthBar();
             // }
 
-            
-            testCollisions(this,mainCharacter);
+            for (var i = 0; i < mainCharacterArray.length; i++) {
+                testCollisions(this,mainCharacterArray[i]);
+            }
 
 
             for (var i = 0; i < enemies.length; i++) 
@@ -300,6 +310,8 @@ var playState =
 
                 if(enemies[i].health <= 0)
                 {
+                    decompteEnemies -=1;
+
                     if(enemies[i].state != "enteringFactory") 
                     {
                         createExplosion(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y + (enemies[i].Sprite.body.height/2), 1, "explosion",10);
@@ -311,13 +323,18 @@ var playState =
 
                         }
                         enemiesKilled +=1;
-                        decompteEnemies -=1;
+                       
+                        
+
                     }
-                    
 
                     
+                   
+
                     enemies[i].Sprite.destroy();
-                    enemiesId --;
+                    enemiesId -=1;
+                    
+                    
                     enemies.splice(enemies.indexOf(enemies[i]), 1);
                     // mineBarPercent += 10;
 
@@ -348,9 +365,14 @@ var playState =
             }
 
 
-             if( (mainCharacterArray[0].health <= 0 && mainCharacterArray[1].health <= 0
-              && mainCharacterArray[2].health <= 0 && mainCharacterArray[3].health <= 0) 
-                || (factory.health == 1000))
+            // for (let i = 0; i < mainCharacterArray.length; i++) 
+            // {
+            //     console.log(mainCharacterArray[i].state);
+                
+            // }
+             // if( (mainCharacterArray[0].health <= 0 && mainCharacterArray[1].health <= 0
+             //  && mainCharacterArray[2].health <= 0 && mainCharacterArray[3].health <= 0)|| 
+                if( (factory.health == 1000))
                 {
 
                     stage = 1;
@@ -370,6 +392,9 @@ var playState =
             // console.log(mainCharacterArray);
             // console.log(mainCharacter.health);
             // console.log(enemies);
+            // console.log("countEnemies: "+countEnemies);
+            console.log("decompteEnemies: "+decompteEnemies);
+            // console.log("enemiesId: "+enemiesId);
             // console.log(bonusNumber);
             // console.log(bonusOnGround);
             // console.log(customers);
