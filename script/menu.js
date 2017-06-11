@@ -5,9 +5,11 @@ var Player1;
 var Player2;
 var Player3;
 var Player4;
+var cpt = 0;
 var mainMenuArray = [];
 var playersButtonArray= [];
 var playersInGame = [];
+var pressed = false;
 var menuState = 
 {
 
@@ -29,29 +31,33 @@ var menuState =
 		playersButtonArray[1] = game.add.sprite(game.world.centerX ,300,'2Players');
 		playersButtonArray[2] = game.add.sprite(game.world.centerX ,450,'3Players');
 		playersButtonArray[3] = game.add.sprite(game.world.centerX ,600,'4Players');
+		// playersButtonArray[0].state = 'selected';
 
-		for (var i = 0; i < mainMenuArray.length; i++) 
-		{
-			mainMenuArray[i].anchor.set(0.5);
-			mainMenuArray[i].inputEnabled = true;
+		// for (var i = 0; i < mainMenuArray.length; i++) 
+		// {
+		// 	mainMenuArray[i].anchor.set(0.5);
+		// 	mainMenuArray[i].inputEnabled = true;
 
 			
-			mainMenuArray[i].events.onInputOver.add(this.over.bind(i),this);
-			mainMenuArray[i].events.onInputOut.add(this.out.bind(i),this);
+		// 	mainMenuArray[i].events.onInputOver.add(this.over.bind(i),this);
+		// 	mainMenuArray[i].events.onInputOut.add(this.out.bind(i),this);
 			
-		}
+		// }
 
-		mainMenuArray[0].events.onInputDown.add(this.start,this);
+		// mainMenuArray[0].events.onInputDown.add(this.start,this);
 
 
-		for (var i = 0; i < playersButtonArray.length; i++) 
-		{
-			playersButtonArray[i].anchor.set(0.5);
-			playersButtonArray[i].inputEnabled = true;
-			playersButtonArray[i].events.onInputOver.add(this.over.bind(i),this);
-			playersButtonArray[i].events.onInputOut.add(this.out.bind(i),this);
-			playersButtonArray[i].events.onInputDown.add(this.choosePlayersNumber.bind(i),this);
-		}
+		// for (var i = 0; i < playersButtonArray.length; i++) 
+		// {
+		// 	playersButtonArray[i].anchor.set(0.5);
+		// 	playersButtonArray[i].inputEnabled = true;
+		// 	playersButtonArray[i].events.onInputOver.add(this.over.bind(i),this);
+		// 	playersButtonArray[i].events.onInputOut.add(this.out.bind(i),this);
+		// 	playersButtonArray[i].events.onInputDown.add(this.choosePlayersNumber.bind(i),this);
+		// }
+		padInit();
+
+
 
 		
 
@@ -66,7 +72,7 @@ var menuState =
 	},
 	start: function()
 	{
-		game.state.start('play');
+		game.state.start('start');
 	},
 	over: function(i)
 	{
@@ -99,9 +105,57 @@ var menuState =
 		// console.log(playersInGame);
 		
 		// console.log(playersInGame);
-	}
+	},
 
-	
+
+	update: function()
+	{
+ 
+		
+    	playersButtonArray[cpt].state = 'selected';
+
+    	if((cpt-1) >= 0)
+    	{
+    		playersButtonArray[cpt-1].state = 'unselected';
+    	}
+    	
+    	
+    	if(!pressed)
+    	{
+    		pressed = true;
+    		if(pads[0].justPressed(Phaser.Gamepad.XBOX360_DPAD_DOWN))
+	    	{
+	    		cpt ++;
+	    	}
+	    	setTimeout(function(){
+	    		pressed= false;
+	    	},100);
+    	}
+		    	
+		    	
+		    	
+		    
+
+
+		for (var i = 0; i < playersButtonArray.length; i++) 
+		{
+			console.log(playersButtonArray[i].state);
+			if (playersButtonArray[i].state == 'unselected')
+	    	{
+	    		console.log('test');
+	    		playersButtonArray[i].tint = '0xffffff';
+	    	}
+	    	if(playersButtonArray[i].state == 'selected')
+	    	{
+	    		playersButtonArray[i].tint = '0xE50F00';
+	    	}
+		}
+    	
+    	
+
+	    
+
+	}
 
 
 }

@@ -24,6 +24,7 @@ var loadState =
         game.load.image('4Players', 'img/4Players.png');
         game.load.image('jouer', 'img/gameButton.png');
         game.load.image('regles', 'img/regles.png');
+        
 
 
         game.load.audio('ukulele', 'audio/bensound-ukulele.mp3');
