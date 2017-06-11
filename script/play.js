@@ -81,7 +81,7 @@ var playState =
 
 	create: function()
 	{
-        // console.log(playersInGame[0]);
+        console.log(playersInGame[0]);
 
 	    game.physics.startSystem(Phaser.Physics.arcade);
 	    game.world.setBounds(0,0,1600,900);

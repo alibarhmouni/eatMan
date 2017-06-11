@@ -111,12 +111,24 @@ var menuState =
 	update: function()
 	{
  
-		
-    	playersButtonArray[cpt].state = 'selected';
+		if(cpt >= 0 && cpt < playersButtonArray.length)
+		{
+			playersButtonArray[cpt].state = 'selected';
+			if(playersButtonArray[cpt] == playersButtonArray[0])
+			{
+				playersButtonArray[cpt+1].state = "unselected";
+			}
+			else if(playersButtonArray[cpt] == playersButtonArray[3])
+			{
+				playersButtonArray[cpt-1].state = "unselected";
+			}
+		}
+    	
 
-    	if((cpt-1) >= 0)
+    	if((cpt-1) >= 0 && (cpt+1) < playersButtonArray.length)
     	{
     		playersButtonArray[cpt-1].state = 'unselected';
+    		playersButtonArray[cpt+1].state = 'unselected';
     	}
     	
     	
@@ -125,7 +137,18 @@ var menuState =
     		pressed = true;
     		if(pads[0].justPressed(Phaser.Gamepad.XBOX360_DPAD_DOWN))
 	    	{
-	    		cpt ++;
+	    		if(cpt < playersButtonArray.length)
+	    		{
+	    			cpt ++;
+	    		}
+	    		
+	    	}
+	    	else if (pads[0].justPressed(Phaser.Gamepad.XBOX360_DPAD_UP))
+	    	{
+	    		if(cpt >= 0)
+	    		{
+	    			cpt --;
+	    		}
 	    	}
 	    	setTimeout(function(){
 	    		pressed= false;
@@ -139,16 +162,51 @@ var menuState =
 
 		for (var i = 0; i < playersButtonArray.length; i++) 
 		{
-			console.log(playersButtonArray[i].state);
+			// console.log(playersButtonArray[i].state);
 			if (playersButtonArray[i].state == 'unselected')
 	    	{
-	    		console.log('test');
 	    		playersButtonArray[i].tint = '0xffffff';
 	    	}
 	    	if(playersButtonArray[i].state == 'selected')
 	    	{
 	    		playersButtonArray[i].tint = '0xE50F00';
 	    	}
+	    	if(pads[0].justPressed(Phaser.Gamepad.XBOX360_A))
+	    	{
+	    		if(playersButtonArray[i].state == 'selected')
+	    		{
+	    			console.log(playersButtonArray[i].key);
+	    			switch(playersButtonArray[i].key)
+					{
+						case "1Player":
+							playersInGame[0] = 1;
+							break
+						case "2Players":
+							playersInGame[0] = 2;
+							break
+						case "3Players":
+							playersInGame[0] = 3;
+							break
+						case "4Players":
+							playersInGame[0] = 4;
+							break
+					}
+	    			// playersInGame[0] = playersButtonArray[i];
+	    			mainMenuArray[0].state = 'selected';
+	    			playersButtonArray[i].state = 'unselected';
+	    		}
+	    	}
+		}
+
+		if (mainMenuArray[0].state == 'selected')
+		{
+			mainMenuArray[0].tint = '0xE50F00';
+			if(pads[0].justPressed(Phaser.Gamepad.XBOX360_A))
+			{
+				console.log(this.start);
+				game.state.start('play');
+			}
+
 		}
     	
     	
