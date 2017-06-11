@@ -18,6 +18,7 @@
         var isCreatingEnemies = false;
         var randomLife = 5;
         var factory;
+        var pvEnemies = 5;
 
         var bonus = [];
         var bonusOnGround = [];
@@ -45,8 +46,8 @@
         var explosionCount = 0;
         var waveEnemies = false;
         var countEnemies = 0;
-        var nameCharactersArray = ['eatMan', 'eatGirl','eatMan2','eatMan3' ];
-        var colorsCharacter = ['0xFF50BD','0xffffff','0x4696FF','0x52FF30'];
+        var nameCharactersArray = ['eatMan','eatGirl','friteBoy','eatMan3' ];
+        var colorsCharacter = ['0xffffff','0xffffff','0x4696FF','0x52FF30'];
 
 
         // var maxEnemiesEasy = [5, 10, 15, 20, 25, 30];
@@ -81,7 +82,7 @@ var playState =
 
 	create: function()
 	{
-        console.log(playersInGame[0]);
+        // console.log(playersInGame[0]);
 
 	    game.physics.startSystem(Phaser.Physics.arcade);
 	    game.world.setBounds(0,0,1600,900);
@@ -159,14 +160,23 @@ var playState =
 
 	    factory = new Factory("shop", 0,800,710,0.5,"idle");
 	    textInterface();
+        console.log(playersInGame[0]);
+        // if(playersInGame < mainCharacterArray.length)
+        // {
+            mainCharacterArray.splice(playersInGame.length,(mainCharacterArray.length - playersInGame.length ));
+        // }
+
         for (var i = 0; i < playersInGame[0]; i++) 
         {
+            // mainCharacterArray.length = playersInGame.length;
             mainCharacterArray[i] = new Player(i,nameCharactersArray[i],100,700,450,500,0,0.5,"idle",colorsCharacter[i]);
             
+            
+           
         }
-        
 
-
+// console.log(mainCharacterArray.length);
+ console.log(mainCharacterArray);
 
 	    function particleBurst(_positionX, _positionY)
 		{
@@ -199,7 +209,7 @@ var playState =
 
             for (let i = 0; i < mainCharacterArray.length; i++) 
             {
-
+                // console.log(mainCharacterArray);
                 mainCharacterArray[i].update();
                 mainCharacterArray[i].state ="idle";
                 
@@ -215,12 +225,29 @@ var playState =
             {   
                 // maxEnemies = maxEnemiesHard[randomEnemies];
                 // speedEnemies = speedEnemiesHard[randomEnemies];
-                createEnemies(maxEnemies, speedEnemies);
+                createEnemies(maxEnemies, speedEnemies, pvEnemies);
 
                
             }
              if(decompteEnemies <= 0)
                 { 
+                    if(mainCharacterArray.length == 1)
+                    {
+                        pvEnemies += 1;
+                    }
+                    else if(mainCharacterArray.length == 2)
+                    {
+                        pvEnemies += 3;
+                    }
+                    if(mainCharacterArray.length == 3)
+                    {
+                        pvEnemies += 4;
+                    }
+                    if(mainCharacterArray.length == 4)
+                    {
+                        pvEnemies += 5;
+                    }
+                    
                     stage +=1;
                     waveEnemies = true;  
                     enemiesId = 0;
@@ -383,21 +410,26 @@ var playState =
                     maxEnemies = 5;
                     speedEnemies = 300;
                     decompteEnemies = maxEnemies;
+                    pvEnemies = 5;
+
                     this.gameOver();
                 }
 
 
-             
+            // console.log(mainCharacterArray[0].power);
             // console.log( factory.health );
             // console.log(mainCharacterArray);
             // console.log(mainCharacter.health);
             // console.log(enemies);
             // console.log("countEnemies: "+countEnemies);
-            console.log("decompteEnemies: "+decompteEnemies);
+            // console.log("decompteEnemies: "+decompteEnemies);
             // console.log("enemiesId: "+enemiesId);
             // console.log(bonusNumber);
             // console.log(bonusOnGround);
             // console.log(customers);
+            // for (var i = 0; i < enemies.length; i++) {
+            //     console.log(enemies[i].health);
+            // }
 
             
         

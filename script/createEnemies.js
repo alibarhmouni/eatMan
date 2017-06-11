@@ -1,4 +1,4 @@
-var createEnemies = function(_maxEnemies, _speed)
+var createEnemies = function(_maxEnemies, _speed, _HP)
     {
     	// console.log(stage);
     	
@@ -12,7 +12,7 @@ var createEnemies = function(_maxEnemies, _speed)
 		        randomDirection = Math.floor(Math.random()*2);
 		      
 		        // console.log(enemiesId);
-		        enemies.push(new Enemy(enemiesId,"ennemy",randomLife,740,0,_speed,0,0.5,"idle",enemiesDirections[randomDirection]));
+		        enemies.push(new Enemy(enemiesId,"ennemy",_HP,740,0,_speed,0,0.5,"idle",enemiesDirections[randomDirection]));
 		        enemies[enemiesId].Sprite.scale.x = -1;
 
 		        if(enemies[enemiesId].direction == "left")

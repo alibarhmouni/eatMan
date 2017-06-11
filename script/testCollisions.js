@@ -1,13 +1,13 @@
 var testCollisions = function(_game,_player)
 {
-	function overlapBulletEnemy(enemy, _index, _bullet, _enemy) 
+	function overlapBulletEnemy(enemy, _index, _mainCharacter, _bullet, _enemy) 
 	{
         // console.log(_enemy);
         _enemy.animations.play('enemyCry');
 
         _bullet.kill();
         
-        enemy.health -=1;
+        enemy.health -= _mainCharacter.power;
         // console.log(enemy.health);
 
         // if(enemy.health <= 0)
@@ -167,7 +167,7 @@ var testCollisions = function(_game,_player)
         game.physics.arcade.collide(layerCollision, emitter.children);
         game.physics.arcade.collide(layerSideCollision,enemies[i].Sprite);
         for (let c = 0; c < mainCharacterArray.length; c++) {
-            game.physics.arcade.overlap(mainCharacterArray[c].weapon.bullets.hash,enemies[i].Sprite, overlapBulletEnemy.bind(this, enemies[i],i));
+            game.physics.arcade.overlap(mainCharacterArray[c].weapon.bullets.hash,enemies[i].Sprite, overlapBulletEnemy.bind(this, enemies[i],i,mainCharacterArray[c]));
             
             game.physics.arcade.overlap(mainCharacterArray[c].Sprite, enemies[i].Sprite, overlapEatmanEnemy.bind(this, mainCharacterArray[0]));
         }

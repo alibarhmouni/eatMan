@@ -9,59 +9,65 @@ var padInit = function()
     // game.input.onDown.add(dump, this);
 }
 
-
 var gamePadControls = function()
+
 {
+
     for (var i = 0; i < pads.length; i++) 
     {
-        for (var c = 0; c < mainCharacterArray.length; c++) 
-        {
-
+        // for (var c = 0; c < mainCharacterArray.length; c++) 
+        // {
+            
             let pad = pads[i];
             if(pad.connected)
             {
-
-
+                // console.log(pad);
+                // console.log(game.input.gamepad.pad1);
+                // console.log(game.input.gamepad.pad2);
+                // console.log(game.input.gamepad.pad3);
+                // console.log(game.input.gamepad.pad4);
+                // console.log(mainCharacterArray.length);
                 if( (cursors.left.isDown && !fireButton.isDown) || (!pad.isDown(Phaser.Gamepad.XBOX360_X) 
                     && (pad.isDown(Phaser.Gamepad.XBOX360_DPAD_LEFT) || pad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) < -0.1)) )
                 {
-
-                    mainCharacterArray[c].state = "walkingLeft"; 
+                    
+                    mainCharacterArray[i].state = "walkingLeft"; 
+                   
                 }
 
                 else if( (cursors.right.isDown && !fireButton.isDown) || (!pad.isDown(Phaser.Gamepad.XBOX360_X) 
                     && pad.isDown(Phaser.Gamepad.XBOX360_DPAD_RIGHT) || pad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) > 0.1)  )
                 {
-                    mainCharacterArray[c].state = "walkingRight";
+                    mainCharacterArray[i].state = "walkingRight";
 
                 }
 
                 else if ((cursors.left.isDown && fireButton.isDown) || (pad.isDown(Phaser.Gamepad.XBOX360_X) 
                     &&(pad.isDown(Phaser.Gamepad.XBOX360_DPAD_LEFT) || pad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) < -0.1)) )
                 {
-                     mainCharacterArray[c].state = "leftFire";
+                     mainCharacterArray[i].state = "leftFire";
                 }
 
                 else if ( (cursors.right.isDown && fireButton.isDown) || (pad.isDown(Phaser.Gamepad.XBOX360_X) 
                     && (pad.isDown(Phaser.Gamepad.XBOX360_DPAD_RIGHT) || pad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) > 0.1)) )
                 {
-                     mainCharacterArray[c].state = "rightFire";
+                     mainCharacterArray[i].state = "rightFire";
                 }
                 else if( (cursors.down.isDown) || pad.isDown(Phaser.Gamepad.XBOX360_DPAD_DOWN) || pad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y) > 0.1)
                 {
-                    mainCharacterArray[c].state = "down";
+                    mainCharacterArray[i].state = "down";
                 }
 
                 else if (fireButton.isDown || pad.isDown(Phaser.Gamepad.XBOX360_X))
                 {
 
-                    mainCharacterArray[c].state = "fire";
+                    mainCharacterArray[i].state = "fire";
                     
                 }
                 else if (bonusButton.isDown || pad.isDown(Phaser.Gamepad.XBOX360_Y))
                 {
 
-                    mainCharacterArray[c].state = "usingBonus";
+                    mainCharacterArray[i].state = "usingBonus";
 
                 }
                 else if (pad.justPressed(Phaser.Gamepad.XBOX360_START))
@@ -81,13 +87,13 @@ var gamePadControls = function()
 
                 // else
                 // {
-                   // mainCharacterArray[c].state ="idle";
+                   // mainCharacterArray[i].state ="idle";
                    
                    
                 //     // mainCharacter2.state = "idle";
                 // }
             }
-        }
+        // }
 	
 	
     }

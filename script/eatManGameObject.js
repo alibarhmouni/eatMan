@@ -15,7 +15,7 @@ class Player
 		this.state = _state;
 		this.jumpTimer = 0;
 		this.spriteColor = _spriteColor;
-		
+		this.power;
 
 		this.Sprite = game.add.sprite(this.x, this.y, this.name);
 		game.physics.arcade.enable( this.Sprite );
@@ -58,6 +58,15 @@ class Player
 	    this.Sprite.animations.add('fireWalk', [16,17,18], 10, false);
 	    this.Sprite.animations.add('jump', [10,11], 5, true);
 	    this.Sprite.animations.add('hit', [10,15], 10, true);
+
+	    if(this.name == 'eatMan')
+	    {
+	    	this.power = 1;
+	    }
+	    else if(this.name == 'friteBoy')
+	    {
+	    	this.power = 10;
+	    }
 	
 		this.weaponAngle = function()
 			{
@@ -121,6 +130,44 @@ class Player
 					
 					
 				}
+
+				else if(this.name == "friteBoy")
+				{
+					
+
+					if(!fire)
+					{
+						fire = true;
+						this.Sprite.play('fire');
+				        this.fireAudio.play();
+						if(this.Sprite.scale.x == 1)
+				        {
+				        	this.weapon.trackSprite(this.Sprite, 80, 10, false);
+				            // this.weapon.bulletGravity.x = 250;
+							this.weapon.fireAngle = Phaser.ANGLE_RIGHT;
+					        this.weapon.fire();
+				        }
+
+				        else if (this.Sprite.scale.x == -1)
+				        {
+				        	this.weapon.trackSprite(this.Sprite, -80, 10, false);
+				        	// this.weapon.bulletGravity.x = -250;
+							this.weapon.fireAngle = Phaser.ANGLE_LEFT;
+					        this.weapon.fire();
+
+				        }
+				        setTimeout(function()
+				    	{
+				           		
+				           	fire = false;
+
+						}, 2000);
+
+					}
+					
+					
+				}
+
 				else{
 
 
@@ -218,7 +265,7 @@ class Player
 	update()
 	{
 		// gamePadControls();
-		
+		// console.log(this);
 		game.physics.arcade.collide(layerCollision, this.Sprite);
 		this.Sprite.body.velocity.x = 0;
 		this.Sprite.body.setSize(60, 80, 15, 30);
@@ -242,7 +289,7 @@ class Player
 		        this.Sprite.body.velocity.x = - this.vx;
 		        // if(this.Sprite.key == "eatMan" )
 		        // {
-		        // 	this.Sprite.play('Walk');
+		        	this.Sprite.play('Walk');
 		        // }
 		        // else if(this.Sprite.key == "eatMan")
 		        // {
@@ -255,14 +302,14 @@ class Player
 		    	this.scaleRight();
 	    		this.Sprite.body.velocity.x = this.vx;
 		    	
-		    	if(this.Sprite.key == "friteMan" )
-		        {
-		        	this.Sprite.play('friteWalk');
-		        }
-		        else if(this.Sprite.key == "eatMan")
-		        {
+		    	// if(this.Sprite.key == "friteMan" )
+		     //    {
+		     //    	this.Sprite.play('friteWalk');
+		     //    }
+		     //    else if(this.Sprite.key == "eatMan")
+		     //    {
 		        	this.Sprite.play('walk');
-		        }
+		        // }
 
 		    	break;
 		    case "leftFire":
@@ -302,24 +349,24 @@ class Player
 		for (let i = 0; i < pads.length; i++) 
 		{
 			
-			for (var c = 0; c < mainCharacterArray.length; c++) 
-			{
+			// for (var c = 0; c < mainCharacterArray.length; c++) 
+			// {
 				
 				// console.log(pads.length);
 			
 				if ((jumpButton.isDown || pads[i].isDown(Phaser.Gamepad.XBOX360_A)) && game.time.now > this.jumpTimer)
 		        {
-			        if(mainCharacterArray[c].Sprite.body.blocked.down)
+			        if(mainCharacterArray[i].Sprite.body.blocked.down)
 		        	{
 			            
-		                mainCharacterArray[c].Sprite.body.velocity.y = -450;
-		                mainCharacterArray[c].jumpTimer = game.time.now + 650;
+		                mainCharacterArray[i].Sprite.body.velocity.y = -450;
+		                mainCharacterArray[i].jumpTimer = game.time.now + 650;
 		                
 			        }
 			       
 		        }
 		       
-		    }
+		    // }
 	    }
 
 
