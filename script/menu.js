@@ -39,6 +39,8 @@ var menuState =
 
 		mainMenuArray[0].anchor.set(0.5);
 	 	mainMenuArray[1].anchor.set(0.5);
+	 	var NKey = game.input.keyboard.addKey(Phaser.Keyboard.N);
+		NKey.onDown.addOnce(this.win, this);
 		// playersButtonArray[0].state = 'selected';
 
 		// for (var i = 0; i < mainMenuArray.length; i++) 
@@ -77,6 +79,10 @@ var menuState =
 		// var wKey = game.input.keyboard.addKey(Phaser.Keyboard.W);
 		// wKey.onDown.addOnce(this.start, this);
 
+	},
+	win: function()
+	{
+		game.state.start('gameOver');
 	},
 	start: function()
 	{
@@ -209,12 +215,14 @@ var menuState =
 		setTimeout(function()
 		{
 			pressPlay = true;
-		},1000);
+		},1500);
+
 		if(pressPlay)
 		{
 			if (mainMenuArray[0].state == 'selected')
 			{
-				mainMenuArray[0].tint = '0xE50F00';
+				mainMenuArray[0].scale.set(1.3);
+				
 				if(pads[0].justPressed(Phaser.Gamepad.XBOX360_A))
 				{
 					// console.log(this.start);

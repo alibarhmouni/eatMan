@@ -16,7 +16,8 @@ var loadState =
         game.load.image('ketchup', 'img/ketchup.png');
         game.load.image('factory', 'img/factory.png');
         game.load.image('plante', 'img/plants1.png');
-        game.load.image('backgroundMenu', 'img/menuBackground');
+        game.load.image('backgroundMenu', 'img/menuBackground.png');
+        game.load.image('backgroundGame', 'img/backgroundGame.png');
 
         game.load.image('1Player', 'img/1Player.png');
         game.load.image('2Players', 'img/2Players.png');
@@ -24,14 +25,16 @@ var loadState =
         game.load.image('4Players', 'img/4Players.png');
         game.load.image('jouer', 'img/gameButton.png');
         game.load.image('regles', 'img/regles.png');
-        
-
 
         game.load.audio('ukulele', 'audio/bensound-ukulele.mp3');
+        game.load.audio('enemiesExplosion', 'audio/enemiesExplosion.mp3');
+        game.load.audio('enemiesExplosion2', 'audio/enemiesExplosion2.wav');
         game.load.audio('fireBullet','audio/fireBullet.mp3' );
         game.load.audio('mineAudio','audio/Bomb2.mp3' );
         game.load.audio('minePosition','audio/mine.wav' );
+        game.load.audio('doorSound','audio/door.wav' );
         game.load.audio('mineBip','audio/bip.wav' );
+        game.load.audio('rocketAudio','audio/rocket.mp3' );
 
         game.load.spritesheet('mine', 'img/steak.png', 110, 100, 2);
         game.load.spritesheet('shop', 'img/shop.png', 500, 224, 2);

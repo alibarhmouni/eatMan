@@ -2,11 +2,16 @@ var gameOverState =
 {
 	create: function()
 	{
-		var gameOverLabel = game.add.text(game.world.centerX,game.world.centerY,"GAME OVER",
+		var gameOverLabel = game.add.text(0,0,"GAME OVER",
+		{font: '50px Arial', fill: '#00FF00'});
+		gameOverLabel.x = game.world.centerX - gameOverLabel.width*(0.5);
+		gameOverLabel.y = game.world.centerY -25;
+		var gameOverLabel1 = game.add.text(game.world.centerX,game.world.centerY + 300,"Score: "+ enemiesKilled,
 		{font: '50px Arial', fill: '#00FF00'});
 
-		var gameOverLabel = game.add.text(game.world.centerX,game.world.centerY + 300,"Score: "+ enemiesKilled,
-		{font: '50px Arial', fill: '#00FF00'});
+		gameOverLabel1.x = game.world.centerX - gameOverLabel1.width*(0.5);
+		gameOverLabel1.y = game.world.centerY + 100;
+
 
         
 

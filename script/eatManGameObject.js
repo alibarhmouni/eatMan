@@ -17,11 +17,32 @@ class Player
 		this.spriteColor = _spriteColor;
 		this.power;
 
+		 /*     HEALTH BAR     */
+
+        var balles;
+
+         if(this.name == 'eatMan')
+	    {
+        	balles = "bullet";
+	    }
+	    else if(this.name == 'friteBoy')
+	    {
+        	balles = "fireBall";
+	    }
+	    else if(this.name == 'eatMan3')
+	    {
+	    	balles = "bullet";
+	    }
+	     else if(this.name == 'eatGirl')
+        {
+        	balles = "bullet";
+        }
+        
+           
+
 		this.Sprite = game.add.sprite(this.x, this.y, this.name);
 		game.physics.arcade.enable( this.Sprite );
 		this.Sprite.body.checkCollision.up = false;
-		// this.Sprite.body.checkCollision.left = false;
-		// this.Sprite.body.checkCollision.right = false;
 		this.Sprite.body.gravity.set(0,600);
 		this.Sprite.anchor.set(this.anchor);
 		this.Sprite.body.setSize(60, 80, 15, 30);
@@ -32,8 +53,9 @@ class Player
 		
 		
 
+
 		/*     WEAPON     */
-		this.weapon = game.add.weapon(10, 'bullet');
+		this.weapon = game.add.weapon(10, balles);
 		// bullets.callAll('animations.add', 'animations', 'fire', [0,1,2,3,4,5,6], 5, true);bullets.callAll('play', null, 'fire');
     	this.weapon.bulletKillType = Phaser.Weapon.KILL_CAMERA_BOUNDS;
     	game.physics.arcade.enable( this.weapon.bullets.hash );
@@ -42,10 +64,12 @@ class Player
     	
 		// this.weapon.setBulletFrames(0, 1, true);
     	// this.weapon.fireAngle = -75;
-    	this.weapon.bulletSpeed = 1000;
+    	// this.weapon.bulletSpeed = 1000;
     	this.weapon.fireRate = 100;
     	// this.weapon.trackSprite(this.Sprite, 90, 45, false);
     	this.fireAudio = new Phaser.Sound(game,'fireBullet',1,false);
+
+    	
 
 
 
@@ -55,18 +79,39 @@ class Player
 		this.Sprite.animations.add('idle', [8,9], 5, true);
 	    this.Sprite.animations.add('getDown', [6], 5, true);
 	    this.Sprite.animations.add('fire', [12,13,14], 10, false);
-	    this.Sprite.animations.add('fireWalk', [16,17,18], 10, false);
+	    this.Sprite.animations.add('fireWalk', [16,17,18], 10, true);
+	    this.Sprite.animations.add('fireWalkFrite', [16,17,18], 5, true);
 	    this.Sprite.animations.add('jump', [10,11], 5, true);
 	    this.Sprite.animations.add('hit', [10,15], 10, true);
 
+	    
 	    if(this.name == 'eatMan')
 	    {
-	    	this.power = 1;
+	    	this.power = 2;
+	    	barPosX = 200;
+        	this.weapon.bulletSpeed = 900;
+        	balles = "bullets";
 	    }
 	    else if(this.name == 'friteBoy')
 	    {
 	    	this.power = 10;
+	    	barPosX = 1400;
+        	balles = "fireBall";
 	    }
+	    else if(this.name == 'eatMan3')
+	    {
+	    	this.power = 15;
+	    	barPosX = 1000;
+	    }
+	     else if(this.name == 'eatGirl')
+        {
+        	barPosX = 600;
+        }
+
+
+        this.barConfig = {x: barPosX, y: barPosY, width: 150, height: 10};
+        this.myHealthBar = new HealthBar(game, this.barConfig);
+
 	
 		this.weaponAngle = function()
 			{
@@ -125,7 +170,7 @@ class Player
 					           		
 					        usingMines = false;
 
-						}, 5000);
+						}, 3000);
 					}
 					
 					
@@ -139,17 +184,20 @@ class Player
 					{
 						fire = true;
 						this.Sprite.play('fire');
-				        this.fireAudio.play();
+				        rocketAudio.play();
+				        this.weapon.bulletSpeed = 1000;
+
 						if(this.Sprite.scale.x == 1)
 				        {
 				        	this.weapon.trackSprite(this.Sprite, 80, 10, false);
-				            // this.weapon.bulletGravity.x = 250;
+				            // this.weapon.bulletGravity.Y = 2000;
 							this.weapon.fireAngle = Phaser.ANGLE_RIGHT;
 					        this.weapon.fire();
 				        }
 
 				        else if (this.Sprite.scale.x == -1)
 				        {
+
 				        	this.weapon.trackSprite(this.Sprite, -80, 10, false);
 				        	// this.weapon.bulletGravity.x = -250;
 							this.weapon.fireAngle = Phaser.ANGLE_LEFT;
@@ -170,12 +218,12 @@ class Player
 
 				else{
 
-
 					if(!fire)
 					{
 						fire = true;
 						this.Sprite.play('fire');
 				        this.fireAudio.play();
+
 						if(this.Sprite.scale.x == 1)
 				        {
 				        	this.weapon.trackSprite(this.Sprite, 80, 30, false);
@@ -207,7 +255,43 @@ class Player
 
 			this.fireWalk = function()
 			{
-				if(!fire)
+				if(this.name == "friteBoy")
+				{
+					
+				    if(!fire)
+					{
+						fire = true;
+						this.Sprite.play('fireWalkFrite');
+				        rocketAudio.play();
+				        this.weapon.bulletSpeed = 1000;
+						if(this.Sprite.scale.x == 1)
+				        {
+				            // this.weapon.bulletGravity.x = 250;
+				            this.weapon.trackSprite(this.Sprite, 80, 30, false);
+							this.weapon.fireAngle = Phaser.ANGLE_RIGHT;
+					        this.weapon.fire();
+				        }
+
+				        else if (this.Sprite.scale.x == -1)
+				        {
+				        	// this.weapon.bulletGravity.x = -250;
+				        	this.weapon.trackSprite(this.Sprite, -80, 30, false);
+							this.weapon.fireAngle = Phaser.ANGLE_LEFT;
+					        this.weapon.fire();
+
+				        }
+				        setTimeout(function()
+				    	{
+				           		
+				           	fire = false;
+
+						}, 2000);
+
+					}
+
+				}
+
+				if (!fire)
 				{
 					fire = true;
 					this.Sprite.play('fireWalk');
@@ -266,6 +350,7 @@ class Player
 	{
 		// gamePadControls();
 		// console.log(this);
+		this.myHealthBar.setPercent(this.health);
 		game.physics.arcade.collide(layerCollision, this.Sprite);
 		this.Sprite.body.velocity.x = 0;
 		this.Sprite.body.setSize(60, 80, 15, 30);
@@ -289,7 +374,7 @@ class Player
 		        this.Sprite.body.velocity.x = - this.vx;
 		        // if(this.Sprite.key == "eatMan" )
 		        // {
-		        	this.Sprite.play('Walk');
+		        	this.Sprite.play('walk');
 		        // }
 		        // else if(this.Sprite.key == "eatMan")
 		        // {

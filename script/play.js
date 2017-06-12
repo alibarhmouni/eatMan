@@ -46,8 +46,11 @@
         var explosionCount = 0;
         var waveEnemies = false;
         var countEnemies = 0;
-        var nameCharactersArray = ['eatMan','eatGirl','friteBoy','eatMan3' ];
+        var nameCharactersArray = ['friteBoy','eatGirl','eatMan','eatMan3' ];
         var colorsCharacter = ['0xffffff','0xffffff','0x4696FF','0x52FF30'];
+        var barPosX = 200;
+        var barPosY = 55;
+        var healthBarArray = [];
 
 
         // var maxEnemiesEasy = [5, 10, 15, 20, 25, 30];
@@ -94,7 +97,10 @@ var playState =
 	    map.addTilesetImage('street2','street2');
 	    bmd = game.make.bitmapData(1600, 900);
 	    bmd.addToWorld();
+        plante = game.add.sprite(0,0,'backgroundGame');
+
 	    particlesCreation();
+
 	    
 
 	    // this.myHealthBar.setFixedToCamera();
@@ -103,17 +109,23 @@ var playState =
 
 	    game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
-	    game.stage.backgroundColor = "#0B5D73";
+	    // game.stage.backgroundColor = "0xD4DBC8";
+
 
 	    ukulele = game.add.audio('ukulele',1,true);
+        enemiesExplosion = new Phaser.Sound(game,'enemiesExplosion',1,false);
+        enemiesExplosion2 = new Phaser.Sound(game,'enemiesExplosion2',1,false);
+        doorSound = new Phaser.Sound(game,'doorSound',1,false);
 	    mineAudio = new Phaser.Sound(game,'mineAudio',1,false);
-	    mineBip = new Phaser.Sound(game,'mineBip',1,false);
+        mineBip = new Phaser.Sound(game,'mineBip',1,false);
+	    rocketAudio = new Phaser.Sound(game,'rocketAudio',1,false);
 	    minePosition = new Phaser.Sound(game,'minePosition',1,false);
 	    // ukulele.play();
-	   
 
 
-	    ground = map.createLayer('groundLayer');
+
+        ground = map.createLayer('groundLayer');
+
 	    layerCollision = map.createLayer('collisions');
 	    layerSideCollision = map.createLayer('sideCollisions');
 	    layerCollision.alpha = 0;
@@ -126,19 +138,20 @@ var playState =
 
 
 	   
-	     /*     HEALTH BAR     */
-	    this.barConfig = {x: 300, y: 55, width: 150, height: 10};
-	    this.myHealthBar = new HealthBar(this.game, this.barConfig);
-	    // game.camera.follow(mainCharacter.Sprite);
+	     // /*     HEALTH BAR     */
 
-	    this.barConfig1 = {x: 300, y: 55, width: 150, height: 10};
-	    this.myHealthBar1 = new HealthBar(this.game, this.barConfig1);
+      //    for (var i = 0; i < playersInGame[0] ; i++) 
+      //      {
+      //           this.barConfig = {x: barPosX, y: barPosY, width: 150, height: 10};
+      //           this.myHealthBar = new HealthBar(this.game, this.barConfig);
+      //           healthBarArray.push(this.myHealthBar);
 
-	    this.barConfig2 = {x: 300, y: 55, width: 150, height: 10};
-	    this.myHealthBar2 = new HealthBar(this.game, this.barConfig2);
+      //           barPosX += 400;
+      //      }
+	
+	   
+	    // // game.camera.follow(mainCharacter.Sprite);
 
-	    this.barConfig3 = {x: 300, y: 55, width: 150, height: 10};
-	    this.myHealthBar3 = new HealthBar(this.game, this.barConfig3);
 
 	    /*     FACTORY BAR     */
 
@@ -159,24 +172,26 @@ var playState =
 	    game.input.onDown.add(gofull, this);
 
 	    factory = new Factory("shop", 0,800,710,0.5,"idle");
-	    textInterface();
-        console.log(playersInGame[0]);
+	   
+        
         // if(playersInGame < mainCharacterArray.length)
         // {
             mainCharacterArray.splice(playersInGame.length,(mainCharacterArray.length - playersInGame.length ));
         // }
-
+         textInterface();
         for (var i = 0; i < playersInGame[0]; i++) 
         {
             // mainCharacterArray.length = playersInGame.length;
             mainCharacterArray[i] = new Player(i,nameCharactersArray[i],100,700,450,500,0,0.5,"idle",colorsCharacter[i]);
             
-            
-           
         }
+        
 
 // console.log(mainCharacterArray.length);
- console.log(mainCharacterArray);
+ // console.log(mainCharacterArray);
+  for (var i = 0; i < bonusOnGround.length; i++) {
+                bonusOnGround[i].body.gravity.set(0,200);
+            }
 
 	    function particleBurst(_positionX, _positionY)
 		{
@@ -237,15 +252,15 @@ var playState =
                     }
                     else if(mainCharacterArray.length == 2)
                     {
-                        pvEnemies += 3;
+                        pvEnemies += 2;
                     }
                     if(mainCharacterArray.length == 3)
                     {
-                        pvEnemies += 4;
+                        pvEnemies += 3;
                     }
                     if(mainCharacterArray.length == 4)
                     {
-                        pvEnemies += 5;
+                        pvEnemies += 4;
                     }
                     
                     stage +=1;
@@ -253,7 +268,7 @@ var playState =
                     enemiesId = 0;
                     countEnemies = 0;
                     maxEnemies+=5;
-                    speedEnemies +=100;
+                    speedEnemies +=30;
                     decompteEnemies = maxEnemies;
                     while(appearanceTimingEnemies > 250)
                     {
@@ -282,12 +297,16 @@ var playState =
             // scoreText += game.add.text(825, 32, enemiesKilled, { fontSize: '32px', fill: '#FF030D' });
             
 
-           
+           // for (var i = 0; i < playersInGame[0] ; i++) 
+           // {
+           //     this.myHealthBar.setPosition(barPosX, barPosY);
+           //     barPosX += 200;
+           // }
 
-            this.myHealthBar.setPosition(200, 55);
-            this.myHealthBar1.setPosition(600, 55);
-            this.myHealthBar2.setPosition(1000, 55);
-            this.myHealthBar3.setPosition(1400, 55);
+            
+            // this.myHealthBar1.setPosition(600, 55);
+            // this.myHealthBar2.setPosition(1000, 55);
+            // this.myHealthBar3.setPosition(1400, 55);
 
             this.factoryHealthBar.setPosition(800,565);
             this.factoryHealthBar.setPercent(factory.health/10);
@@ -337,10 +356,12 @@ var playState =
 
                 if(enemies[i].health <= 0)
                 {
+                    
                     decompteEnemies -=1;
 
                     if(enemies[i].state != "enteringFactory") 
                     {
+                        enemiesExplosion.play();
                         createExplosion(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y + (enemies[i].Sprite.body.height/2), 1, "explosion",10);
                         // particleBurst(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y);
 
@@ -370,35 +391,7 @@ var playState =
 
             }
 
-            for (var i = 0; i < mainCharacterArray.length; i++) 
-            {
-                switch(mainCharacterArray[i].name)
-                {
-                    case "eatMan":
-                        this.myHealthBar.setPercent(mainCharacterArray[i].health); 
-                        break;
-
-                    case "eatMan1":
-                        this.myHealthBar1.setPercent(mainCharacterArray[i].health); 
-                        break;
-                    case "eatMan2":
-                        this.myHealthBar2.setPercent(mainCharacterArray[i].health); 
-                        break;
-                     case "eatMan3":
-                        this.myHealthBar3.setPercent(mainCharacterArray[i].health); 
-                        break;
-                }
-               
-            }
-
-
-            // for (let i = 0; i < mainCharacterArray.length; i++) 
-            // {
-            //     console.log(mainCharacterArray[i].state);
-                
-            // }
-             // if( (mainCharacterArray[0].health <= 0 && mainCharacterArray[1].health <= 0
-             //  && mainCharacterArray[2].health <= 0 && mainCharacterArray[3].health <= 0)|| 
+           
                 if( (factory.health == 1000))
                 {
 

@@ -22,7 +22,7 @@ class Factory
 				if(!enterFactory)
 				{
 					enterFactory = true;
-					// this.Sprite.tint =  '0xE50F00';
+					doorSound.play();
 					this.health +=25;
 					customers ++;
 					customersPercent += 2.5;

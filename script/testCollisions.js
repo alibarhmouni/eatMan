@@ -65,6 +65,7 @@ var testCollisions = function(_game,_player)
 
             mineAudio.play();
             createExplosion(_bonusGround.body.position.x, _bonusGround.body.position.y, 1,"genkidama",10);
+            game.camera.shake(0.05, 600);
             _bonusGround.destroy();
             _bonusOnGroundArray.splice(_index ,1);
 
@@ -73,6 +74,8 @@ var testCollisions = function(_game,_player)
     function overlapEnemyExplosion(enemy, _index, _enemy, _explosion)
     {
         createExplosion2(_enemy.body.position.x, _enemy.body.position.y + (_enemy.body.height/2), 1, "explosion2",10);
+        enemiesExplosion2.play();
+        game.camera.shake(0.01, 400);
         _enemy.destroy();
         enemiesId --;
         decompteEnemies -=1;
@@ -169,7 +172,7 @@ var testCollisions = function(_game,_player)
         for (let c = 0; c < mainCharacterArray.length; c++) {
             game.physics.arcade.overlap(mainCharacterArray[c].weapon.bullets.hash,enemies[i].Sprite, overlapBulletEnemy.bind(this, enemies[i],i,mainCharacterArray[c]));
             
-            game.physics.arcade.overlap(mainCharacterArray[c].Sprite, enemies[i].Sprite, overlapEatmanEnemy.bind(this, mainCharacterArray[0]));
+            game.physics.arcade.overlap(mainCharacterArray[c].Sprite, enemies[i].Sprite, overlapEatmanEnemy.bind(this, mainCharacterArray[c]));
         }
 
         game.physics.arcade.overlap(enemies[i].Sprite, factory.Sprite, overlapEnemyFactory.bind(this,factory,enemies[i]));
