@@ -46,8 +46,8 @@
         var explosionCount = 0;
         var waveEnemies = false;
         var countEnemies = 0;
-        var nameCharactersArray = ['friteBoy','eatGirl','eatMan','eatMan3' ];
-        var colorsCharacter = ['0xffffff','0xffffff','0x4696FF','0x52FF30'];
+        var nameCharactersArray = ['eatMan','eatGirl','friteBoy','eatGreen'];
+        // var colorsCharacter = ['0xffffff','0xffffff','0x4696FF','0x52FF30'];
         var barPosX = 200;
         var barPosY = 55;
         var healthBarArray = [];
@@ -112,7 +112,7 @@ var playState =
 	    // game.stage.backgroundColor = "0xD4DBC8";
 
 
-	    ukulele = game.add.audio('ukulele',1,true);
+	    ukulele = game.add.audio('songGame',1,true);
         enemiesExplosion = new Phaser.Sound(game,'enemiesExplosion',1,false);
         enemiesExplosion2 = new Phaser.Sound(game,'enemiesExplosion2',1,false);
         doorSound = new Phaser.Sound(game,'doorSound',1,false);
@@ -120,7 +120,7 @@ var playState =
         mineBip = new Phaser.Sound(game,'mineBip',1,false);
 	    rocketAudio = new Phaser.Sound(game,'rocketAudio',1,false);
 	    minePosition = new Phaser.Sound(game,'minePosition',1,false);
-	    // ukulele.play();
+	    ukulele.play();
 
 
 
@@ -182,7 +182,7 @@ var playState =
         for (var i = 0; i < playersInGame[0]; i++) 
         {
             // mainCharacterArray.length = playersInGame.length;
-            mainCharacterArray[i] = new Player(i,nameCharactersArray[i],100,700,450,500,0,0.5,"idle",colorsCharacter[i]);
+            mainCharacterArray[i] = new Player(i,nameCharactersArray[i],100,700,450,500,0,0.5,"idle");
             
         }
         
@@ -365,7 +365,7 @@ var playState =
                         createExplosion(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y + (enemies[i].Sprite.body.height/2), 1, "explosion",10);
                         // particleBurst(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y);
 
-                        if( (Math.floor(Math.random()*6)) == 1)
+                        if( (Math.floor(Math.random()*9)) == 1)
                         {   
                             createBonus(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y);
 
@@ -437,7 +437,7 @@ var playState =
         function updateCustomers() 
         {
 
-            factoryText.setText(" Customers: \n" + customers);
+            factoryText.setText(" Invités: \n" + customers);
 
         }
     },

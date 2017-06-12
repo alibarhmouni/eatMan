@@ -42,7 +42,7 @@ var loadState =
         game.load.spritesheet('eatGirl', 'img/meatSpriteSheetGirl.png', 80, 110, 28);
         game.load.spritesheet('eatMan', 'img/meatSpriteSheet2.png', 80, 110, 28);
         game.load.spritesheet('friteBoy', 'img/friteSheet.png', 80, 110, 28);
-        game.load.spritesheet('eatMan3', 'img/meatSpriteSheet2.png', 80, 110, 28);
+        game.load.spritesheet('eatGreen', 'img/meatSpriteSheet2.png', 80, 110, 28);
         game.load.spritesheet('explosion', 'img/explosionSheet.png', 416/3, 276/2, 3);
         game.load.spritesheet('explosion2', 'img/explosionSheet2.png', 416/3, 276/2, 3);
         game.load.spritesheet('bullet', 'img/meatBullet.png', 60, 25, 1);

@@ -1,6 +1,6 @@
 class Player
 {
-	constructor(_id, _name, _health, _x, _y, _vx, _vy, _anchor,_state, _spriteColor)
+	constructor(_id, _name, _health, _x, _y, _vx, _vy, _anchor,_state)
 	{
 
 		this.id = _id;
@@ -14,7 +14,7 @@ class Player
 		this.anchor = _anchor;
 		this.state = _state;
 		this.jumpTimer = 0;
-		this.spriteColor = _spriteColor;
+		// this.spriteColor = _spriteColor;
 		this.power;
 
 		 /*     HEALTH BAR     */
@@ -49,7 +49,7 @@ class Player
 		this.Sprite.scale.set(1);
 		this.Sprite.body.collideWorldBounds=true;
 		
-	    this.Sprite.tint = this.spriteColor;
+	    // this.Sprite.tint = this.spriteColor;
 		
 		
 
@@ -75,7 +75,7 @@ class Player
 
 		/*     adding animations      */
 		this.Sprite.animations.add('walk', [0,1,2,3], 10, true);
-		this.Sprite.animations.add('friteWalk', [0,1,2], 10, true);
+		this.Sprite.animations.add('friteWalk', [0,1,2,3,2,1], 10, true);
 		this.Sprite.animations.add('idle', [8,9], 5, true);
 	    this.Sprite.animations.add('getDown', [6], 5, true);
 	    this.Sprite.animations.add('fire', [12,13,14], 10, false);
@@ -87,25 +87,27 @@ class Player
 	    
 	    if(this.name == 'eatMan')
 	    {
-	    	this.power = 2;
+	    	this.power = 4;
 	    	barPosX = 200;
-        	this.weapon.bulletSpeed = 900;
+        	// this.weapon.bulletSpeed = 1000;
         	balles = "bullets";
 	    }
 	    else if(this.name == 'friteBoy')
 	    {
-	    	this.power = 10;
-	    	barPosX = 1400;
-        	balles = "fireBall";
-	    }
-	    else if(this.name == 'eatMan3')
-	    {
 	    	this.power = 15;
 	    	barPosX = 1000;
+        	balles = "fireBall";
 	    }
-	     else if(this.name == 'eatGirl')
+	    else if(this.name == 'eatGirl')
+	    {
+	    	this.power = 15;
+	    	barPosX = 600;
+	    }
+	     else if(this.name == 'eatMan3')
         {
-        	barPosX = 600;
+        	this.power = 4;
+        	barPosX = 1400;
+        	
         }
 
 
@@ -152,31 +154,40 @@ class Player
 			{
 				if(this.name == "eatGirl")
 				{
-					if(!usingMines)
+					if(!fire)
 					{
+						fire = true;
+						this.Sprite.play('getDown');
+				        this.fireAudio.play();
+				        this.weapon.bulletSpeed = 1000;
+						if(this.Sprite.scale.x == 1)
+				        {
+				        	this.weapon.trackSprite(this.Sprite, 0, -40, false);
+				            // this.weapon.bulletGravity.x = 250;
+							this.weapon.fireAngle = Phaser.ANGLE_UP;
+					        this.weapon.fire();
+				        }
 
-						usingMines = true;
-						mine = game.add.sprite(this.Sprite.body.position.x,(this.Sprite.body.position.y+55),"mine");
-	    				bonusOnGround.push(mine);
-	    				game.physics.arcade.enable( mine );
-	    				mine.scale.set(0.65);
-	    				mine.anchor.set(0.5);
-	    				// mine.body.gravity.set(0,200);
-	    				minePosition.play();
-	    				mine.animations.add('usingMine', [0,1], 10, true);
-	    				mine.play('usingMine');
-	    				setTimeout(function()
-					    {
-					           		
-					        usingMines = false;
+				        else if (this.Sprite.scale.x == -1)
+				        {
+				        	this.weapon.trackSprite(this.Sprite, 0, -40, false);
+				        	// this.weapon.bulletGravity.x = -250;
+							this.weapon.fireAngle = Phaser.ANGLE_UP;
+					        this.weapon.fire();
 
-						}, 3000);
+				        }
+				        setTimeout(function()
+				    	{
+				           		
+				           	fire = false;
+
+						}, 100);
+
 					}
-					
 					
 				}
 
-				else if(this.name == "friteBoy")
+				if(this.name == "friteBoy")
 				{
 					
 
@@ -209,7 +220,7 @@ class Player
 				           		
 				           	fire = false;
 
-						}, 2000);
+						}, 500);
 
 					}
 					
@@ -223,7 +234,7 @@ class Player
 						fire = true;
 						this.Sprite.play('fire');
 				        this.fireAudio.play();
-
+				        this.weapon.bulletSpeed = 1000;
 						if(this.Sprite.scale.x == 1)
 				        {
 				        	this.weapon.trackSprite(this.Sprite, 80, 30, false);
@@ -255,6 +266,25 @@ class Player
 
 			this.fireWalk = function()
 			{
+				// if (this.name == "eatGirl")
+				// {
+				// 	this.scaleLeft();
+			        
+			 //        this.Sprite.play('walk');
+
+			 //        	if(this.Sprite.scale.x == 1)
+				//         {
+				//           this.Sprite.body.velocity.x =  this.vx;
+				//         }
+
+				//         else if (this.Sprite.scale.x == -1)
+				//         {
+				        	
+				//         	this.Sprite.body.velocity.x = - this.vx;
+				//         }
+			        
+				// }
+
 				if(this.name == "friteBoy")
 				{
 					
@@ -285,42 +315,44 @@ class Player
 				           		
 				           	fire = false;
 
-						}, 2000);
+						}, 500);
 
 					}
 
 				}
 
-				if (!fire)
-				{
-					fire = true;
-					this.Sprite.play('fireWalk');
-			        this.fireAudio.play();
-					if(this.Sprite.scale.x == 1)
-			        {
-			            // this.weapon.bulletGravity.x = 250;
-			            this.weapon.trackSprite(this.Sprite, 80, 30, false);
-						this.weapon.fireAngle = Phaser.ANGLE_RIGHT;
-				        this.weapon.fire();
-			        }
+				else{
+					if (!fire)
+					{
+						fire = true;
+						this.Sprite.play('fireWalk');
+				        this.fireAudio.play();
+						if(this.Sprite.scale.x == 1)
+				        {
+				            // this.weapon.bulletGravity.x = 250;
+				            this.weapon.trackSprite(this.Sprite, 80, 30, false);
+							this.weapon.fireAngle = Phaser.ANGLE_RIGHT;
+					        this.weapon.fire();
+				        }
 
-			        else if (this.Sprite.scale.x == -1)
-			        {
-			        	// this.weapon.bulletGravity.x = -250;
-			        	this.weapon.trackSprite(this.Sprite, -80, 30, false);
-						this.weapon.fireAngle = Phaser.ANGLE_LEFT;
-				        this.weapon.fire();
+				        else if (this.Sprite.scale.x == -1)
+				        {
+				        	// this.weapon.bulletGravity.x = -250;
+				        	this.weapon.trackSprite(this.Sprite, -80, 30, false);
+							this.weapon.fireAngle = Phaser.ANGLE_LEFT;
+					        this.weapon.fire();
 
-			        }
-			        setTimeout(function()
-			    	{
-			           		
-			           	fire = false;
+				        }
+				        setTimeout(function()
+				    	{
+				           		
+				           	fire = false;
 
-					}, 100);
+						}, 100);
 
-				}
+					}
 				
+				}
 			}
 			
 			var cry = false;
@@ -335,9 +367,38 @@ class Player
 					var _self = this;
 					setTimeout(function()
 			    	{
-			    	   _self.Sprite.tint = _self.spriteColor;
+			    	   _self.Sprite.tint = "0xffffff";
 			           cry = false;
 					}, 600);
+				}
+			}
+
+			this.eatGirlUsingMine = function()
+			{
+				if(this.name == "eatGirl")
+				{
+					if(!usingMines)
+					{
+
+						usingMines = true;
+						mine = game.add.sprite(this.Sprite.body.position.x,(this.Sprite.body.position.y+55),"mine");
+	    				bonusOnGround.push(mine);
+	    				game.physics.arcade.enable( mine );
+	    				mine.scale.set(0.65);
+	    				mine.anchor.set(0.5);
+	    				// mine.body.gravity.set(0,200);
+	    				minePosition.play();
+	    				mine.animations.add('usingMine', [0,1], 10, true);
+	    				mine.play('usingMine');
+	    				setTimeout(function()
+					    {
+					           		
+					        usingMines = false;
+
+						}, 3000);
+					}
+					
+					
 				}
 			}
 			
@@ -372,29 +433,29 @@ class Player
 			case "walkingLeft":
 				this.scaleLeft();
 		        this.Sprite.body.velocity.x = - this.vx;
-		        // if(this.Sprite.key == "eatMan" )
-		        // {
+		        if(this.Sprite.key == "friteMan" )
+		        {
+		        	this.Sprite.play('friteWalk');
+		        }
+		        else
+		        {
 		        	this.Sprite.play('walk');
-		        // }
-		        // else if(this.Sprite.key == "eatMan")
-		        // {
-		        // 	this.Sprite.play('walk');
-		        // }
+		        }
 		    	
 		    	break;
 
 		    case "walkingRight":
 		    	this.scaleRight();
 	    		this.Sprite.body.velocity.x = this.vx;
-		    	
-		    	// if(this.Sprite.key == "friteMan" )
-		     //    {
-		     //    	this.Sprite.play('friteWalk');
-		     //    }
-		     //    else if(this.Sprite.key == "eatMan")
-		     //    {
+
+		    	if(this.Sprite.key == "friteMan" )
+		        {
+		        	this.Sprite.play('friteWalk');
+		        }
+		        else
+		        {
 		        	this.Sprite.play('walk');
-		        // }
+		        }
 
 		    	break;
 		    case "leftFire":
@@ -418,6 +479,11 @@ class Player
 	     	case "fire":
 
 	     		this.fireCheck();
+	     		break;
+
+	     	case "usingBonus":
+
+	     		this.eatGirlUsingMine();
 	     		break;
 	     	case "hit":
 	     		this.characterHit();

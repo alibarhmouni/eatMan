@@ -27,7 +27,7 @@ var menuState =
 		// // nameLabel.anchor.set(0.5);
 
 		mainMenuArray[0] = game.add.sprite(game.world.centerX,800,'jouer');
-		mainMenuArray[1] = game.add.sprite(300 ,800,'regles');
+		// mainMenuArray[1] = game.add.sprite(300 ,800,'regles');
 		playersButtonArray[0] = game.add.sprite(game.world.centerX ,200,'1Player');
 		playersButtonArray[1] = game.add.sprite(game.world.centerX ,300,'2Players');
 		playersButtonArray[2] = game.add.sprite(game.world.centerX ,400,'3Players');
@@ -38,7 +38,7 @@ var menuState =
 		}
 
 		mainMenuArray[0].anchor.set(0.5);
-	 	mainMenuArray[1].anchor.set(0.5);
+	 	// mainMenuArray[1].anchor.set(0.5);
 	 	var NKey = game.input.keyboard.addKey(Phaser.Keyboard.N);
 		NKey.onDown.addOnce(this.win, this);
 		// playersButtonArray[0].state = 'selected';
@@ -184,7 +184,7 @@ var menuState =
 	    	}
 	    	if(playersButtonArray[i].state == 'selected')
 	    	{
-	    		playersButtonArray[i].scale.set(1.3);;
+	    		playersButtonArray[i].scale.set(1.5);;
 	    	}
 	    	if(pads[0].justPressed(Phaser.Gamepad.XBOX360_A))
 	    	{
@@ -226,6 +226,7 @@ var menuState =
 				if(pads[0].justPressed(Phaser.Gamepad.XBOX360_A))
 				{
 					// console.log(this.start);
+					
 					game.state.start('play');
 				}
 

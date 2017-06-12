@@ -34,7 +34,7 @@ var textInterface = function()
     scoreText.anchor.setTo(0.5, 0.5);
    
 
-    factoryText =  game.add.text(510, 715, " Customers : ", {
+    factoryText =  game.add.text(535, 715, " Invités : ", {
         font: "25px Arial",
         fill: "#ffe400",
         align: "center"

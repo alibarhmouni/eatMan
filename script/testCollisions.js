@@ -2,38 +2,12 @@ var testCollisions = function(_game,_player)
 {
 	function overlapBulletEnemy(enemy, _index, _mainCharacter, _bullet, _enemy) 
 	{
-        // console.log(_enemy);
         _enemy.animations.play('enemyCry');
 
         _bullet.kill();
         
         enemy.health -= _mainCharacter.power;
-        // console.log(enemy.health);
-
-        // if(enemy.health <= 0)
-        // {
-            
-        //     createExplosion(_enemy.body.position.x, _enemy.body.position.y);
-        //     particleBurst(_enemy.body.position.x, _enemy.body.position.y);
-        //     enemiesKilled +=1;
-            
-            
-        //     if( (Math.floor(Math.random()*2)) == 1)
-        //     {   
-        //         createBonus(_enemy.body.position.x, _enemy.body.position.y +75);
-                              
-        //     }
-
-        //     _enemy.destroy();
-        //     enemiesId --;
-        //     enemies.splice(_index, 1);
-        //     // enemies.length --;
-            
-
-        //     console.log("enemies killed: "+ enemiesKilled);
-            
-        // }
-
+       
         
 	}
 
@@ -126,24 +100,6 @@ var testCollisions = function(_game,_player)
         	},1000);
         }
         
-        // switch(_mainCharacter.name)
-        // {
-        //     case "eatMan":
-        //         _game.myHealthBar.setPercent(_mainCharacter.health); 
-        //         break;
-
-        //     case "eatMan1":
-        //         _game.myHealthBar1.setPercent(_mainCharacter.health); 
-        //         break;
-        //     case "eatMan2":
-        //         _game.myHealthBar2.setPercent(_mainCharacter.health); 
-        //         break;
-        //      case "eatMan3":
-        //         _game.myHealthBar3.setPercent(_mainCharacter.health); 
-        //         break;
-                
-
-        // }
 
 
         
