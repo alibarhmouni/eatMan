@@ -124,7 +124,6 @@ var testCollisions = function(_game,_player)
 
            
             game.physics.arcade.collide(layerCollision, bonusOnGround[j]);
-             console.log('test');
         }
 
     // console.log(enemies);

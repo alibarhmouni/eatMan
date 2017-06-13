@@ -29,13 +29,13 @@ class Player
 	    {
         	balles = "fireBall";
 	    }
-	    else if(this.name == 'eatMan3')
+	    else if(this.name == 'eatGreen')
 	    {
 	    	balles = "bullet";
 	    }
 	     else if(this.name == 'eatGirl')
         {
-        	balles = "bullet";
+        	balles = "bulletGirl";
         }
         
            
@@ -89,13 +89,14 @@ class Player
 	    {
 	    	this.power = 5;
 	    	barPosX = 200;
+	    	// this.weapon.bulletAngleOffset = 90;
+	    	this.weapon.bulletAngleVariance = 10;
         	// this.weapon.bulletSpeed = 1000;
-        	balles = "bullets";
 
 	    }
 	    else if(this.name == 'friteBoy')
 	    {
-	    	this.power = 10;
+	    	this.power = 15;
 	    	barPosX = 1000;
         	balles = "fireBall";
 
@@ -107,8 +108,11 @@ class Player
 	    {
 	    	this.power = 3;
 	    	barPosX = 600;
+	    	this.weapon.bullets.forEach(function(bullet){
+        		bullet.scale.setTo(0.25);
+        	});
 	    }
-	     else if(this.name == 'eatMan3')
+	     else if(this.name == 'eatGreen')
         {
         	this.power = 10;
         	barPosX = 1400;

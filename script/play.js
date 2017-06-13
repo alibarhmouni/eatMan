@@ -46,7 +46,7 @@
         var explosionCount = 0;
         var waveEnemies = false;
         var countEnemies = 0;
-        var nameCharactersArray = ['eatMan','eatGirl','friteBoy','eatGreen'];
+        var nameCharactersArray = ['friteBoy','eatGirl','eatMan','eatGreen'];
         // var colorsCharacter = ['0xffffff','0xffffff','0x4696FF','0x52FF30'];
         var barPosX = 200;
         var barPosY = 55;
@@ -54,9 +54,10 @@
         var posEnemiesX;
         var max = 1400;
         var min = 100;
-        var maxSpeedEnemies = 700;
-        var minSpeedEnemies = 400;
+        var maxSpeedEnemies = 600;
+        var minSpeedEnemies = 300;
         var speedEnemies;
+        var gameOverText;
 
         var maxEnemies = 20;
         
@@ -109,7 +110,8 @@ var playState =
         enemiesExplosion = new Phaser.Sound(game,'enemiesExplosion',1,false);
         enemiesExplosion2 = new Phaser.Sound(game,'enemiesExplosion2',1,false);
         doorSound = new Phaser.Sound(game,'doorSound',1,false);
-	    mineAudio = new Phaser.Sound(game,'mineAudio',1,false);
+        mineAudio = new Phaser.Sound(game,'mineAudio',1,false);
+	    gameOverAudio = new Phaser.Sound(game,'gameOverAudio',1,false);
         mineBip = new Phaser.Sound(game,'mineBip',1,false);
 	    rocketAudio = new Phaser.Sound(game,'rocketAudio',1,false);
 	    minePosition = new Phaser.Sound(game,'minePosition',1,false);
@@ -384,7 +386,8 @@ var playState =
                     // speedEnemies = 300;
                     decompteEnemies = maxEnemies;
                     pvEnemies = 5;
-
+                  
+                    gameOverText.anchor.set(0.5);
                     this.gameOver();
                 }
             }

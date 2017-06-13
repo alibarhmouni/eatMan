@@ -2,6 +2,7 @@ var gameOverState =
 {
 	create: function()
 	{
+		gameOverAudio.play();
 		var gameOverLabel = game.add.text(0,0,"GAME OVER",
 		{font: '50px Arial', fill: '#00FF00'});
 		gameOverLabel.x = game.world.centerX - gameOverLabel.width*(0.5);

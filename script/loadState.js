@@ -18,6 +18,8 @@ var loadState =
         game.load.image('plante', 'img/plants1.png');
         game.load.image('backgroundMenu', 'img/menuBackground.png');
         game.load.image('backgroundGame', 'img/backgroundGame.png');
+        game.load.image('bulletGirl', 'img/bulletGirl.png');
+
 
         game.load.image('1Player', 'img/1Player.png');
         game.load.image('2Players', 'img/2Players.png');
@@ -35,6 +37,7 @@ var loadState =
         game.load.audio('minePosition','audio/mine.wav' );
         game.load.audio('doorSound','audio/door.wav' );
         game.load.audio('mineBip','audio/bip.wav' );
+        game.load.audio('gameOverAudio','audio/gameOverAudio.wav' );
         game.load.audio('rocketAudio','audio/rocket.mp3' );
 
         game.load.spritesheet('mine', 'img/steak.png', 110, 100, 2);
