@@ -1,4 +1,4 @@
- 
+
 		var map;
         var bonusNumber = 0;
         var usingMines = false;
@@ -44,9 +44,9 @@
         var mainCharacter;
         var mainCharacterArray = [];
         var explosionCount = 0;
-        var waveEnemies = true;
+        var waveEnemies = false;
         var countEnemies = 0;
-        var nameCharactersArray = ['eatGirl','eatMan','friteBoy','eatGreen'];
+        var nameCharactersArray = ['eatMan','eatGirl','friteBoy','eatGreen'];
         // var colorsCharacter = ['0xffffff','0xffffff','0x4696FF','0x52FF30'];
         var barPosX = 200;
         var barPosY = 55;
@@ -54,7 +54,7 @@
         var posEnemiesX;
         var max = 1400;
         var min = 100;
-        var maxSpeedEnemies = 900;
+        var maxSpeedEnemies = 700;
         var minSpeedEnemies = 400;
         var speedEnemies;
 
@@ -217,6 +217,7 @@ var playState =
             {   
                 // maxEnemies = maxEnemiesHard[randomEnemies];
                 // speedEnemies = speedEnemiesHard[randomEnemies];
+
                 createEnemies(maxEnemies, pvEnemies);
 
                
@@ -246,6 +247,8 @@ var playState =
                     countEnemies = 0;
                     maxEnemies+=5;
                     // speedEnemies +=30;
+                    minSpeedEnemies += 30;
+                    maxSpeedEnemies +=30;
                     decompteEnemies = maxEnemies;
                     // while(appearanceTimingEnemies > 250)
                     // {
@@ -368,9 +371,25 @@ var playState =
 
             }
             
+            for (var i = 0; i < mainCharacterArray.length; i++) 
+            {
+                if(mainCharacterArray[i].health <= 0)
+                {
+                    stage = 1;
+                    enemies = [];
+                    waveEnemies = false;  
+                    enemiesId = 0;
+                    countEnemies = 0;
+                    maxEnemies = 5;
+                    // speedEnemies = 300;
+                    decompteEnemies = maxEnemies;
+                    pvEnemies = 5;
 
+                    this.gameOver();
+                }
+            }
            
-                if( (factory.health == 1000))
+                if( (factory.health == 1000 ))
                 {
 
                     stage = 1;

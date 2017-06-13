@@ -12,6 +12,8 @@ var padInit = function()
 var gamePadControls = function()
 
 {
+    var PKey = game.input.keyboard.addKey(Phaser.Keyboard.P);
+    
 
     for (var i = 0; i < pads.length; i++) 
     {
@@ -73,7 +75,7 @@ var gamePadControls = function()
                     mainCharacterArray[i].state = "usingBonus";
 
                 }
-                else if (pad.justPressed(Phaser.Gamepad.XBOX360_START))
+                else if (PKey.isDown)
                 {
                     if(!game.paused)
                     {
