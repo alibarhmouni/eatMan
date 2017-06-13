@@ -14,7 +14,7 @@ class Enemy
 		this.direction = _direction;
 		this.Sprite = game.add.sprite(this.x,this.y,'enemy');
 		game.physics.arcade.enable( this.Sprite );
-		this.Sprite.body.gravity.set(0,600);
+		this.Sprite.body.gravity.set(0,400);
 		this.Sprite.animations.add('enemyWalk', [0,1,2,1], 5, true);
 	    this.Sprite.animations.add('enemyCry', [3,4], 5, true);
 	    this.Sprite.animations.play('enemyWalk');

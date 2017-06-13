@@ -133,6 +133,7 @@ var playState =
 	    this.barConfigFactory = {x: 300, y: 55, width: 150, height: 10};
 	    this.factoryHealthBar = new HealthBar(this.game, this.barConfigFactory);
 
+
 	      /*     mine BAR     */
 	    // this.mineBarConfig = {x: 1500, y: 55, width: 100, height: 5, bar: {color: "#1435BD"}};
 	    // this.mineBar = new HealthBar(this.game, this.mineBarConfig);
@@ -340,7 +341,7 @@ var playState =
                         createExplosion(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y + (enemies[i].Sprite.body.height/2), 1, "explosion",10);
                         // particleBurst(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y);
 
-                        if( (Math.floor(Math.random()*9)) == 1)
+                        if( (Math.floor(Math.random()*3)) == 1)
                         {   
                             createBonus(enemies[i].Sprite.body.position.x, enemies[i].Sprite.body.position.y);
 
