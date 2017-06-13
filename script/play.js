@@ -11,7 +11,7 @@
         var enemies = [];
         var emitter;
         var enemiesId = 0;
-        var appearanceTimingEnemies = 1500;
+        var appearanceTimingEnemies = 250;
         var enemiesKilled = 0;
         var enemiesDirections = ["left","right"];
         var randomDirection;
@@ -46,7 +46,7 @@
         var explosionCount = 0;
         var waveEnemies = false;
         var countEnemies = 0;
-        var nameCharactersArray = ['eatMan','friteBoy','eatGirl','eatGreen'];
+        var nameCharactersArray = ['eatMan','eatGirl','friteBoy','eatGreen'];
         // var colorsCharacter = ['0xffffff','0xffffff','0x4696FF','0x52FF30'];
         var barPosX = 200;
         var barPosY = 55;
@@ -54,9 +54,12 @@
         var posEnemiesX;
         var max = 1400;
         var min = 100;
+        var maxSpeedEnemies = 900;
+        var minSpeedEnemies = 400;
+        var speedEnemies;
 
-        var maxEnemies = 10;
-        var speedEnemies = 350;
+        var maxEnemies = 20;
+        
 
         var  randomEnemies = Math.round(Math.random()*5);
         decompteEnemies = maxEnemies;
@@ -97,7 +100,7 @@ var playState =
 	    
 	    
 
-	    game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+	    // game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
 	    // game.stage.backgroundColor = "0xD4DBC8";
 
@@ -141,7 +144,7 @@ var playState =
 	    jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 	    fireButton = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
 	    bonusButton = game.input.keyboard.addKey(Phaser.Keyboard.UP);
-	    game.input.onDown.add(gofull, this);
+	    // game.input.onDown.add(gofull, this);
 
 	    factory = new Factory("shop", 0,800,710,0.5,"idle");
 	   
@@ -150,6 +153,7 @@ var playState =
         mainCharacterArray.splice(playersInGame.length,(mainCharacterArray.length - playersInGame.length ));
        
         textInterface();
+        
         for (var i = 0; i < playersInGame[0]; i++) 
         {
             // mainCharacterArray.length = playersInGame.length;
@@ -212,7 +216,7 @@ var playState =
             {   
                 // maxEnemies = maxEnemiesHard[randomEnemies];
                 // speedEnemies = speedEnemiesHard[randomEnemies];
-                createEnemies(maxEnemies, speedEnemies, pvEnemies);
+                createEnemies(maxEnemies, pvEnemies);
 
                
             }
@@ -240,18 +244,17 @@ var playState =
                     enemiesId = 0;
                     countEnemies = 0;
                     maxEnemies+=5;
-                    speedEnemies +=30;
+                    // speedEnemies +=30;
                     decompteEnemies = maxEnemies;
-                    while(appearanceTimingEnemies > 250)
-                    {
-                        appearanceTimingEnemies -= 250;
-                    }
+                    // while(appearanceTimingEnemies > 250)
+                    // {
+                    //     appearanceTimingEnemies -= 250;
+                    // }
 
-                    
                     setTimeout(function()
                     {
                         waveEnemies = false;
-                    },4000)
+                    },3500)
                     
                 }
 
@@ -373,7 +376,7 @@ var playState =
                     enemiesId = 0;
                     countEnemies = 0;
                     maxEnemies = 5;
-                    speedEnemies = 300;
+                    // speedEnemies = 300;
                     decompteEnemies = maxEnemies;
                     pvEnemies = 5;
 

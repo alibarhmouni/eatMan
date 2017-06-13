@@ -126,6 +126,7 @@ var testCollisions = function(_game,_player)
         game.physics.arcade.collide(layerCollision,  enemies[i].Sprite);
         game.physics.arcade.collide(layerCollision, emitter.children);
         game.physics.arcade.collide(layerSideCollision,enemies[i].Sprite);
+        game.physics.arcade.overlap(layerSideCollision,enemies[i].Sprite);
         for (let c = 0; c < mainCharacterArray.length; c++) {
             game.physics.arcade.overlap(mainCharacterArray[c].weapon.bullets.hash,enemies[i].Sprite, overlapBulletEnemy.bind(this, enemies[i],i,mainCharacterArray[c]));
             

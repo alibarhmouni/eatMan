@@ -17,8 +17,9 @@ var menuState =
 
 	create: function()
 	{
+	    game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 		
-
+		game.input.onDown.add(gofull, this);
 		var mainMenuImage = game.add.image(game.world.centerX,game.world.centerY,'backgroundMenu');
 		// console.log(mainMenuImage.texture.width);
 		mainMenuImage.anchor.set(0.5);
@@ -65,6 +66,17 @@ var menuState =
 		// 	playersButtonArray[i].events.onInputOut.add(this.out.bind(i),this);
 		// 	playersButtonArray[i].events.onInputDown.add(this.choosePlayersNumber.bind(i),this);
 		// }
+		function gofull() 
+		{
+		    if (game.scale.isFullScreen)
+		    {
+		        game.scale.stopFullScreen();
+		    }
+		    else
+		    {
+		        game.scale.startFullScreen(false);
+		    }
+		}
 		padInit();
 
 
