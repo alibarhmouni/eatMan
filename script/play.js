@@ -44,7 +44,7 @@
         var mainCharacter;
         var mainCharacterArray = [];
         var explosionCount = 0;
-        var waveEnemies = true;
+        var waveEnemies = false;
         var countEnemies = 0;
         var nameCharactersArray = ['eatMan','eatGirl','friteBoy','eatGreen'];
         // var colorsCharacter = ['0xffffff','0xffffff','0x4696FF','0x52FF30'];
