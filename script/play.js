@@ -58,6 +58,7 @@
         var minSpeedEnemies = 300;
         var speedEnemies;
         var gameOverText;
+        var characterKilled = 0;
 
         var maxEnemies = 20;
         
@@ -147,7 +148,7 @@ var playState =
 	    jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 	    fireButton = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
 	    bonusButton = game.input.keyboard.addKey(Phaser.Keyboard.UP);
-	    // game.input.onDown.add(gofull, this);
+	    game.input.onDown.add(gofull, this);
 
 	    factory = new Factory("shop", 0,800,710,0.5,"idle");
 	   
@@ -375,7 +376,7 @@ var playState =
             
             for (var i = 0; i < mainCharacterArray.length; i++) 
             {
-                if(mainCharacterArray[i].health <= 0)
+                if(characterKilled >= mainCharacterArray.length)
                 {
                     stage = 1;
                     enemies = [];
@@ -387,10 +388,10 @@ var playState =
                     decompteEnemies = maxEnemies;
                     pvEnemies = 5;
                   
-                    gameOverText.anchor.set(0.5);
                     this.gameOver();
                 }
             }
+            console.log(mainCharacterArray);
            
                 if( (factory.health == 1000 ))
                 {

@@ -73,6 +73,7 @@ var testCollisions = function(_game,_player)
         {
            
             _character.kill();
+            characterKilled +=1;
         }
 
         if(_character.body.position.x <= _enemy.body.position.x)
