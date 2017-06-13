@@ -80,7 +80,7 @@ class Player
 	    this.Sprite.animations.add('getDown', [6], 5, true);
 	    this.Sprite.animations.add('fire', [12,13,14], 10, false);
 	    this.Sprite.animations.add('fireWalk', [16,17,18], 10, true);
-	    this.Sprite.animations.add('fireWalkFrite', [16,17,18], 5, true);
+	    this.Sprite.animations.add('fireWalkFrite', [16,17,18], 10, true);
 	    this.Sprite.animations.add('jump', [10,11], 5, true);
 	    this.Sprite.animations.add('hit', [10,15], 10, true);
 
@@ -282,21 +282,20 @@ class Player
 				    if(!fire)
 					{
 						fire = true;
-						this.Sprite.play('fireWalkFrite');
+						this.Sprite.play('fireWalk');
 				        rocketAudio.play();
-				        this.weapon.bulletSpeed = 1000;
 						if(this.Sprite.scale.x == 1)
 				        {
 				            // this.weapon.bulletGravity.x = 250;
-				            this.weapon.trackSprite(this.Sprite, 80, 30, false);
+				            this.weapon.trackSprite(this.Sprite, 80, 10, false);
 							this.weapon.fireAngle = Phaser.ANGLE_RIGHT;
 					        this.weapon.fire();
 				        }
 
-				        else if (this.Sprite.scale.x == -1)
+				        else if (this.Sprite.scale.x == (-1))
 				        {
 				        	// this.weapon.bulletGravity.x = -250;
-				        	this.weapon.trackSprite(this.Sprite, -80, 30, false);
+				        	this.weapon.trackSprite(this.Sprite, -80, 10, false);
 							this.weapon.fireAngle = Phaser.ANGLE_LEFT;
 					        this.weapon.fire();
 

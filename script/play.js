@@ -44,9 +44,9 @@
         var mainCharacter;
         var mainCharacterArray = [];
         var explosionCount = 0;
-        var waveEnemies = false;
+        var waveEnemies = true;
         var countEnemies = 0;
-        var nameCharactersArray = ['friteBoy','eatGirl','eatMan','eatGreen'];
+        var nameCharactersArray = ['eatMan','eatGirl','friteBoy','eatGreen'];
         // var colorsCharacter = ['0xffffff','0xffffff','0x4696FF','0x52FF30'];
         var barPosX = 200;
         var barPosY = 55;
