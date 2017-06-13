@@ -7,6 +7,7 @@ var testCollisions = function(_game,_player)
         _bullet.kill();
         
         enemy.health -= _mainCharacter.power;
+        // console.log(_mainCharacter.power);
        
         
 	}

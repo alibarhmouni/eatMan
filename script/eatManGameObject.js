@@ -64,7 +64,7 @@ class Player
     	
 		// this.weapon.setBulletFrames(0, 1, true);
     	// this.weapon.fireAngle = -75;
-    	// this.weapon.bulletSpeed = 1000;
+    	this.weapon.bulletSpeed = 1000;
     	this.weapon.fireRate = 100;
     	// this.weapon.trackSprite(this.Sprite, 90, 45, false);
     	this.fireAudio = new Phaser.Sound(game,'fireBullet',1,false);
@@ -87,25 +87,30 @@ class Player
 	    
 	    if(this.name == 'eatMan')
 	    {
-	    	this.power = 4;
+	    	this.power = 5;
 	    	barPosX = 200;
         	// this.weapon.bulletSpeed = 1000;
         	balles = "bullets";
+
 	    }
 	    else if(this.name == 'friteBoy')
 	    {
-	    	this.power = 15;
+	    	this.power = 10;
 	    	barPosX = 1000;
         	balles = "fireBall";
+
+        	this.weapon.bullets.forEach(function(bullet){
+        		bullet.scale.setTo(0.25);
+        	});
 	    }
 	    else if(this.name == 'eatGirl')
 	    {
-	    	this.power = 15;
+	    	this.power = 3;
 	    	barPosX = 600;
 	    }
 	     else if(this.name == 'eatMan3')
         {
-        	this.power = 4;
+        	this.power = 10;
         	barPosX = 1400;
         	
         }
@@ -266,24 +271,6 @@ class Player
 
 			this.fireWalk = function()
 			{
-				// if (this.name == "eatGirl")
-				// {
-				// 	this.scaleLeft();
-			        
-			 //        this.Sprite.play('walk');
-
-			 //        	if(this.Sprite.scale.x == 1)
-				//         {
-				//           this.Sprite.body.velocity.x =  this.vx;
-				//         }
-
-				//         else if (this.Sprite.scale.x == -1)
-				//         {
-				        	
-				//         	this.Sprite.body.velocity.x = - this.vx;
-				//         }
-			        
-				// }
 
 				if(this.name == "friteBoy")
 				{
@@ -322,6 +309,7 @@ class Player
 				}
 
 				else{
+					
 					if (!fire)
 					{
 						fire = true;

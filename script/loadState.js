@@ -25,6 +25,7 @@ var loadState =
         game.load.image('4Players', 'img/4Players.png');
         game.load.image('jouer', 'img/gameButton.png');
         game.load.image('regles', 'img/regles.png');
+        game.load.image('fireBall', 'img/fireBallSheet.png');
 
         game.load.audio('ukulele', 'audio/bensound-ukulele.mp3');
         game.load.audio('enemiesExplosion', 'audio/enemiesExplosion.mp3');
@@ -47,7 +48,6 @@ var loadState =
         game.load.spritesheet('explosion2', 'img/explosionSheet2.png', 416/3, 276/2, 3);
         game.load.spritesheet('bullet', 'img/meatBullet.png', 60, 25, 1);
         game.load.spritesheet('enemy', 'img/spriteSheetEnemy.png', 240/3, 220/2, 6);
-        game.load.spritesheet('fireBall', 'img/fireBallSheet.png', 150, 90, 3);
 
 
     /*     INTERFACE MAIN MENU     */

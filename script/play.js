@@ -18,7 +18,7 @@
         var isCreatingEnemies = false;
         var randomLife = 5;
         var factory;
-        var pvEnemies = 10;
+        var pvEnemies = 15;
 
         var bonus = [];
         var bonusOnGround = [];
@@ -46,24 +46,14 @@
         var explosionCount = 0;
         var waveEnemies = false;
         var countEnemies = 0;
-        var nameCharactersArray = ['eatMan','eatGirl','friteBoy','eatGreen'];
+        var nameCharactersArray = ['eatMan','friteBoy','eatGirl','eatGreen'];
         // var colorsCharacter = ['0xffffff','0xffffff','0x4696FF','0x52FF30'];
         var barPosX = 200;
         var barPosY = 55;
         var healthBarArray = [];
-
-
-        // var maxEnemiesEasy = [5, 10, 15, 20, 25, 30];
-        // var speedEnemiesEasy = [200, 300, 300, 350, 400];
-        // var timeEnemiesEasy = [1400, 1300, 1200, 1100, 1000];
-
-        // var maxEnemiesNormal = [15, 15, 20, 30, 35];
-        // var speedEnemiesNormal = [400, 450, 500, 500, 500];
-        // var timeEnemiesNormal = [900, 800, 700, 600, 500];
-
-        // var maxEnemiesHard = [50, 60, 75, 90, 100, 110];
-        // var speedEnemiesHard = [600, 650, 650, 700, 750];
-        // var timeEnemiesHard = [500, 250, 200, 100, 50];
+        var posEnemiesX;
+        var max = 1400;
+        var min = 100;
 
         var maxEnemies = 10;
         var speedEnemies = 350;
@@ -134,24 +124,6 @@ var playState =
 	    map.setCollisionBetween(0, 501,true,layerCollision);
 	    map.setCollisionBetween(0, 107,true,layerSideCollision);
 	    
-	    // plante = game.add.sprite(600,440,'plante');
-
-
-	   
-	     // /*     HEALTH BAR     */
-
-      //    for (var i = 0; i < playersInGame[0] ; i++) 
-      //      {
-      //           this.barConfig = {x: barPosX, y: barPosY, width: 150, height: 10};
-      //           this.myHealthBar = new HealthBar(this.game, this.barConfig);
-      //           healthBarArray.push(this.myHealthBar);
-
-      //           barPosX += 400;
-      //      }
-	
-	   
-	    // // game.camera.follow(mainCharacter.Sprite);
-
 
 	    /*     FACTORY BAR     */
 
@@ -174,11 +146,10 @@ var playState =
 	    factory = new Factory("shop", 0,800,710,0.5,"idle");
 	   
         
-        // if(playersInGame < mainCharacterArray.length)
-        // {
-            mainCharacterArray.splice(playersInGame.length,(mainCharacterArray.length - playersInGame.length ));
-        // }
-         textInterface();
+        
+        mainCharacterArray.splice(playersInGame.length,(mainCharacterArray.length - playersInGame.length ));
+       
+        textInterface();
         for (var i = 0; i < playersInGame[0]; i++) 
         {
             // mainCharacterArray.length = playersInGame.length;
@@ -233,6 +204,9 @@ var playState =
             // console.log(mainCharacterArray[0].state);
             factory.update();
             
+            // console.log(waveEnemies);
+            // console.log(countEnemies);
+            // console.log(maxEnemies);
 
             if(!waveEnemies)
             {   
@@ -277,7 +251,7 @@ var playState =
                     setTimeout(function()
                     {
                         waveEnemies = false;
-                    },5000)
+                    },4000)
                     
                 }
 
@@ -407,7 +381,7 @@ var playState =
                 }
 
 
-            // console.log(mainCharacterArray[0].power);
+            console.log(mainCharacterArray[0].weapon.bulletSpeed);
             // console.log( factory.health );
             // console.log(mainCharacterArray);
             // console.log(mainCharacter.health);

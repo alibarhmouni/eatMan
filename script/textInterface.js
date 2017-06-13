@@ -20,9 +20,9 @@ var textInterface = function()
         // playerNumber++;
 
     }
-    scoreText =  game.add.text(700, 107, " SCORE : ", {
-        font: "25px Arial",
-        fill: "#FFFFFF",
+    scoreText =  game.add.text(750, 107, " SCORE : ", {
+        font: "30px Arial",
+        fill: "#FFE414",
         align: "center"
     });
 
