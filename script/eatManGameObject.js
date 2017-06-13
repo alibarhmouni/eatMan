@@ -370,11 +370,14 @@ class Player
 
 						usingMines = true;
 						mine = game.add.sprite(this.Sprite.body.position.x,(this.Sprite.body.position.y+55),"mine");
+	    				game.physics.arcade.enable( mine );	
+	    				// mine.body.gravity.set(0,200);
+	    				mine.body.gravity.y = 600;
 	    				bonusOnGround.push(mine);
-	    				game.physics.arcade.enable( mine );
+	    				
 	    				mine.scale.set(0.65);
 	    				mine.anchor.set(0.5);
-	    				// mine.body.gravity.set(0,200);
+	    				
 	    				minePosition.play();
 	    				mine.animations.add('usingMine', [0,1], 10, true);
 	    				mine.play('usingMine');

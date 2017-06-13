@@ -44,9 +44,9 @@
         var mainCharacter;
         var mainCharacterArray = [];
         var explosionCount = 0;
-        var waveEnemies = false;
+        var waveEnemies = true;
         var countEnemies = 0;
-        var nameCharactersArray = ['eatMan','eatGirl','friteBoy','eatGreen'];
+        var nameCharactersArray = ['eatGirl','eatMan','friteBoy','eatGreen'];
         // var colorsCharacter = ['0xffffff','0xffffff','0x4696FF','0x52FF30'];
         var barPosX = 200;
         var barPosY = 55;
@@ -308,6 +308,7 @@ var playState =
             // }
 
             for (var i = 0; i < mainCharacterArray.length; i++) {
+             
                 testCollisions(this,mainCharacterArray[i]);
             }
 
@@ -366,6 +367,7 @@ var playState =
                 }
 
             }
+            
 
            
                 if( (factory.health == 1000))
@@ -384,8 +386,8 @@ var playState =
                     this.gameOver();
                 }
 
-
-            console.log(mainCharacterArray[0].weapon.bulletSpeed);
+          
+            // console.log(mainCharacterArray[0].weapon.bulletSpeed);
             // console.log( factory.health );
             // console.log(mainCharacterArray);
             // console.log(mainCharacter.health);
@@ -400,7 +402,7 @@ var playState =
             //     console.log(enemies[i].health);
             // }
 
-            
+           
         
 
         function updateScore() 

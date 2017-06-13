@@ -24,7 +24,7 @@ class Enemy
 		this.Sprite.body.velocity.x = this.vx;
 		this.Sprite.body.collideWorldBounds = false;
 	
-	
+		this.Sprite.body.bounce.x = 0.5;
 		
 
 	}
