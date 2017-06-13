@@ -18,7 +18,7 @@
         var isCreatingEnemies = false;
         var randomLife = 5;
         var factory;
-        var pvEnemies = 5;
+        var pvEnemies = 10;
 
         var bonus = [];
         var bonusOnGround = [];
@@ -65,8 +65,8 @@
         // var speedEnemiesHard = [600, 650, 650, 700, 750];
         // var timeEnemiesHard = [500, 250, 200, 100, 50];
 
-        var maxEnemies = 5;
-        var speedEnemies = 300;
+        var maxEnemies = 10;
+        var speedEnemies = 350;
 
         var  randomEnemies = Math.round(Math.random()*5);
         decompteEnemies = maxEnemies;
@@ -112,7 +112,7 @@ var playState =
 	    // game.stage.backgroundColor = "0xD4DBC8";
 
 
-	    ukulele = game.add.audio('songGame',1,true);
+	    // ukulele = game.add.audio('songGame',1,true);
         enemiesExplosion = new Phaser.Sound(game,'enemiesExplosion',1,false);
         enemiesExplosion2 = new Phaser.Sound(game,'enemiesExplosion2',1,false);
         doorSound = new Phaser.Sound(game,'doorSound',1,false);
@@ -120,7 +120,7 @@ var playState =
         mineBip = new Phaser.Sound(game,'mineBip',1,false);
 	    rocketAudio = new Phaser.Sound(game,'rocketAudio',1,false);
 	    minePosition = new Phaser.Sound(game,'minePosition',1,false);
-	    ukulele.play();
+	    // ukulele.play();
 
 
 
@@ -189,9 +189,7 @@ var playState =
 
 // console.log(mainCharacterArray.length);
  // console.log(mainCharacterArray);
-  for (var i = 0; i < bonusOnGround.length; i++) {
-                bonusOnGround[i].body.gravity.set(0,200);
-            }
+        
 
 	    function particleBurst(_positionX, _positionY)
 		{

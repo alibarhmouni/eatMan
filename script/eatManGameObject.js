@@ -504,9 +504,15 @@ class Player
 			// {
 				
 				// console.log(pads.length);
+
+				if(mainCharacterArray[i] === undefined)
+		            {
+		                break;
+		            }
 			
 				if ((jumpButton.isDown || pads[i].isDown(Phaser.Gamepad.XBOX360_A)) && game.time.now > this.jumpTimer)
 		        {
+
 			        if(mainCharacterArray[i].Sprite.body.blocked.down)
 		        	{
 			            

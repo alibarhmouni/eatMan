@@ -17,7 +17,10 @@ var gamePadControls = function()
     {
         // for (var c = 0; c < mainCharacterArray.length; c++) 
         // {
-            
+            if(mainCharacterArray[i] === undefined)
+            {
+                break;
+            }
             let pad = pads[i];
             if(pad.connected)
             {
